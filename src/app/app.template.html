@@ -117,7 +117,7 @@
       </ion-list-header>
       <button ion-item menuClose *ngFor="let p of appPages " (click)="openPage(p)">
         <ion-icon item-left [name]="p.icon " [color]="isActive(p) "></ion-icon>
-        {{p.title}} 
+        {{p.title}}
         <ion-spinner item-right ios-small small name="dots" [hidden]="p.badgeValue>0" *ngIf="p.badgeValue>-1"></ion-spinner>
         <ion-badge item-right  [color]="p.color" [hidden]="p.badgeValue==0" *ngIf="p.badgeValue>-1"> {{p.badgeValue}}</ion-badge>
       </button>
