@@ -3,23 +3,23 @@ scss_files: 'src/theme/*.scss'
 linters:
 
   BangFormat:
-    enabled: true
+    enabled: false
     space_before_bang: true
     space_after_bang: false
 
   BemDepth:
-    enabled: true
+    enabled: false
     max_elements: 1
 
   BorderZero:
-    enabled: true
+    enabled: false
     convention: zero
 
   ChainedClasses:
     enabled: false
 
   ColorKeyword:
-    enabled: true
+    enabled: false
 
   ColorVariable:
     enabled: false
@@ -28,65 +28,65 @@ linters:
     enabled: false
 
   DebugStatement:
-    enabled: true
+    enabled: false
 
   DeclarationOrder:
-    enabled: true
+    enabled: false
 
   DisableLinterReason:
-    enabled: true
+    enabled: false
 
   DuplicateProperty:
     enabled: false
 
   ElsePlacement:
-    enabled: true
+    enabled: false
     style: same_line
 
   EmptyLineBetweenBlocks:
-    enabled: true
+    enabled: false
     ignore_single_line_blocks: true
 
   EmptyRule:
-    enabled: true
+    enabled: false
 
   ExtendDirective:
     enabled: false
 
   FinalNewline:
-    enabled: true
-    present: true
+    enabled: false
+    present: false
 
   HexLength:
-    enabled: true
+    enabled: false
     style: short
 
   HexNotation:
-    enabled: true
+    enabled: false
     style: lowercase
 
   HexValidation:
-    enabled: true
+    enabled: false
 
   IdSelector:
-    enabled: true
+    enabled: false
 
   ImportantRule:
     enabled: false
 
   ImportPath:
-    enabled: true
+    enabled: false
     leading_underscore: false
     filename_extension: false
 
   Indentation:
-    enabled: true
+    enabled: false
     allow_non_nested_indentation: true
     character: space
     width: 2
 
   LeadingZero:
-    enabled: true
+    enabled: false
     style: include_zero
 
   MergeableSelector:
@@ -94,19 +94,19 @@ linters:
     force_nesting: false
 
   NameFormat:
-    enabled: true
+    enabled: false
     convention: hyphenated_lowercase
     allow_leading_underscore: true
 
   NestingDepth:
-    enabled: true
+    enabled: false
     max_depth: 1
 
   PlaceholderInExtend:
-    enabled: true
+    enabled: false
 
   PrivateNamingConvention:
-    enabled: true
+    enabled: false
     prefix: _
 
   PropertyCount:
@@ -116,102 +116,102 @@ linters:
     enabled: false
 
   PropertySpelling:
-    enabled: true
+    enabled: false
     extra_properties: []
 
   PropertyUnits:
     enabled: false
 
   PseudoElement:
-    enabled: true
+    enabled: false
 
   QualifyingElement:
-    enabled: true
+    enabled: false
     allow_element_with_attribute: false
     allow_element_with_class: false
     allow_element_with_id: false
 
   SelectorDepth:
-    enabled: true
+    enabled: false
     max_depth: 3
 
   SelectorFormat:
-    enabled: true
+    enabled: false
     convention: 'hyphenated_BEM'
 
   Shorthand:
-    enabled: true
+    enabled: false
 
   SingleLinePerProperty:
-    enabled: true
+    enabled: false
     allow_single_line_rule_sets: false
 
   SingleLinePerSelector:
-    enabled: true
+    enabled: false
 
   SpaceAfterComma:
-    enabled: true
+    enabled: false
 
   SpaceAfterPropertyColon:
-    enabled: true
+    enabled: false
     style: one_space
 
   SpaceAfterPropertyName:
-    enabled: true
+    enabled: false
 
   SpaceAfterVariableColon:
-    enabled: true
+    enabled: false
     style: at_least_one_space
 
   SpaceAfterVariableName:
-    enabled: true
+    enabled: false
 
   SpaceAroundOperator:
-    enabled: true
+    enabled: false
     style: one_space
 
   SpaceBeforeBrace:
-    enabled: true
+    enabled: false
     style: space
     allow_single_line_padding: true
 
   SpaceBetweenParens:
-    enabled: true
+    enabled: false
     spaces: 0
 
   StringQuotes:
-    enabled: true
+    enabled: false
     style: single_quotes
 
   TrailingSemicolon:
-    enabled: true
+    enabled: false
 
   TrailingZero:
-    enabled: true
+    enabled: false
 
   TransitionAll:
     enabled: false
 
   UnnecessaryMantissa:
-    enabled: true
+    enabled: false
 
   UnnecessaryParentReference:
-    enabled: true
+    enabled: false
 
   UrlFormat:
     enabled: false
 
   UrlQuotes:
-    enabled: true
+    enabled: false
 
   VariableForProperty:
     enabled: false
 
   VendorPrefixes:
-    enabled: true
+    enabled: false
     identifier_list: base
     include: []
     exclude: []
 
   ZeroUnit:
-    enabled: true
+    enabled: false
