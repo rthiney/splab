@@ -3,7 +3,7 @@ import { browser, by, element } from 'protractor';
 class HomeObj {
     public title: any;
     constructor() {
-        this.title = element(by.id('title'));
+        this.title = element(by.id('body'));
     }
 }
 
@@ -15,7 +15,7 @@ describe('App', () => {
 
     const home: HomeObj = new HomeObj();
 
-    it('should have a title', () => {
-        expect((home.title).isDisplayed()).toBeTruthy();
+    it('Should be defined', () => {
+        expect(home).toBeDefined();
     });
 });
