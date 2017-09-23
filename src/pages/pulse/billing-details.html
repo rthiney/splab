@@ -1,0 +1,76 @@
+<!--<ion-header>
+  
+    <ion-navbar *navbar>
+        Title
+        <ion-buttons start>
+            <button (click)="dismiss()">
+      Cancel
+    </button>
+     
+        </ion-buttons>
+           <ion-buttons end>
+            <button (click)="dismiss()">
+      <ion-icon name="send"></ion-icon>
+    </button>
+        </ion-buttons>
+        <ion-title>Billing Details</ion-title>
+    </ion-navbar>
+</ion-header>-->
+
+
+<ion-header>
+    <ion-toolbar>
+        <ion-title>
+            Billing Information for {{ surgery.initials }}
+        </ion-title>
+        <ion-buttons start>
+            <button ion-button (click)="dismiss()"> 
+        <ion-icon name="close"  ></ion-icon>
+      </button>
+        </ion-buttons>
+    </ion-toolbar>
+</ion-header>
+
+
+
+<ion-content padding class="sample-modal-page">
+
+    <ion-list no-lines>
+        <ion-item-divider color="light" small>Billing information for <strong>{{ surgery.initials}}</strong> on <strong>  {{surgery.term | date:'shortDate'}}</strong></ion-item-divider>
+        <ion-item>
+            <h2>CPT Codes</h2>
+            <p>{{ surgery.cpt}}</p>
+        </ion-item>
+        <ion-item>
+            <h2>DX Codes</h2>
+            <p>{{ surgery.diagnosisCode}}</p>
+        </ion-item>
+        <!--(ngSubmit)="sendEmail()"-->
+        <form [formGroup]="mailForm">
+
+            <ion-item>
+                <ion-label floating>From</ion-label>
+                <ion-input formControlName="from" required></ion-input>
+            </ion-item>
+            <ion-item>
+                <ion-label floating>To</ion-label>
+                <ion-input formControlName="to" required></ion-input>
+            </ion-item>
+
+            <ion-item>
+                <ion-label floating>Message</ion-label>
+                <ion-textarea formControlName="message" rows="6"></ion-textarea>
+            </ion-item>
+
+            <button ion-button (click)=" sendEmail()" color="primary">
+    <ion-icon name="send" item-left  large color="primary"></ion-icon>
+Send 
+  </button>
+
+            <!--<div padding>
+                <button ion-button block type="button" color="primary" (click)="sendEmail()"> <ion-icon name="send"></ion-icon>Send</button>
+            </div>-->
+        </form>
+
+    </ion-list>
+</ion-content>

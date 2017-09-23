@@ -1,0 +1,13 @@
+page-calendar {
+    .event-info {
+        cursor: pointer;
+        white-space: pre-wrap;
+        text-overflow: ellipsis;
+        font-size: large;
+    }
+
+    .style_true{
+           background-color:#c5bebe;
+            border-left: 1px  solid map-get($colors, google); 
+    }
+}

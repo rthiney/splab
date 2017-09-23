@@ -1,0 +1,29 @@
+page-message-detail {
+    .scroll-content {
+        // background-image: url(http://lorempixel.com/400/200/sports/1/);
+        background-image: url($message-detail-bg);
+        -webkit-background-size: cover;
+        -moz-background-size: cover;
+        background-size: cover;
+    }
+    .message-detail img {
+        max-width: 140px;
+        border-radius: 50%;
+    }
+    .message-detail p {
+        color: #60646B;
+    }
+    ion-row {
+        vertical-align: top;
+    }
+    .message-subject {
+        white-space: normal;
+        font-size: larger;
+        color: map-get($colors, dark);
+    }
+    .message-content {
+        white-space: normal;
+        color: map-get($colors, light);
+        text-align: left;
+    }
+}

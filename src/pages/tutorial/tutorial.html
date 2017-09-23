@@ -1,0 +1,44 @@
+<ion-header no-border>
+  <ion-navbar>
+    <ion-buttons end *ngIf="showSkip">
+      <button ion-button (click)="startApp()" color="primary">Skip</button>
+    </ion-buttons>
+  </ion-navbar>
+</ion-header>
+
+<ion-content no-bounce>
+  <ion-slides #slides (ionSlideWillChange)="onSlideChangeStart($event)" pager>
+
+    <ion-slide>
+      <img src="assets/img/rooms/s1.png" class="slide-image"/>
+      <h2 class="slide-title">
+        Welcome to <b>SurgiPal</b>
+      </h2>
+      <p>
+        The <b>SurgiPal</b> app is an extension of the <b>SurgiPal</b> Site. Its a physician driven cloud-based preference card system and OR platform for surgeries and procedures
+      </p>
+    </ion-slide>
+
+    <ion-slide>
+      <img src="assets/img/rooms/s3.png" class="slide-image"/>
+      <h2 class="slide-title" >What is SurgiPal?</h2>
+      <p><b>SurgiPal</b> is an easy to use web/mobile combination.</p>
+    </ion-slide>
+
+    <ion-slide>
+      <img src="assets/img/rooms/s4.png" class="slide-image"/>
+      <h2 class="slide-title">What the SurgiPal Platform?</h2>
+      <p>The <b>SurgiPal Platform</b> allows staff and vendors to be on the same page.</p>
+    </ion-slide>
+
+    <ion-slide>
+      <img src="assets/img/rooms/s2.png" class="slide-image"/>
+      <h2 class="slide-title">Ready?</h2>
+      <button ion-button icon-end large clear (click)="startApp()">
+        Continue
+        <ion-icon name="arrow-forward"></ion-icon>
+      </button>
+    </ion-slide>
+
+  </ion-slides>
+</ion-content>

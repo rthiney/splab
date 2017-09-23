@@ -1,0 +1,129 @@
+<ion-header>
+    <ion-navbar>
+        <ion-title small>Surgery Detail - {{ s.surgery.initials}}</ion-title>
+    </ion-navbar>
+</ion-header>
+<ion-content  >
+        <page-pulse-detail [s]=s [idx]=rnd (close)="close($event)" ></page-pulse-detail>
+
+    <!-- <ion-card #cardItem>
+        <img src="assets/img/rooms/s{{rnd+1}}.PNG" />
+        <div class="card-name">
+        <div class="card-title">{{s.surgery.initials | uppercase}}</div>
+        <div class="card-subtitle">{{s.surgery.patient}}</div>
+        </div>
+        <ion-list>
+            <ion-item-sliding>
+                <ion-item border lines >
+                    <p style="white-space: pre-wrap"><strong>Card:</strong> {{s.surgery.preferenceCardName}}</p>
+                    <p><strong>Status:</strong> {{s.surgery.admissionStatus}}</p>
+                    <p><strong>Duration:</strong> {{s.surgery.surgeryTime}}</p>
+                        <p class="text" color="google" *ngIf="s.surgery?.cancelled">
+                            <ion-icon name="close-circle" item-left small></ion-icon><strong>Cancelled</strong></p>
+                        <p class="text" color="favorite" *ngIf="s.surgery?.completed">
+                            <ion-icon name="cash" item-left small></ion-icon><strong>Billed</strong></p>
+                    <p> <i>   {{ s.surgery.term | amUtc | amDateFormat: 'MM/DD/YYYY [at]  h:mm a'}} </i></p>
+
+                </ion-item>
+
+                <ion-item-options side="left">
+                      <button ion-button color='favorite' (click)="sendBilling(s)">
+                                        <ion-icon name="cash" item-left  small ></ion-icon>
+                                        Billing
+                                        </button>
+                    <button ion-button color="google" (click)="cancelSurgery(s)" *ngIf=s.surgery?.cancelled>
+                                                <ion-icon name="close-circle" item-left small ></ion-icon>
+                                                Cancel
+                                                </button>
+                </ion-item-options>
+                <ion-item-options side="right">
+                    <button ion-button color="primary" (click)="showEditCodes(s,'CPT')"  >
+                                <ion-icon name="barcode"></ion-icon>
+                                CPT
+                            </button>
+                    <button ion-button color="primary" (click)="showEditCodes(s,'DX')">
+                             <ion-icon name="barcode"></ion-icon>
+                                 DX
+                         </button>
+                </ion-item-options>
+            </ion-item-sliding>
+        </ion-list>
+
+
+        <ion-card-content>
+
+            <ion-list>
+                <ion-item-divider color="light" small>Details</ion-item-divider>
+               <button ion-item>
+    <ion-icon name="barcode" item-left small color="primary"></ion-icon>
+    <h2>CPT Codes</h2>
+    <p style=" white-space: pre-wrap;">{{s.surgery.cpt}}</p>
+     <ion-note item-right>{{s.cptArray?.length}} codes</ion-note>
+  </button>
+
+                <button ion-item>
+    <ion-icon name="barcode" item-left  small color="facebook"></ion-icon>
+    <h2>DX Codes </h2>
+    <p style=" white-space: pre-wrap;">{{s.surgery.diagnosisCode}}</p>
+ <ion-note item-right>{{s.dxArray?.length}} codes</ion-note>
+  </button>
+<button ion-item (click)="showEditCodes(s,'CPT')">
+    <ion-icon name="barcode" item-left small color="primary"></ion-icon>
+    <h2>CPT Codes</h2>
+ <p class="text code-info">{{s.surgery.cpt}}</p>
+     <ion-note item-right>{{s.cptArray?.length}} codes</ion-note>
+  </button>
+
+<button ion-item (click)="showEditCodes(s,'DX')">
+    <ion-icon name="barcode" item-left  small color="facebook"></ion-icon>
+    <h2>DX Codes</h2>
+    <p class="text code-info">{{s.surgery.diagnosisCode}}</p>
+ <ion-note item-right>{{s.dxArray?.length}} codes</ion-note>
+  </button>
+
+               <ion-item-sliding *ngIf="s.surgery.completed">
+                    <button ion-item clear item-left (click)="sendBilling(s)" class="ion-item-divider-billing"> <ion-icon name="cash" item-left small color="favorite"></ion-icon>
+                               <h2>Billing</h2>
+                               <p>Send billing information to coordinator</p>
+                                <ion-note item-right>{{s.surgery.billingCoordinatorName}}</ion-note> <ion-icon name="more" item-right small color="facebook"></ion-icon>
+                        </button>
+                    <ion-item-options side="right">
+                        <button ion-button color="primary" (click)="callComposeEmail(s.surgery.billingCoordinatorEmail,s.surgery)">
+                                     <ion-icon name="mail"></ion-icon>
+                                   </button>
+                        <button ion-button color="primary" (click)="callPhoneNumber(s.surgery.billingCoordinatorPhone)">
+                                     <ion-icon name="call"></ion-icon>
+                                   </button>
+                    </ion-item-options>
+                </ion-item-sliding>
+
+
+
+
+
+
+
+
+
+                <ion-item-sliding   *ngIf=!s.surgery.cancelled>
+                    <button ion-item clear item-left (click)="cancelSurgery(s)" class="ion-item-divider-cancel"> <ion-icon name="close-circle" item-left small color="danger"></ion-icon>
+                                <h2>Cancel</h2>
+                                <p>Cancel surgery and remove from this list!</p>
+                                <ion-note item-right>{{s.surgery.coordinatorName}}  </ion-note> <ion-icon name="more" item-right small color="facebook"></ion-icon>
+                        </button>
+                    <ion-item-options side="right">
+                        <button ion-button color="primary" (click)="callComposeEmail(s.surgery.coordinatorEmail)">
+                                     <ion-icon name="mail"></ion-icon>
+                                   </button>
+                        <button ion-button color="primary" (click)="callPhoneNumber(s.surgery.coordinatorPhone)">
+                                     <ion-icon name="call"></ion-icon>
+                                   </button>
+                    </ion-item-options>
+                </ion-item-sliding>
+
+            </ion-list>
+        </ion-card-content>
+    </ion-card> -->
+ 
+
+</ion-content>

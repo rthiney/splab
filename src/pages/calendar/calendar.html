@@ -1,0 +1,87 @@
+<ion-header>
+    <ion-navbar color="primary">
+        <button ion-button menuToggle>
+            <ion-icon name="menu"></ion-icon>
+        </button>
+        <ion-title>{{viewTitle}}</ion-title>
+        <ion-buttons end>
+        </ion-buttons>
+    </ion-navbar>
+    <ion-toolbar no-border-top>
+        <!--
+        <button ion-button small [disabled]="isToday" (click)="today()">Today</button>
+        <button ion-button small (click)="changeMode('month')">M</button>
+        <button ion-button small (click)="changeMode('week')">W</button>
+        <button ion-button small (click)="changeMode('day')">D</button>
+ -->
+        <ion-segment [(ngModel)]="calendarMode" (ionChange)="changeView()">
+            <ion-segment-button value="today" [disabled]="isToday">
+                Today
+            </ion-segment-button>
+            <ion-segment-button value="month">
+                Month
+            </ion-segment-button>
+            <!-- <ion-segment-button value="week">
+                Week
+            </ion-segment-button>
+            <ion-segment-button value="day">
+                Day
+            </ion-segment-button> -->
+            <!--<ion-segment-button value="all">
+                <ion-badge color="primary" item-right small>{{metrics?.unread + metrics?.read}} </ion-badge> All
+            </ion-segment-button>-->
+        </ion-segment>
+
+    </ion-toolbar>
+
+</ion-header>
+<ion-content padding class="has-header">
+    <!--  -->
+    <template #template2 let-showEventDetail="showEventDetail" let-selectedDate="selectedDate" let-noEventsLabel="noEventsLabel">
+        <ion-list class="event-detail-container" has-bouncing="false" *ngIf="showEventDetail" overflow-scroll="true">
+            <ion-item border lines *ngFor="let s of selectedDate?.events" (click)="onEventSelected(s)">
+
+
+                    <span class="event-info">{{s.surgery.preferenceCardName}} </span>
+                      <p class="text"> Status: {{s.surgery.admissionStatus}}</p>
+                      <p  class="text"> Duration: {{s.surgery.surgeryTime}}</p>
+
+
+                <p class="text" color="google" *ngIf="s.surgery.cancelled">
+                    <ion-icon name="close-circle" item-left small></ion-icon>
+                    <strong>Cancelled</strong>
+                </p>
+                <p class="text" color="favorite" *ngIf="s.surgery.completed">
+                    <ion-icon name="cash" item-left small></ion-icon>
+                    <strong>Billed</strong>
+                </p>
+
+                <!-- <ion-note item-right>
+                    <i>
+                        <strong>From </strong> {{ s.surgery.term | amUtc | amDateFormat: 'h:mm a'}}
+                        <br/>
+                        <strong>To</strong> {{ s.surgery.term | amUtc | amAdd: s.minutes : 'minutes' | amDateFormat: 'h:mm a'}} </i>
+                </ion-note> -->
+
+            </ion-item>
+            <ion-item *ngIf="selectedDate?.events.length==0">
+                <div class="no-events-label">{{noEventsLabel}}</div>
+            </ion-item>
+        </ion-list>
+    </template>
+    <!-- [monthviewEventDetailTemplate]="template2"  -->
+    <calendar [eventSource]="eventSource" [monthviewEventDetailTemplate]="template2" [calendarMode]="calendar.mode" [currentDate]="calendar.currentDate"
+        (onCurrentDateChanged)="onCurrentDateChanged($event)" (onEventSelected)="onEventSelected($event)" (onTitleChanged)="onViewTitleChanged($event)"
+        (onTimeSelected)="onTimeSelected($event)" step="30" noEventsLabel="No Surgeries"> </calendar>
+
+    <!-- [monthviewEventDetailTemplate]="eventDetail" -->
+    <!-- <calendar [eventSource]="eventSource" [calendarMode]="calendar.mode" [currentDate]="calendar.currentDate" (onCurrentDateChanged)="onCurrentDateChanged($event)" (onRangeChanged)="reloadSource(startTime, endTime)" (onEventSelected)="onEventSelected($event)"
+        (onTitleChanged)="onViewTitleChanged($event)" (onTimeSelected)="onTimeSelected($event)" step="30">
+    </calendar> -->
+    <!--
+    <ng-template #monthEventTemplate let-showEventDetail="showEventDetail" let-selectedDate="selectedDate" let-noEventsLabel="noEventsLabel" let-displayEvent="displayEvent">
+      <div class="calendar-event-inner">{{displayEvent|json}}!!!</div>
+  </template> -->
+
+
+</ion-content>

@@ -1,0 +1,60 @@
+<ion-header>
+    <ion-navbar>
+        <!-- <button ion-button menuToggle>
+      <ion-icon name="menu"></ion-icon>
+    </button> -->
+        <ion-title>Login</ion-title>
+
+    </ion-navbar>
+</ion-header>
+<ion-content center>
+    <!-- <ion-card style="margin-top:20%">
+        <ion-card-header>
+        </ion-card-header>
+        <ion-card-content>
+            <ion-list no-line>
+                <button ion-button block outline color="favorite" (click)="onLogin()">Log in</button>
+        <button ion-button block outline color="facebook" (click)="checkforUpdateHockey()">Updates</button>
+
+            </ion-list>
+        </ion-card-content>
+    </ion-card>  -->
+
+    <ion-card class="cards-bg" *ngIf="!login">
+        <img src="assets/img/rooms/s3.PNG" />
+        <ion-card-content>
+            <div class="card-title">
+                <h1 style="color:white;">SurgiPal <span *ngIf="versionNumber!==''">  (v {{versionNumber}})</span>
+                </h1>
+                <h5 style="color:white">A physician driven cloud-based preference </h5>
+                <h5 style="color:white">card system and OR platform for surgeries and procedures</h5>
+            </div>
+
+
+
+            <ion-list>
+                <ion-item>
+
+                    <button ion-item block large color="favorite" (click)="onLogin()">
+                        <ion-icon  item-left name="log-in" large></ion-icon>Log in
+                    </button>
+
+                </ion-item>
+                <!-- <ion-item   (click)="checkforUpdateHockey()">
+                    <ion-icon name="cube"></ion-icon>
+                    <button ion-button block color="facebook" (click)="checkforUpdateHockey()">Log in</button>
+
+                </ion-item> -->
+                <!-- <ion-item>
+
+                    <button ion-button block color="facebook" (click)="version()"><ion-icon name="information" large></ion-icon>Version</button>
+
+                </ion-item> -->
+            </ion-list>
+
+        </ion-card-content>
+
+    </ion-card>
+    <div id="hiw-login-container"></div>
+
+</ion-content>

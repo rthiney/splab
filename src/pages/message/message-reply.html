@@ -1,0 +1,72 @@
+<ion-header>
+    <ion-toolbar>
+        <ion-title>
+            Reply
+        </ion-title>
+        <ion-buttons start>
+            <button ion-button (click)="dismiss()"> 
+        <ion-icon name="close"  ></ion-icon>
+      </button> 
+        </ion-buttons>
+     <ion-buttons end>
+            <button ion-button (click)="newSend()"> 
+        <ion-icon name="send"  ></ion-icon>
+      </button> 
+        </ion-buttons>
+   
+ 
+    </ion-toolbar>
+</ion-header>
+<ion-content padding>
+    <form [formGroup]="mailForm"  >
+        <ion-list no-lines>
+            <ion-item>
+                <ion-label floating>To</ion-label>
+                <ion-input type="text" formControlName="to" required></ion-input>
+            </ion-item>
+            <ion-item>
+                <ion-label floating>From</ion-label>
+                <ion-input type="text" formControlName="from" required></ion-input>
+            </ion-item>
+            <ion-item>
+                <ion-label floating>Subject</ion-label>
+                <ion-input type="text" formControlName="subject" required></ion-input>
+            </ion-item>
+            <ion-item>
+                <ion-label floating>Message</ion-label>
+                <ion-textarea formControlName="message" rows="6" required></ion-textarea>
+            </ion-item>
+        </ion-list>
+ <!--&& mailForm.controls.subject.dirty && !mailForm.message.subject.valid && mailForm.message.subject.dirty"-->
+        <p color="danger" *ngIf="!mailForm.controls.subject.valid">
+            Not a valid message.
+        </p>
+ 
+        <div padding>
+            <button ion-button block (click)="newSend()" >Submit</button>
+        </div>
+    </form>
+
+</ion-content>
+
+
+
+<!--
+<ion-content padding>
+    <ion-list no-lines>
+        <form [formGroup]="mailForm" (ngSubmit)="sendEmail()">
+            <ion-item>
+                <ion-label floating>Subject</ion-label>
+                <ion-input type="text" formControlName="subject" required></ion-input>
+            </ion-item>
+            <ion-item>
+                <ion-label floating>Message</ion-label>
+                <ion-input type="textare" formControlName="message" required></ion-input>
+            </ion-item>
+            <ion-item color="danger" *ngIf="!mailForm.controls.subject.valid  && mailForm.controls.subject.dirty && !mailForm.message.subject.valid  && mailForm.message.subject.dirty">
+                <p>Not a valid message.</p>
+            </ion-item>
+            <button ion-button type="submit" [disabled]="!mailForm.valid"><ion-iconSend</button>
+        </form>
+    </ion-list>
+</ion-content>-->

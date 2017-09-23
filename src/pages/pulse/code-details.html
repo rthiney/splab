@@ -1,0 +1,63 @@
+<ion-header>
+    <ion-navbar>
+        <ion-title>
+            Update {{codeType}} Codes
+        </ion-title>
+
+        <!-- <ion-buttons start>
+            <button ion-button (click)="dismiss()">
+                <ion-icon name="close"></ion-icon>
+            </button>
+        </ion-buttons> -->
+
+        <ion-buttons end>
+
+            <button ion-button item-left round (click)="revert()"  title="Undo">
+                <ion-icon name="undo" color="google"></ion-icon>
+            </button>
+            <button ion-button item-right round (click)="save()"  title="Save"> 
+                <ion-icon name="checkmark" color="favorite"></ion-icon>
+            </button>
+        </ion-buttons>
+    </ion-navbar>
+</ion-header>
+
+<ion-content padding>
+
+
+
+    <ion-item-divider color="light" small>
+        <p> Current
+            <strong>{{codeType}}</strong> codes for {{ pulse.surgery.initials }}'s'
+            <br/>
+            <strong>{{ pulse.surgery.patient }}</strong> surgery.</p> 
+    </ion-item-divider>
+    <ion-searchbar [(ngModel)]="autocomplete.query" [showCancelButton]="true" (ionInput)="updateSearch()" cancelButtonText="Add"
+        (ionCancel)="onCancel()" placeholder="Search for {{codeType}} codes... " animated="true" [showCancelButton]=false></ion-searchbar>
+    <ion-list>
+        <ion-item #searchItem *ngFor="let item of autocompleteItems" tappable (click)="add(item)">
+            <ion-icon name="add" item-start color="favorite"></ion-icon>
+            {{ item.name }}
+            <ion-note item-right small>Used {{item.count}} times.</ion-note>
+        </ion-item>
+    </ion-list>
+    <ion-list *ngFor="let c of codes"  >
+        <ion-chip #chip small>
+            <button ion-button small (click)="delete(chip,c)">
+                <ion-icon name="close" small></ion-icon>
+            </button>
+            <ion-label>{{c}}</ion-label>
+        </ion-chip>
+    </ion-list>
+
+    <!-- <template #withFlags let-attrs="attrs">
+         <span [innerHTML]="attrs.data.name"></span>
+    </template>
+    <ion-auto-complete [dataProvider]="codeService" [template]="withFlags"></ion-auto-complete> -->
+    <!-- <ion-list>
+        <ion-item *ngFor="let item of autocompleteItems" tappable (click)="chooseItem(item)">
+            {{ item }}
+        </ion-item>
+    </ion-list> -->
+
+</ion-content>

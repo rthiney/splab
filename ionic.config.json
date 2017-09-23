@@ -1,6 +1,9 @@
 {
-  "name": "ionic2-boilerplate",
-  "app_id": "25a5ac9a",
+  "name": "com.surgipal.mobile",
+  "app_id": "6d99e313",
   "defaultBrowser": "Chrome",
-  "type": "ionic-angular"
+  "type": "ionic-angular", 
+  "integrations": {
+    "cordova": {}
+  }
 }

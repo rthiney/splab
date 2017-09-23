@@ -1,0 +1,100 @@
+<ion-header>
+    <ion-toolbar>
+
+        <ion-title>
+            Message Detail
+        </ion-title>
+        <ion-buttons end>
+            <button ion-button (click)="dismiss(message)"> 
+        <ion-icon name="close"  ></ion-icon>
+      </button>
+        </ion-buttons>
+    </ion-toolbar>
+</ion-header>
+
+<ion-content padding class="message-detail">
+
+    <ion-card>
+        <ion-item>
+            <ion-avatar item-left>
+                <img [src]="message.DoctorImage">
+            </ion-avatar>
+            <h2 class="message-subject">{{message.subject}}</h2>
+            <p> {{message.createdAt | date:'longDate' }} <br> {{message.createdAt | date:'shortTime' }}<br> </p>
+        </ion-item>
+        <ion-card-content>
+            <p class="message-content">{{message.message}}</p>
+        </ion-card-content>
+        <hr/>
+        <ion-row>
+            <ion-col>
+                <ion-icon name="clock" small [hidden]="!countcomplete" color="facebook"></ion-icon>
+            </ion-col>
+            <ion-col>
+                <ion-icon name="eye" [hidden]="!countcomplete" color="facebook"></ion-icon>
+            </ion-col>
+            <ion-col>
+                <ion-icon name="calendar" [hidden]="!countcomplete" small color="facebook"></ion-icon>
+            </ion-col>
+        </ion-row>
+        <ion-row>
+            <ion-col>
+                <ion-spinner item-right ios-small small name="dots" [hidden]="countcomplete"></ion-spinner>
+                <ion-note [hidden]="!countcomplete">Seen on {{messageAzure?.updatedAt | date:'shortDate' }} <br>at {{messageAzure?.updatedAt | date:'shortTime'}}</ion-note>
+            </ion-col>
+            <ion-col center text-center>
+                <ion-spinner item-right ios-small small name="dots" [hidden]="countcomplete"></ion-spinner>
+                <ion-note [hidden]="!countcomplete"> {{messageAzure?.viewcount}} Views </ion-note>
+            </ion-col>
+            <ion-col center text-center>
+                <ion-spinner item-right ios-small small name="dots" [hidden]="countcomplete"></ion-spinner>
+                <ion-note [hidden]="!countcomplete">Sent ({{message.createdAt | amTimeAgo}})
+                </ion-note>
+            </ion-col>
+        </ion-row>
+    </ion-card>
+    <hr>
+
+    <ion-list *ngIf="messgeDataExists.length>0">
+        <ion-list-header color="light">Reponses</ion-list-header>
+        <ion-item *ngFor="let az of  messgeDataExists;   let i = index;">
+            <h2>{{az.message_sent.subject}}</h2>
+            <p class="text">{{az.message_sent.message}}</p>
+            <ion-note item-right> {{az.replied_at.createdAt | amUtc | amDateFormat:'LL' }} <br> {{az.replied_at.createdAt | amUtc | amDateFormat: 'hh:mm a' }}</ion-note>
+        </ion-item>
+    </ion-list>
+    <!--<message-response [azureMessage]="messgeDataExists"></message-response>-->
+</ion-content>
+<!--
+        <ion-item-sliding *virtualItem="let m" [attr.class]="m.message.viewed ? 'isRead1' : 'isRead0'">
+            <i class="ion-email"></i>
+            <ion-icon name="email"></ion-icon>
+            <ion-item >
+                <ion-avatar item-left>
+                    <ion-img [src]="m.message.DoctorImage"></ion-img>
+                </ion-avatar>
+                <h2>{{m.message.subject}} </h2>
+                <h3>{{m.message.message}} </h3>
+                <h2>{{m.message.viewed}} </h2>
+                <h2>{{m.message.DoctorImage}} </h2>
+                <ion-note item-right text-right> {{m.message.createdAt | date:'longDate' }} <br> {{m.message.createdAt | date:'shortTime' }}<br> <i>( {{m.message.createdAt | amTimeAgo}}) </i>
+
+                </ion-note>
+
+            </ion-item>
+            <ion-item-options side="left">
+                <button ion-button color="danger" (click)="delete(m.message)">
+        <ion-icon name="trash"></ion-icon>
+        Delete
+      </button>
+
+            </ion-item-options>
+            <ion-item-options side="right">
+                <button ion-button color="primary" (click)="reply(m.message)">
+        <ion-icon name="mail"></ion-icon>
+        Reply
+      </button>
+            </ion-item-options>
+        </ion-item-sliding>
+ 
+    </ion-list>-->

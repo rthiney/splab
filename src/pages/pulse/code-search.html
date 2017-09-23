@@ -1,0 +1,18 @@
+<ion-header>
+    <ion-toolbar>
+        <ion-title>Search for code</ion-title>
+        <ion-buttons start>
+            <button ion-button (click)="dismiss()"> 
+        <ion-icon name="close"  ></ion-icon>
+      </button>
+        </ion-buttons>
+        <ion-searchbar [(ngModel)]="autocomplete.query" [showCancelButton]="true" (ionInput)="updateSearch()" (ionCancel)="dismiss()"></ion-searchbar>
+    </ion-toolbar>
+</ion-header>
+<ion-content>
+    <ion-list>
+        <ion-item *ngFor="let item of autocompleteItems" tappable (click)="chooseItem(item)">
+            {{ item.name }}
+        </ion-item>
+    </ion-list>
+</ion-content>
