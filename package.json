@@ -1,7 +1,7 @@
 {
-  "name": "SurgiPal Mobile",
+  "name": "com.surgipal.mobile",
   "version": "0.0.2",
-  "description": "An Ionic Starter kit featuring Ionic, Karma, Protractor, Jasmine, CI, and much more",
+  "description": "Surgipal Platform",
   "keywords": [
     "ionic2",
     "angular2",
