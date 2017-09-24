@@ -50,7 +50,7 @@ export class SurgiPalApp {
     { title: "Today", name: "TabsPage", component: TabsPage, tabComponent: PulsePage, icon: "pulse", index: 0, badgeValue: 0, color: "favorite" },
     { title: "Calendar", name: "TabsPage", component: TabsPage, tabComponent: CalendarPage, index: 1, icon: "calendar", badgeValue: 0, color: "favorite" },
     { title: "Messages", name: "TabsPage", component: TabsPage, tabComponent: MessageListPage, index: 2, icon: "mail", badgeValue: 0, color: "favorite" },
-    { title: "Stats", name: "TabsPage", component: TabsPage, tabComponent: AccountPage, icon: "stats", index: 3, badgeValue: -1, color: "dark" },
+    { title: "Stats", name: "TabsPage", component: TabsPage, tabComponent: AccountPage, icon: "stats", index: 3, badgeValue: 0, color: "light" },
     { title: "About", name: "AboutPage", component: TabsPage, tabComponent: AboutPage, index: 4, icon: "information-circle", badgeValue: -1, color: "dark" }
 
   ];
@@ -64,7 +64,7 @@ export class SurgiPalApp {
     { title: 'Login', name: 'LoginPage', component: LoginPage, icon: 'log-in', color: "favorite"} 
   ];
   rootPage: any;
-
+  versionNumber:any='0.4.6';
   constructor(
     public platform: Platform,
  public splashScreen: SplashScreen,
@@ -81,15 +81,20 @@ private storage:Storage,
 private  modalCtrl: ModalController
   ) {
     this.bgLoaded = false;
-
+    this.enableMenu(false);
+    this.menu.toggle();
     // Check if the user has already seen the tutorial
     this.storage.get('hasSeenTutorial')
       .then((hasSeenTutorial) => {
-        if (hasSeenTutorial) { 
-            this.rootPage =TabsPage;
-        } else {
-          this.rootPage = TutorialPage;
-        }
+        if (!hasSeenTutorial)  
+            this.nav.setRoot(TutorialPage);
+       else  if (this.auth.authenticated()) { 
+          this.nav.setRoot(TabsPage);  
+          this.enableMenu(true); 
+       }
+          else
+          this.nav.setRoot(LoginPage);
+        
         this.platformReady();
       });
 
@@ -100,8 +105,7 @@ private  modalCtrl: ModalController
     // this.userData.hasLoggedIn().then((hasLoggedIn) => {
     //   this.enableMenu(hasLoggedIn === true);
     // });
-    this.enableMenu(this.auth.fosId>0);
-
+   
     this.listenToLoginEvents();
   }
   platformReady() {
@@ -114,6 +118,7 @@ private  modalCtrl: ModalController
         verboseLogging: true
       });
       this.splashScreen.hide();
+
     });
   }
  
@@ -147,6 +152,7 @@ private  modalCtrl: ModalController
       //reset background loading..
       this.bgLoaded = false;
       this.enableMenu(false);
+      this.nav.setRoot(LoginPage);
       // Give the menu time to close before changing to logged out
       setTimeout(() => {
         this.auth.logout();
@@ -156,22 +162,7 @@ private  modalCtrl: ModalController
 
   openTutorial() {
     this.nav.setRoot(TutorialPage);
-  }
-
-  // listenToLoginEvents() {
-  //   this.events.subscribe('user:login', () => {
-  //     this.enableMenu(true);
-  //   });
-
-  //   this.events.subscribe('user:signup', () => {
-  //     this.enableMenu(true);
-  //   });
-
-  //   this.events.subscribe('user:logout', () => {
-  //     this.enableMenu(false);
-  //   });
-  // }
-
+  } 
   setAuthenticatedUserContext() {
     try {
       this.appinsightsService.setAuthenticatedUserContext(
@@ -251,6 +242,7 @@ private  modalCtrl: ModalController
       else {
         this.appPages[0].badgeValue = this.surgerySvc.model.metrics.today;
         this.appPages[1].badgeValue = this.surgerySvc.model.metrics.future;
+        this.appPages[3].badgeValue = this.surgerySvc.model.pastSurgeries.filter(o=>o.surgery.completed).length;
       }
     });
 
@@ -261,6 +253,7 @@ private  modalCtrl: ModalController
       );
       this.appPages[0].badgeValue = this.surgerySvc.model.metrics.today;
       this.appPages[1].badgeValue = this.surgerySvc.model.metrics.future;
+      this.appPages[3].badgeValue = this.surgerySvc.model.pastSurgeries.filter(o=>o.surgery.completed).length;
     });
     this.events.subscribe("message:metrics", (location, metrics) => {
       console.log(
@@ -303,6 +296,7 @@ private  modalCtrl: ModalController
       (data: any) => {
         this.appPages[0].badgeValue = data.today;
         this.appPages[1].badgeValue = data.future;
+        this.appPages[3].badgeValue = this.surgerySvc.model.pastSurgeries.filter(o=>o.surgery.completed).length;
         console.log("SurgeryData Background completed");
       },
       err => {
@@ -324,12 +318,12 @@ private  modalCtrl: ModalController
       if (childNav.getSelected() && childNav.getSelected().root === page.tabComponent) {
         return 'favorite';
       }
-      return;
+      return 'primary';
     }
 
     if (this.nav.getActive() && this.nav.getActive().name === page.name) {
       return 'favorite';
     }
-    return;
+    return 'primary';
   }
 }

@@ -252,7 +252,7 @@ export class AuthService {
     });
   }
 
-  public authenticated() {
+  public authenticated():boolean {
     //  this.log.console('checking authenticated from:', source, tokenNotExpired('id_token', this.idToken))
     return tokenNotExpired("id_token", this.idToken);
   }
@@ -263,16 +263,15 @@ export class AuthService {
 
   public logout() {
  
-    this.storage.remove("fosId");
-    this.storage.remove("profile");
-    this.storage.remove("id_token");
-    this.storage.remove("refresh_token");
-    
-    this.storage.remove("username");
+    this.storage.remove("fosId"); 
     this.storage.remove("surgeries");
     this.storage.remove("surgeriesStoreDate");
     this.storage.remove("messages");
     this.storage.remove("messagesStoreDate");
+    this.storage.remove("profile");
+    this.storage.remove("id_token");
+    this.storage.remove("refresh_token"); 
+    this.storage.remove("username");
     this.events.publish("user:logout");
     this.idToken = '';
     this.zoneImpl.run(() => (this.user = null));
