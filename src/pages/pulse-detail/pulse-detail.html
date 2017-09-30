@@ -1,18 +1,19 @@
 <ion-card #cardItem>
-    <div *ngIf="s.occurs==='today'">
+    <div >
         <img src="assets/img/rooms/s{{idx+1}}.PNG" />
-        <div class="card-title">{{s.surgery.initials | uppercase}}</div>
+        <!-- <div class="card-title">{{s.surgery.initials | uppercase}}</div>*ngIf="s.occurs==='today'" -->
+        
         <div class="card-subtitle">{{s.surgery.preferenceCardName}}</div>
     </div>
     <ion-list>
         <ion-item-sliding>
             <ion-item border lines>
-                <!--<ion-avatar item-left>
-                    <img [src]="s.surgery.doctorImage" />
+                <ion-avatar item-left> 
+                    <avatar [avatardata]="avatar" [avatarText]="s.surgery.initials"></avatar>
                 </ion-avatar>
-             [hidden]="(s.occurs==='today')"
-            -->
-                <!-- <p style="white-space: pre-wrap">
+             
+             <!--   <p style="white-space: pre-wrap">   <strong>Patient:</strong> {{s.surgery.initials | uppercase}}</p>
+                 [hidden]="(s.occurs==='today')" <p style="white-space: pre-wrap">
                     <strong>Patient:</strong> {{s.surgery.initials | uppercase}}</p>
 
                 <p style="white-space: pre-wrap">
@@ -29,11 +30,11 @@
                     <strong>Status:</strong> {{s.surgery.admissionStatus}}</p>
                 <p>
                     <strong>Duration:</strong> {{s.surgery.surgeryTime}}</p>
-                <p class="text" color="google" *ngIf="s.surgery.cancelled">
+                <p class="text ion-item-divider-cancelled" color="google" *ngIf="s.surgery.cancelled">
                     <ion-icon name="close-circle" item-left small></ion-icon>
                     <strong>Cancelled</strong>
                 </p>
-                <p class="text" color="favorite" *ngIf="s.surgery.completed">
+                <p class="text ion-item-divider-billing" color="favorite" *ngIf="s.surgery.completed">
                     <ion-icon name="cash" item-left small></ion-icon>
                     <strong>Billed</strong>
                 </p>
@@ -116,7 +117,7 @@
 
             <!--CANCEL BUTTON-->
             <ion-item-sliding *ngIf="(!s.surgery.cancelled && !s.surgery.completed)">
-                <button ion-item clear item-left (click)="cancelSurgery(s,cardItem)" class="ion-item-divider-cancel">
+                <button ion-item clear item-left (click)="cancelSurgery(s,cardItem)" class="ion-item-divider-cancelled">
                     <ion-icon name="close-circle" item-left small color="danger"></ion-icon>
                     <h2>Cancel</h2>
                     <p>Cancel surgery.</p>

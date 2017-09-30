@@ -1,6 +1,6 @@
  
 import { PulseViewModel } from "./pulse_model";
-import { SurgeryGroupItem, SurgeryMetrics, SurgeryGroup } from "../metrics";
+import { SurgeryGroupItem, SurgeryMetrics, SurgeryGroup } from "../metrics/metrics";
  
 // export class SurgeryItem implements Surgery {
 //   id: number;

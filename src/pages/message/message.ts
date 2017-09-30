@@ -1,5 +1,5 @@
 import { MessageService } from "../../shared/message.service";
-import { MessageMetrics, MessageGroupItem } from "./../../models/metrics";
+import { MessageMetrics, MessageGroupItem } from "../../models/metrics/metrics";
 import { DoctorMessageModel } from "./../../models/viewmodels/doctor_message_model";
 import { MessageReplyModal } from "./message-reply";
 

@@ -5,7 +5,7 @@ import { Component, ViewChild, } from '@angular/core';
 import { NavController, App, ModalController, Events } from 'ionic-angular';
 import { AuthService, LoggerService  } from "../../shared/index";
 import { SurgeryData } from "../pulse/index"; 
-import { SurgeryGroupItem } from "../../models/metrics";
+import { SurgeryGroupItem } from "../../models/metrics/metrics";
 import { CalendarComponent } from "ionic2-calendar/calendar";
 import { ICalendarEvent } from '../../models/interfaces/ICalendarInterface';
 @Component({
@@ -46,7 +46,14 @@ export class CalendarPage {
   @ViewChild(CalendarComponent) myCalendar: CalendarComponent;
   // @ContentChild(TemplateRef) eventDetail;
   //  @Input() monthviewEventDetailTemplate:TemplateRef<IMonthViewDisplayEventTemplateContext>;
-
+  avatar: any = {
+    size: 50, // default size is 100
+     fontColor: '#FFFFFF',
+    border: "2px solid #d3d3d3",
+    isSquare: false,  
+    text: '', // 
+    fixedColor:false 
+  };
   calendarMode = 'month';
   eventSource;
   viewTitle;

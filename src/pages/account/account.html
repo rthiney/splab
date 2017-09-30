@@ -3,64 +3,21 @@
     <button ion-button menuToggle>
       <ion-icon name="menu"></ion-icon>
     </button>
-    <ion-title>Stats</ion-title>
+    <ion-title>Account</ion-title>
   </ion-navbar>
 </ion-header>
 
-<ion-content class="outer-content map-page">
-  <!-- <ion-card ion-item no-padding *ngIf="auth.authenticated()">
-    <ion-item *ngIf="auth.getPicture()">
-      <ion-avatar item-left>
-        <img src="{{ auth.getPicture() }}">
-      </ion-avatar>
-      <h2>{{ auth.name }}</h2>
-      <p>{{ auth.email }}</p>
-    </ion-item>
-    <ion-note item-right text-right>
-      <i>{{past}}
-        <br>surgeries</i>
-    </ion-note>
-  </ion-card> -->
+<ion-content class="outer-content">
+  <div padding-top text-center *ngIf="username">
+    <img src="http://www.gravatar.com/avatar?d=mm&s=140" alt="avatar">
+    <h2>{{username}}</h2>
 
-  <ion-list>
-    <ion-item>
-      <ion-label>Start Date</ion-label>
-      <ion-datetime displayFormat="MMM DD, YYYY" [(ngModel)]="startDate" pickerFormat="MMM DD, YYYY"></ion-datetime>
-    </ion-item>
-    <ion-item>
-      <ion-label>End Date</ion-label>
-      <ion-datetime displayFormat="MMM DD, YYYY" [(ngModel)]="endDate" pickerFormat="MMM DD, YYYY"></ion-datetime>
-    </ion-item>
-    <ion-item>
-      <button (click)="completedByRange()">Go</button>
-    </ion-item>
-
-
-
-    <ion-item item-left>
-      <ion-select [(ngModel)]="metricsSelected" (ionChange)="changeUnique()">
-        <ion-option *ngFor="let item of metrics; let i=index;" [value]="item">{{item}}</ion-option>
-      </ion-select>
-      <ion-note item-right>Count: {{total}} </ion-note>
-    </ion-item>
-  </ion-list>
-
-  <ion-list>
-
-    <!--<canvas baseChart [datasets]="chartData" [labels]="chartLabels" [options]="chartOptions" [legend]="chartLegend" [chartType]="chartType" height="100px;"></canvas>-->
-    <ion-list-header color="light">
-      <h1>
-        <strong>Metrics for {{activeMetric}}</strong>
-      </h1>
-    </ion-list-header>
-    <ion-item *ngFor="let u of uniq; let i = index;" [hidden]="u.name?.length==0" no-lines>
-      <ion-avatar item-left>
-        <h1>{{u.count}}</h1>
-      </ion-avatar>
-      <h2>{{u.name}}</h2>
-    </ion-item>
-  </ion-list>
-
-
-
+    <ion-list inset>
+      <button ion-item (click)="updatePicture()">Update Picture</button>
+      <button ion-item (click)="changeUsername()">Change Username</button>
+      <button ion-item (click)="changePassword()">Change Password</button>
+      <button ion-item (click)="support()">Support</button>
+      <button ion-item (click)="logout()">Logout</button>
+    </ion-list>
+  </div>
 </ion-content>

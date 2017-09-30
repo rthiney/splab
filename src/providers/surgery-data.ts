@@ -5,7 +5,7 @@ import {
   SurgeryGroup,
   SurgeryGroupItem,
   IMetric
-} from "../models/metrics";
+} from "../models/metrics/metrics";
 import { PulseViewModel } from "../models/viewmodels/pulse_model";
 
 import { AuthHttp } from "angular2-jwt";
@@ -32,17 +32,16 @@ export class SurgeryData {
     public log: LoggerService,
     public events: Events
   ) { }
-  // load(): any {
-  //   if (this.model) {
-  //     return Observable.of(this.model);
-  //   } else {
-  //     return this.http.get('assets/data/surgeries-12.json')
-  //       .map(this.processData, this);
-  //   }
-  // }
+  load_(): Observable<DataSurgeryStore> {
+    debugger;
+    
+      return this.http.get('/assets/data/surgeries-12.json')
+        .map(this.processData,this);
+ 
+  }
 
   load(): Observable<DataSurgeryStore> {
- 
+
       if (this.model) {
         this.loaded = true;
         console.log("NOT LOADING FROM SERVER", this.model);
@@ -62,7 +61,7 @@ export class SurgeryData {
         //  this.log.startTracking("Loading surgeries from server");
         return this.authHttp.get(url).map(this.processData, this);
       }
-     
+
   }
   loadData() {
     //  this.db.getSurgeries().then(result => {
@@ -106,7 +105,7 @@ export class SurgeryData {
     }
   }
   processData(data: any) {
-  
+ 
     console.group("Process Surgery Data");
     // just some good 'ol JS fun with objects and arrays
     // build up the data by linking speakers to sessions

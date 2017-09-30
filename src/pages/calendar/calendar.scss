@@ -10,4 +10,14 @@ page-calendar {
            background-color:#c5bebe;
             border-left: 1px  solid map-get($colors, google); 
     }
+    .ion-item-divider-billing  { 
+        border-left: 2px solid map-get($colors, favorite);
+        padding-left: 10px;
+        color:map-get($colors, favorite);
+    }
+    .ion-item-divider-cancelled  { 
+        border-left: 2px solid map-get($colors, google);
+        padding-left: 10px;
+        color:map-get($colors, google);
+    }
 }

@@ -1,0 +1,58 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-buttons start>
+      <button ion-button (click)="dismiss()">Cancel</button>
+    </ion-buttons>
+
+    <ion-title>
+      Stat Filter
+    </ion-title>
+
+    <ion-buttons end>
+      <button ion-button (click)="applyFilters()" strong>Done</button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content class="outer-content">
+
+  <ion-list>
+    <ion-list-header nopadding color="light" >Stats</ion-list-header>
+
+    <ion-item  >
+      <span item-start class="dot"></span>
+      <ion-label>Completed</ion-label>
+      <ion-toggle [(ngModel)]="statFilter.completed" color="secondary"></ion-toggle>
+    </ion-item> 
+    <ion-item  >
+        <span item-start class="dot"></span>
+        <ion-label>Cancelled</ion-label>
+        <ion-toggle [(ngModel)]="statFilter.cancelled" color="secondary"></ion-toggle>
+      </ion-item> 
+
+      <ion-list-header nopadding color="light">
+          Range
+        </ion-list-header >
+
+    <ion-item  >
+        <span item-start class="dot"></span>
+        <ion-label>Top</ion-label>
+        <ion-input [(ngModel)]="statFilter.showTop" color="secondary"></ion-input>
+      </ion-item> 
+      <ion-item>
+          <ion-label>Start Date</ion-label>
+          <ion-datetime displayFormat="MMM DD, YYYY" [(ngModel)]="statFilter.startDate" pickerFormat="MMM DD, YYYY"></ion-datetime>
+        </ion-item>
+        <ion-item>
+          <ion-label>End Date</ion-label>
+          <ion-datetime displayFormat="MMM DD, YYYY" [(ngModel)]="statFilter.endDate" pickerFormat="MMM DD, YYYY"></ion-datetime>
+        </ion-item>
+  </ion-list>
+
+  <ion-list>
+    <button ion-item (click)="resetFilters()" detail-none class="reset-filters">
+      Reset All Filters
+    </button>
+  </ion-list>
+
+</ion-content>

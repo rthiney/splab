@@ -50,6 +50,9 @@ import "../../node_modules/chart.js/dist/Chart.bundle.min.js";
 import { SimpleFormPage } from "../pages/simple-form/simple-form.page";
 import { HomePage } from "../pages/home/home.page";
 import { ArrayFilterPipe } from "./pipes/array-filter.pipe";
+import { StatFilterPage } from "../pages/stat-filter/stat-filter";
+import { StatsPage } from "../pages/stats/stats";
+import {LetterAvatarDirective } from '../directives/letter-avatar.directive';
 // et storage = new Storage(['sqlite', 'websql', 'indexeddb'], { name: 'surgipal_db' });
 //let storage = new Storage(['sqlite', 'websql', 'indexeddb'], { name: 'surgipal_db' });
 let storage = new Storage();
@@ -103,10 +106,13 @@ export function getAuthHttp(http: any) {
     MessageDetailPage,
     MessageReplyModal,
     MessageReponseComponent,
+    StatsPage,
+    StatFilterPage,
     CalendarPage,
     SimpleFormPage,
     HomePage,
-    ArrayFilterPipe
+    ArrayFilterPipe,
+    LetterAvatarDirective
   ],
   imports: [
     BrowserModule,
@@ -175,6 +181,8 @@ export function getAuthHttp(http: any) {
     MessageReplyModal,
     MessageReponseComponent,
     CalendarPage,
+    StatsPage,
+    StatFilterPage,
     SimpleFormPage,
     HomePage
   ],
@@ -187,7 +195,7 @@ export function getAuthHttp(http: any) {
     UserData,
     InAppBrowser,
     SplashScreen,
-
+ 
     //{ provide: ErrorHandler, useClass: IonicErrorHandler },
     //          { provide: Storage, useFactory: provideStorage },
     Storage,

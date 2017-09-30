@@ -3,9 +3,8 @@ import {
   SurgeryMetrics,
   SurgeryGroupItem
   //,SurgeryGroup
-} from "./../../models/metrics";
-import { Component, EventEmitter, Input,   Output} from "@angular/core";
-
+} from "../../models/metrics/metrics";
+import { Component, EventEmitter, Input,   Output} from "@angular/core"; 
 import {
   AlertController,
   App, 
@@ -32,15 +31,16 @@ import {
   NotifyService,
   LoggerService
 } from "../../shared/index";
- 
+import {LetterAvatarDirective } from '../../directives/letter-avatar.directive';
 import { AppInsightsService } from "ng2-appinsights";
 import { SurgeryService } from '../../shared/surgery-services';
 import { MessageService } from '../../shared/message.service';
 import { IActionSheetButton } from '../../models/interfaces/IActionSheetButton';
+import { Surgery } from '../../models/Surgery';
 
 declare var window;
 @Component({
-  selector: "page-pulse-detail",
+  selector: "page-pulse-detail", 
   templateUrl: "pulse-detail.html"
 })
 export class PulseDetailPage { 
@@ -48,7 +48,7 @@ export class PulseDetailPage {
     @Input() idx:number;
     @Output() close = new EventEmitter();
     error: any;
-
+    @Input() avatarText:string; 
     selectedItem: SurgeryGroupItem;
 //   isEmailAvailable: Promise<any>;
          activeElement: Element;
@@ -71,6 +71,15 @@ export class PulseDetailPage {
 //   groups: any = [];
 //   date: Date;
 //   dateIndex: number = 0;
+avatar: any = {
+  size: 50, // default size is 100
+   fontColor: '#FFFFFF',
+  border: "2px solid #d3d3d3",
+  isSquare: false, // if it is true then letter avatar will be in square defaule value is false
+  text: '', // 
+  fixedColor:false //if you enable true then letter will have same color for ever default value is false
+};
+ 
   segment: string = "today";
   duration:number;
   metrics: SurgeryMetrics = new SurgeryMetrics();
@@ -94,12 +103,19 @@ export class PulseDetailPage {
     public loadingCtrl: LoadingController,
     public events: Events, 
     private appinsightsService: AppInsightsService
-  ) { }
+  ) { 
+
+  }
   ionViewWillEnter() {}
   ionViewDidLoad() {
    this.duration = parseInt(this.s.surgery.surgeryTime);
+ 
+  // this.avatarText = this.s.surgery.initials;
     if (this.s.surgery.surgeryTime.indexOf("m") < 0)
       this.duration = this.duration * 60;
+  }
+  ngOnInit(): void {
+     
   }
 //   ngOnInit(): void {
 //     this.route.params.forEach((params: Params) => {

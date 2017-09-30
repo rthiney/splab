@@ -118,38 +118,29 @@
       <button ion-item menuClose *ngFor="let p of appPages " (click)="openPage(p)">
         <ion-icon item-left [name]="p.icon " [color]="isActive(p) "></ion-icon>
         {{p.title}}
-        <ion-spinner item-right ios-small small name="dots" [hidden]="p.badgeValue>=0" *ngIf="p.badgeValue>-1"></ion-spinner>
+        <ion-spinner item-right ios-small small name="dots" [hidden]="p.badgeValue>-1" *ngIf="p.badgeValue>-1"></ion-spinner>
         <ion-badge item-right  [color]="(p.badgeValue>0) ? p.color : 'google'" [hidden]="p.badgeValue<0" *ngIf="p.badgeValue>-1"> {{p.badgeValue}}</ion-badge>
-      
-      </button>
-
-    </ion-list>
-    <ion-list *ngIf="auth.authenticated()"> 
-      <ion-list-header color="light">
+      </button>  
+      <ion-list-header nopadding color="light">
         Account
-      </ion-list-header>
-      <button ion-item menuClose *ngFor="let p of loggedInPages" (click)="openPage(p)">
-        <ion-icon item-left [name]="p.icon" color="google"></ion-icon>
+      </ion-list-header >
+      <button ion-item menuClose  *ngFor="let p of loggedInPages" (click)="openPage(p)">
+        <ion-icon item-left [name]="p.icon" [color]="p.color"></ion-icon>
         {{p.title}}  
-      </button>
-      <ion-list-header>
-          Tutorial
-        </ion-list-header>
+      </button> 
         <button ion-item menuClose (click)="openTutorial()">
           <ion-icon item-start name="hammer" color=primary></ion-icon>
           Show Tutorial
         </button>
     </ion-list>
-
-
-    <ion-list>
-    
-      </ion-list>
+  
 <ion-footer *ngIf="versionNumber!=''" center>Version: {{versionNumber}}</ion-footer>
   </ion-content>
 </ion-menu>
 
-<ion-menu id="loggedOutMenu" [content]="content" *ngIf="!auth.authenticated()" >
+ 
+
+<ion-menu id="loggedOutMenu" [content]="content"  >
   <ion-header>
     <ion-toolbar color="primary">
       <ion-title>SurgiPal</ion-title>
@@ -157,26 +148,29 @@
   </ion-header>
   <ion-content>
     <ion-list>
+        <ion-item>
+            <ion-avatar item-left> 
+              <img  src="assets/icon/logo512.png">
+            </ion-avatar> 
+          </ion-item>
       <ion-list-header color="light">
         Accounts
       </ion-list-header>
-      <button ion-item menuClose *ngFor="let p of loggedOutPages" (click)="openPage(p)">
-        <ion-icon item-left [name]="p.icon" [color]="isActive(p)"></ion-icon>
+      <button ion-item menuClose  *ngFor="let p of loggedOutPages" (click)="openPage(p)">
+        <ion-icon item-left  [name]="p.icon" [color]="p.color"></ion-icon>
         {{p.title}} 
       </button>
-      <ion-list-header>
-          Tutorial
+      <ion-list-header color="light">
+          Tutorial 
         </ion-list-header>
         <button ion-item menuClose (click)="openTutorial()">
-          <ion-icon item-start name="hammer" color=primary></ion-icon>
+          <ion-icon item-left   name="hammer" color=primary></ion-icon>
           Show Tutorial
         </button>
     </ion-list> 
  
       <ion-footer *ngIf="versionNumber!=''" center>Version: {{versionNumber}}</ion-footer>
-  </ion-content>
- 
-
+  </ion-content> 
 </ion-menu>
   <!-- main navigation -->
   <ion-nav [root]="rootPage" #content swipeBackEnabled="false" main name="app"></ion-nav>

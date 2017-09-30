@@ -1,10 +1,11 @@
 <ion-header>
     <ion-navbar>
-        <ion-title small>Surgery Detail - {{ s.surgery.initials}}</ion-title>
+        <ion-title small>Surgery Detail</ion-title>
     </ion-navbar>
 </ion-header>
-<ion-content  >
-        <page-pulse-detail [s]=s [idx]=rnd (close)="close($event)" ></page-pulse-detail>
+<ion-content  > 
+        <page-pulse-detail [s]=s [idx]=rnd (close)="close($event)"  
+         ></page-pulse-detail>
 
     <!-- <ion-card #cardItem>
         <img src="assets/img/rooms/s{{rnd+1}}.PNG" />

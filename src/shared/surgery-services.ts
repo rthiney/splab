@@ -1,7 +1,7 @@
  
 import { AnswerBox } from '../models/AnswerBox';
 import { Surgery } from '../models/Surgery';
-import { SurgeryGroupItem } from '../models/metrics';
+import { SurgeryGroupItem } from '../models/metrics/metrics';
 import { AuthHttp } from 'angular2-jwt';
 import { Injectable } from '@angular/core';
 import {   CONFIGURATION, LoggerService } from "./index";

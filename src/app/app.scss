@@ -38,3 +38,13 @@ $message-detail-bg: #{randomNum(1, 5)};
     align-items: center;
     justify-content: center;
 }
+.cancelled  { 
+    border-left: 2px solid map-get($colors, google); 
+    padding-left: 10px;
+    color:map-get($colors, google);
+}
+.billing{
+    border-left: 2px solid map-get($colors, favorite); 
+    padding-left: 10px;
+    color:map-get($colors, favorite); 
+}

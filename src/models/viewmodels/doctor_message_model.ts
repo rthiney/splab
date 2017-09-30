@@ -1,4 +1,4 @@
-import { MessageGroupItem, MessageMetrics } from "../metrics";
+import { MessageGroupItem, MessageMetrics } from "../metrics/metrics";
  
 export class DoctorMessageModel {
   id?: number;

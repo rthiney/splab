@@ -11,7 +11,7 @@ import { PulseViewModel } from "./../../models/viewmodels/pulse_model";
 import { AuthHttp } from "angular2-jwt";
 import { AuthService } from "../../shared/auth.service";
 import { MessageService } from "../../shared/message.service";
-import { SurgeryGroupItem } from "../../models/metrics";
+import { SurgeryGroupItem } from "../../models/metrics/metrics";
 
 @Component({
   templateUrl: "billing-details.html"

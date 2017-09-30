@@ -1,6 +1,6 @@
-import { PulseViewModel } from "./viewmodels/pulse_model";
-import { DoctorMessageModel } from "./viewmodels/index"; 
-import { SurgeyStatus } from "./interfaces/ICalendarInterface";
+import { PulseViewModel } from "../viewmodels/pulse_model";
+import { DoctorMessageModel } from "../viewmodels/index"; 
+import { SurgeyStatus } from "../interfaces/ICalendarInterface";
 export interface IMetric {
   name: string;
   count: number; 

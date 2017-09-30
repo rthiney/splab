@@ -5,7 +5,7 @@ import { ViewController, ModalController } from 'ionic-angular';
 
 import "rxjs/add/operator/map";
 import "rxjs/add/observable/of";
-import { IMetric } from '../../models/metrics';
+import { IMetric } from '../../models/metrics/metrics';
 
 @Component({
     selector: 'page-code-search',

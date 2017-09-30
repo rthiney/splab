@@ -4,7 +4,7 @@ import {
   SurgeryMetrics,
   SurgeryGroupItem,
   SurgeryGroup
-} from "./../../models/metrics";
+} from "../../models/metrics/metrics";
 import { Component, ViewChild } from "@angular/core";
 import {
   AlertController,

@@ -40,18 +40,20 @@
     <template #template2 let-showEventDetail="showEventDetail" let-selectedDate="selectedDate" let-noEventsLabel="noEventsLabel">
         <ion-list class="event-detail-container" has-bouncing="false" *ngIf="showEventDetail" overflow-scroll="true">
             <ion-item border lines *ngFor="let s of selectedDate?.events" (click)="onEventSelected(s)">
-
+                <ion-avatar item-left> 
+                    <avatar [avatardata]="avatar" [avatarText]="s.surgery.initials"></avatar>
+                </ion-avatar>
 
                     <span class="event-info">{{s.surgery.preferenceCardName}} </span>
                       <p class="text"> Status: {{s.surgery.admissionStatus}}</p>
                       <p  class="text"> Duration: {{s.surgery.surgeryTime}}</p>
 
 
-                <p class="text" color="google" *ngIf="s.surgery.cancelled">
+                <p class="text ion-item-divider-cancelled" color="google" *ngIf="s.surgery.cancelled">
                     <ion-icon name="close-circle" item-left small></ion-icon>
                     <strong>Cancelled</strong>
                 </p>
-                <p class="text" color="favorite" *ngIf="s.surgery.completed">
+                <p class="text ion-item-divider-billing" color="favorite" *ngIf="s.surgery.completed">
                     <ion-icon name="cash" item-left small></ion-icon>
                     <strong>Billed</strong>
                 </p>

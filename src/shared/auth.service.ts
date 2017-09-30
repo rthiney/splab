@@ -277,7 +277,7 @@ export class AuthService {
     this.zoneImpl.run(() => (this.user = null));
     // Unschedule the token refresh
     this.unscheduleRefresh();
-
+console.log('Logout Called, is authenticated is ' + this.authenticated());
     // this.lock.show();
   }
 

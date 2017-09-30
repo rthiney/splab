@@ -1,0 +1,52 @@
+
+page-account img {
+  max-width: 140px;
+  border-radius: 50%;
+}
+
+
+page-account ion-content {
+  background: rgb(229, 227, 223);
+}
+
+page-account {
+  #map_canvas {
+    height: 200px;
+    width: 200px;
+    background-color : transparent;
+  }
+}
+
+page-account ion-content {
+  background: rgb(229, 227, 223);
+}
+
+page-account #map_canvas {
+  width: 100%;
+  height: 100%;
+  opacity: 1;
+  transition: opacity 150ms ease-in
+}
+
+page-account #map_canvas.show-map {
+  opacity: 1;
+}
+ion-app._gmaps_cdv_ .nav-decor{
+  background-color: transparent !important;
+}
+ ion-card.adv-map p {
+  font-size: 0.7em !important;
+}
+
+button[fab].fab-map {
+  top: calc(100% - 35px);
+  z-index: 50;
+}
+
+.item-bold {
+  font-weight: bold;
+}
+
+ion-content.cards-bg {
+  background-color: #f4f4f7;
+}

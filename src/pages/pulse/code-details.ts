@@ -1,5 +1,5 @@
 import { NotifyService } from './../../shared/notify.service';
-import { IMetric } from './../../models/metrics';
+import { IMetric } from '../../models/metrics/metrics';
 
 import { Component } from "@angular/core";
 import { NavParams, ViewController, ModalController, AlertController } from "ionic-angular";

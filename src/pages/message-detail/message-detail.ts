@@ -14,7 +14,7 @@ import {
 import azureMobileClient from "azure-mobile-apps-client";
 import { MessageService } from '../../shared/message.service';
 
-import { MessageGroupItem } from '../../models/metrics';
+import { MessageGroupItem } from '../../models/metrics/metrics';
 
 @Component({
   selector: "page-message-detail",

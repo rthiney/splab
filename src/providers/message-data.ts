@@ -1,4 +1,4 @@
-import {MessageGroupItem, MessageGroup} from '../models/metrics';
+import {MessageGroupItem, MessageGroup} from '../models/metrics/metrics';
 import {DoctorMessageModel, DataMessageStore} from '../models/viewmodels/doctor_message_model'; 
 import { Events } from "ionic-angular"; 
 import { AuthHttp } from  'angular2-jwt'; 
@@ -24,15 +24,15 @@ export class MessageData {
     public events: Events,
     private storage:Storage
   ) {}
-  // load(): any {
-  //   debugger;
-  //   if (this.model) {
-  //     return Observable.of(this.model);
-  //   } else {
-  //     return this.authHttp.get('assets/data/messages-12.json')
-  //       .map(this.processData, this);
-  //   }
-  // }
+  load_(): any {
+    debugger;
+    if (this.model) {
+      return Observable.of(this.model);
+    } else {
+      return this.authHttp.get('assets/data/messages-12.json')
+        .map(this.processData, this);
+    }
+  }
   load(): any {
     this.fromStore = false;
     if (this.model) {

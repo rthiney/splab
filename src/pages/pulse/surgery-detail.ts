@@ -2,7 +2,7 @@
 import { Component } from '@angular/core';
 
 import { App, Events, ModalController, NavController, NavParams, Platform } from 'ionic-angular';
-import { SurgeryGroup, SurgeryGroupItem, SurgeryMetrics } from '../../models/metrics';
+import { SurgeryGroup, SurgeryGroupItem, SurgeryMetrics } from '../../models/metrics/metrics';
 import { PulseViewModel } from '../../models/viewmodels/pulse_model';
  
 import { NotifyService } from '../../shared/notify.service';
@@ -20,7 +20,7 @@ export class SurgeryDetailPage {
 
   s: SurgeryGroupItem;
   rnd: number = Math.floor(Math.random() * 4) + 1;
-
+   
   isEmailAvailable: Promise<any>;
   activeElement: Element;
   title: string;
@@ -47,6 +47,15 @@ export class SurgeryDetailPage {
   dateIndex: number = 0;
   segment: string = "today";
   metrics: SurgeryMetrics = new SurgeryMetrics();
+  avatar: any = {
+    size: 50, // default size is 100
+     fontColor: '#FFFFFF',
+    border: "2px solid #d3d3d3",
+    isSquare: false,  
+    text: 'Fuck You', // 
+    fixedColor:false 
+  };
+  avatarText:string ;
   constructor(public navParams: NavParams, public platform: Platform,
 
     public app: App,
@@ -60,7 +69,7 @@ export class SurgeryDetailPage {
     //, private emailComposer: EmailComposer, private callNumber: CallNumber,
   ) {
     this.s = navParams.data;
-    console.log('s', this.s);
+     this.avatarText =this.s.surgery.initials;
   }
 
   ionViewDidLoad() {
