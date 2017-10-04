@@ -41,11 +41,12 @@
       </ion-item> 
       <ion-item>
           <ion-label>Start Date</ion-label>
-          <ion-datetime displayFormat="MMM DD, YYYY" [(ngModel)]="statFilter.startDate" pickerFormat="MMM DD, YYYY"></ion-datetime>
+          <ion-datetime   (ionChange)="dateStartChange($event);" displayFormat="MMM YYYY" [(ngModel)]="startDate" pickerFormat="MMM YYYY"></ion-datetime>
+        <ion-note item-left>{{count1}}</ion-note>
         </ion-item>
         <ion-item>
           <ion-label>End Date</ion-label>
-          <ion-datetime displayFormat="MMM DD, YYYY" [(ngModel)]="statFilter.endDate" pickerFormat="MMM DD, YYYY"></ion-datetime>
+          <ion-datetime (ionChange)="dateEndChange($event);" displayFormat="MMM YYYY" [(ngModel)]="endDate" pickerFormat="MMM YYYY"></ion-datetime>
         </ion-item>
   </ion-list>
 

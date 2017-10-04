@@ -24,7 +24,7 @@ import { SurgeryData } from "../providers/surgery-data";
 import { SurgeryService } from "../shared/surgery-services";
 import { SignupPage } from "../pages/signup/signup";
 import { SupportPage } from "../pages/support/support";
-import { TabsPage } from "../pages/tabs-page/tabs-page";
+import { TabsPage } from '../pages/tabs-page/tabs-page';
 import { TutorialPage } from "../pages/tutorial/tutorial";
 import { ConferenceData } from "../providers/conference-data";
 import { UserData } from "../providers/user-data";
@@ -77,7 +77,8 @@ export class SurgiPalApp {
       index: 1,
       icon: "calendar",
       badgeValue: 0,
-      color: "favorite"
+      color: "favorite",
+      comment: "Future Surgeries"
     },
     {
       title: "Messages",
@@ -97,7 +98,8 @@ export class SurgiPalApp {
       icon: "stats",
       index: 3,
       badgeValue: 0,
-      color: "light"
+      color: "light",
+      comment: "Completed and not cancelled"
     },
     {
       title: "About",
@@ -139,11 +141,10 @@ export class SurgiPalApp {
       color: "favorite"
     }
   ];
-  rootPage: TabsPage;
+  rootPage: any;
   versionNumber: any = "0.4.7";
   constructor(
-    public platform: Platform,
-
+    public platform: Platform, 
     public splashScreen: SplashScreen,
     public menu: MenuController,
     private events: Events,
@@ -162,11 +163,12 @@ export class SurgiPalApp {
     console.log("Authenticated", this.auth.authenticated());
     // Check if the user has already seen the tutorial
     this.storage.get("hasSeenTutorial").then(hasSeenTutorial => {
-      if (!hasSeenTutorial) {
-        console.log('Set Tutorial Roote');
-        this.nav.setRoot(TutorialPage);
+      if (hasSeenTutorial) {
+        console.log('Set Tabs Page');
+        this.rootPage = TabsPage;
       }
- 
+      else  
+         this.rootPage = TutorialPage;
       // else if (this.auth.authenticated()) {
       //   console.log('Set Tabs Root');
       //   this.nav.setRoot(TabsPage);
@@ -178,15 +180,15 @@ export class SurgiPalApp {
       // }
     
       this.platformReady();
-    })
+    });
  
     // load the conference data
     //  confData.load();
 
     // decide which menu items should be hidden by current login status stored in local storage
-    // this.userData.hasLoggedIn().then((hasLoggedIn) => {
-       this.enableMenu(this.auth.authenticated() !== true);
-    // });
+     this.userData.hasLoggedIn().then((hasLoggedIn) => {
+       this.enableMenu(hasLoggedIn === true);
+     });
 
   }
 
@@ -201,30 +203,17 @@ export class SurgiPalApp {
         verboseLogging: true
       });
       this.splashScreen.hide();
-      if (!this.nav.root || !this.auth.authenticated())
-      {
-        this.enableMenu(false);
-        this.nav.setRoot(LoginPage);
-      }
-      else
-{
-  this.enableMenu(true);
-  this.nav.setRoot(TabsPage);
-}
-      console.log('Root:',this.nav.root);
     });
   }
-
+   
   openPage(page: IPageInterface) {
     let params = {};
-
     // the nav component was found using @ViewChild(Nav)
     // setRoot on the nav to remove previous pages and only have this page
     // we wouldn't want the back button to show in this scenario
     if (page.index) {
       params = { tabIndex: page.index };
     }
- 
     // If we are already on tabs just change the selected tab
     // don't setRoot again, this maintains the history stack of the
     // tabs even if changing them from the menu
@@ -236,26 +225,36 @@ export class SurgiPalApp {
         console.log(`Didn't set nav root: ${err}`);
       });
     }
-
     // if (page.logsOut === true) {
     //   // Give the menu time to close before changing to logged out
     //   this.userData.logout();
     // }
     if (page.logsOut === true) {
-      //reset background loading..
       this.bgLoaded = false;
-      this.enableMenu(false);
-      this.nav.setRoot(LoginPage);
-      // Give the menu time to close before changing to logged out
-      setTimeout(() => {
-        this.auth.logout();
-      }, 1000);
+      this.auth.logout();
+      //reset background loading..
+      // this.bgLoaded = false;
+      // this.enableMenu(false);
+      // this.nav.push(LoginPage);
+    
+      // // Give the menu time to close before changing to logged out
+      // setTimeout(() => {
+      //   this.auth.logout();
+      // }, 1000);
     }
   }
 
   openTutorial() {
     this.nav.setRoot(TutorialPage);
   }
+  openLogin(logout:boolean){
+    if (logout)
+    this.auth.logout();
+    this.nav.setRoot(LoginPage);
+  }
+   openAccount(){
+  this.nav.setRoot(AccountPage);
+}
   setAuthenticatedUserContext() {
     try {
       this.appinsightsService.setAuthenticatedUserContext(
@@ -277,7 +276,8 @@ export class SurgiPalApp {
     this.events.subscribe("user:authenticated", n => {
       // if (this.platform.is('cordova')) { this.getPlatforms(); }
       this.log.event("user:authenticated!!! " + n, n);
-
+      this.enableMenu(true);
+      this.nav.setRoot(TabsPage);
       if (!this.bgLoaded && this.auth.fosId > 0) 
          this.loadDataBackground();
       else
@@ -308,7 +308,7 @@ export class SurgiPalApp {
     this.events.subscribe("user:logout", () => {
       this.appinsightsService.clearAuthenticatedUserContext();
       this.bgLoaded = false;
-      this.enableMenu(false);     this.nav.setRoot(LoginPage);
+      this.enableMenu(false);     this.nav.push(LoginPage);
     });
 
     this.events.subscribe("message:loadedStore", (location, m) => {
@@ -333,9 +333,11 @@ export class SurgiPalApp {
       else {
         this.appPages[0].badgeValue = this.surgerySvc.model.metrics.today;
         this.appPages[1].badgeValue = this.surgerySvc.model.metrics.future;
+        
         this.appPages[3].badgeValue = this.surgerySvc.model.pastSurgeries.filter(
           o => o.surgery.completed
         ).length;
+        this.adjustBadges();
       }
     });
 
@@ -347,8 +349,9 @@ export class SurgiPalApp {
       this.appPages[0].badgeValue = this.surgerySvc.model.metrics.today;
       this.appPages[1].badgeValue = this.surgerySvc.model.metrics.future;
       this.appPages[3].badgeValue = this.surgerySvc.model.pastSurgeries.filter(
-        o => o.surgery.completed
+        o => o.surgery.completed===true
       ).length;
+      this.adjustBadges();
     });
     this.events.subscribe("message:metrics", (location, metrics) => {
       console.log(
@@ -371,6 +374,14 @@ export class SurgiPalApp {
       );
     });
   }
+
+  adjustBadges()
+  {
+    this.appPages.forEach(p=>{
+      if (p.badgeValue===0 && !this.bgLoaded)
+      p.badgeValue=-1;
+    });
+  }
   getMessageData() {
     console.log("Getting MessageData Background");
     this.messageSvc.getMetrics().subscribe(
@@ -391,7 +402,7 @@ export class SurgiPalApp {
         this.appPages[0].badgeValue = data.today;
         this.appPages[1].badgeValue = data.future;
         this.appPages[3].badgeValue = this.surgerySvc.model.pastSurgeries.filter(
-          o => o.surgery.completed
+         o => (o.surgery.completed && !o.surgery.cancelled)
         ).length;
         console.log("SurgeryData Background completed");
       },

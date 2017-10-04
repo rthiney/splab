@@ -10,4 +10,6 @@ export interface IPageInterface {
     tabRoot?: string; 
     name: string; 
     tabName?: string; 
+    comment?: string;
+    
   }

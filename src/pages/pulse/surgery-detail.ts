@@ -133,7 +133,7 @@ export class SurgeryDetailPage {
 
         this._svcSurgery.markCancelled(pulse.surgery.surgeryId).then((_s: Surgery) => {
           this.note.presentToast("Cancelled", "Surgery has been cancelled.");
-          this.surgeryData.refreshData();
+          this.surgeryData.model.refreshData();
           this.navCtrl.pop();
         }
           , (res: any) => console.error("Not updated", res));

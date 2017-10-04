@@ -19,12 +19,9 @@
                 <p style="white-space: pre-wrap">
                     <strong>Surgery:</strong> {{s.surgery.patient | uppercase}}</p>
                 <p style="white-space: pre-wrap">
-                    <strong>Card:</strong> {{s.surgery.preferenceCardName}}</p> -->
+                     <strong>Card:</strong> {{s.surgery.preferenceCardName}}</p> -->
 
-
-
-                    <span class="event-info">{{s.surgery.preferenceCardName}} </span>
-                    
+     
 
                 <p>
                     <strong>Status:</strong> {{s.surgery.admissionStatus}}</p>
@@ -46,7 +43,7 @@
                         <strong>To</strong> {{ s.surgery.term | amUtc | amAdd: s.minutes : 'minutes' | amDateFormat: 'h:mm a'}} </i>
                 </ion-note> -->
             </ion-item>
-            <ion-item-options side="left" *ngIf="(!s.surgery.cancelled && !s.surgery.completed)">
+            <ion-item-options side="left" *ngIf="(!s.surgery.cancelled && !s.surgery.completed && !s.occurs=='futute')">
                 <button ion-button color='favorite' (click)="sendBilling(s,cardItem)">
                     <ion-icon name="cash" item-left small></ion-icon>
                     Billing
@@ -93,7 +90,7 @@
 
 
             <!--BILLING BUTTON-->
-            <ion-item-sliding *ngIf="(!s.surgery.cancelled && !s.surgery.completed)">
+            <ion-item-sliding *ngIf="(!s.surgery.cancelled && !s.surgery.completed && s.occurs!=='future')">
                 <button ion-item clear item-left (click)="sendBilling(s,cardItem)" class="ion-item-divider-billing">
                     <ion-icon name="cash" item-left small color="favorite"></ion-icon>
                     <h2>Billing</h2>

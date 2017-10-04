@@ -60,7 +60,8 @@ export class CalendarPage {
   isToday: boolean;
   calendar = {
     mode: 'month',
-    autoSelect: false,
+    autoSelect: true,
+  
     startingDayMonth: 1,
     scrollToHour: 8,
     preserveScrollPosition: true,
@@ -117,7 +118,7 @@ export class CalendarPage {
   }
   onEventSelected(event) {
     console.log(event);
-    let surg = this.surgeryData.findSugeryById(event.surgery.surgeryId);
+    let surg = this.surgeryData.model.findSugeryById(event.surgery.surgeryId);
     this.showDetail(surg);
   }
   showDetail(s: SurgeryGroupItem) {
@@ -154,6 +155,8 @@ export class CalendarPage {
   createEventsFromSurgeries() {
     var events2: ICalendarEvent[] = [];
     let allsurgeries = this.surgeryData.model.futureSurgeries.concat(this.surgeryData.model.todaySurgeries, this.surgeryData.model.pastSurgeries);
+    this.surgeryData.model.surgeries = allsurgeries;
+    
     console.log('Calendar All Surger', allsurgeries);
     allsurgeries.forEach(s => {
       //  if (!s.surgery.cancelled) {

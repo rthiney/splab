@@ -20,4 +20,8 @@ page-calendar {
         padding-left: 10px;
         color:map-get($colors, google);
     }
+    .monthview-primary-with-event .cancelled
+    {
+        background-color: map-get($colors, google);
+    }
 }

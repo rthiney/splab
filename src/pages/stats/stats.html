@@ -26,31 +26,58 @@
         <br>surgeries</i>
     </ion-note>
   </ion-card> -->
-
+   
   <ion-list>
-  
+<!--   
     <ion-item>
-      <button  (click)="completedByRange()">Go</button>
-    </ion-item>
+      <button  (click)="completedByRange()"> 
+      <ion-icon item-left name="refresh" color="favorite"></ion-icon>
+      Go</button>
+    </ion-item> -->
+
+    <button ion-item menuClose (click)="refreshStats()">
+      <ion-icon item-start name="refresh" large color=light></ion-icon>
+      {{chartTitle}}
+    </button>
+
+    <button ion-item menuClose (click)="initStats()">
+      <ion-icon item-start name="refresh" large color=light></ion-icon>
+      initStats
+    </button>   
+    <button ion-item menuClose (click)="resetChart()">
+      <ion-icon item-start name="refresh" large color=light></ion-icon>
+      resetChart
+    </button>   
+    <button ion-item menuClose (click)="resetChart2()">
+      <ion-icon item-start name="refresh" large color=light></ion-icon>
+      resetChart2
+    </button>   
 
 
 
-    <ion-item item-left>
-      <ion-select [(ngModel)]="metricsSelected" (ionChange)="changeUnique()">
+
+     <ion-item item-left>
+      <ion-select [(ngModel)]="metricsSelected" (ionChange)="refreshStats()">
         <ion-option *ngFor="let item of metrics; let i=index;" [value]="item">{{item}}</ion-option>
       </ion-select>
-      <ion-note item-right>Count: {{total}} </ion-note>
-    </ion-item>
+      <ion-note item-right> Total: {{totalSurgeries}} <br/>Selected Range: {{count}} <br/>Result: {{total}} </ion-note>
+    </ion-item> 
   </ion-list>
 
   <ion-list>
 
-   <canvas baseChart [datasets]="chartData" [labels]="chartLabels" [options]="chartOptions" [legend]="chartLegend" [chartType]="chartType" height="100px;"></canvas> 
-    <ion-list-header color="light">
+     <canvas baseChart [title]="chartTitle" [datasets]="chartData"
+      [labels]="chartLabels" [options]="chartOptions" [legend]="chartLegend" 
+      [chartType]="chartType" height="100px;"></canvas> 
+   
+      
+     
+   <ion-list-header color="light">
       <h1>
         <strong>Metrics for {{activeMetric}}</strong>
       </h1>
     </ion-list-header>
+ 
     <ion-item *ngFor="let u of uniq; let i = index;" [hidden]="u.name?.length==0" no-lines>
       <ion-avatar item-left>
         <h1>{{u.count}}</h1>
@@ -59,6 +86,7 @@
     </ion-item>
   </ion-list>
 
-
+  <canvas baseChart [title]="allMetricsTitle" [datasets]="allMetricsChart" [labels]="allMetricsChartLabels" [options]="allMetricsChartOptions" [legend]="allMetricsChartLegend" [chartType]="allMetricsChartType" height="100px;"></canvas>  
+  
 
 </ion-content>

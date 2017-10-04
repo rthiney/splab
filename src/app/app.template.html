@@ -1,104 +1,17 @@
 <ion-split-pane>
-
-  <!-- logged out menu -->
-  <!-- <ion-menu id="loggedOutMenu" [content]="content">
-
-    <ion-header>
-      <ion-toolbar>
-        <ion-title>SURGIPAL</ion-title>
-      </ion-toolbar>
-    </ion-header>
-
-    <ion-content class="outer-content">
-
-      <ion-list>
-        <ion-list-header>
-          Navigate
-        </ion-list-header>
-        <button ion-item menuClose *ngFor="let p of appPages" (click)="openPage(p)">
-          <ion-icon item-start [name]="p.icon" [color]="isActive(p)"></ion-icon>
-          {{p.title}}
-        </button>
-      </ion-list>
-
-      <ion-list>
-        <ion-list-header>
-          Account
-        </ion-list-header>
-        <button ion-item menuClose *ngFor="let p of loggedOutPages" (click)="openPage(p)">
-          <ion-icon item-start [name]="p.icon" [color]="isActive(p)"></ion-icon>
-          {{p.title}}
-        </button>
-      </ion-list>
-
-      <ion-list>
-        <ion-list-header>
-          Tutorial
-        </ion-list-header>
-        <button ion-item menuClose (click)="openTutorial()">
-          <ion-icon item-start name="hammer"></ion-icon>
-          Show Tutorial
-        </button>
-      </ion-list>
-    </ion-content>
-
-  </ion-menu> -->
-
-  <!-- logged in menu -->
-  <!-- <ion-menu id="loggedInMenu" [content]="content">
-
-    <ion-header>
-      <ion-toolbar>
-        <ion-title>Menu</ion-title>
-      </ion-toolbar>
-    </ion-header>
-
-    <ion-content class="outer-content">
-
-      <ion-list>
-        <ion-list-header>
-          Navigate
-        </ion-list-header>
-        <button ion-item menuClose *ngFor="let p of appPages" (click)="openPage(p)">
-          <ion-icon item-start [name]="p.icon" [color]="isActive(p)"></ion-icon>
-          {{p.title}}
-        </button>
-      </ion-list>
-
-      <ion-list>
-        <ion-list-header>
-          Account
-        </ion-list-header>
-        <button ion-item menuClose *ngFor="let p of loggedInPages" (click)="openPage(p)">
-          <ion-icon item-start [name]="p.icon" [color]="isActive(p)"></ion-icon>
-          {{p.title}}
-        </button>
-      </ion-list>
-
-      <ion-list>
-        <ion-list-header>
-          Tutorial
-        </ion-list-header>
-        <button ion-item menuClose (click)="openTutorial()">
-          <ion-icon item-start name="hammer"></ion-icon>
-          Show Tutorial
-        </button>
-      </ion-list>
-
-    </ion-content>
-
-  </ion-menu> -->
+ 
 <ion-menu id="loggedInMenu" [content]="content">
   <ion-header>
     <ion-toolbar color="primary">
-      <ion-title>Surgipal</ion-title>
-      <span style="font-size:xx-small"></span>
+      <ion-title>Surgipal<span item-right style="font-size:xx-small" 
+        *ngIf="versionNumber!=''" center>v{{versionNumber}}</span></ion-title>
+      
     </ion-toolbar>
-  </ion-header> 
+  </ion-header>  
   <ion-content>
 
-    <!-- Display the side menu pages if it is prod uction -->
-    <ion-list  >
+ 
+    <ion-list>
       <ion-item>
         <ion-avatar item-left>
           <img *ngIf="auth.authenticated()" src="{{auth.getPicture()}}">
@@ -118,16 +31,24 @@
       <button ion-item menuClose *ngFor="let p of appPages " (click)="openPage(p)">
         <ion-icon item-left [name]="p.icon " [color]="isActive(p) "></ion-icon>
         {{p.title}}
-        <ion-spinner item-right ios-small small name="dots" [hidden]="p.badgeValue>-1" *ngIf="p.badgeValue>-1"></ion-spinner>
-        <ion-badge item-right  [color]="(p.badgeValue>0) ? p.color : 'google'" [hidden]="p.badgeValue<0" *ngIf="p.badgeValue>-1"> {{p.badgeValue}}</ion-badge>
+        <ion-spinner item-right ios-small small name="dots" [hidden]="p.badgeValue>0" *ngIf="p.badgeValue>-1"></ion-spinner>
+        <ion-badge item-right  [color]="(p.badgeValue>0) ? p.color : 'google'" [hidden]="p.badgeValue<=0" *ngIf="p.badgeValue>-1"> {{p.badgeValue}}</ion-badge>
       </button>  
       <ion-list-header nopadding color="light">
         Account
       </ion-list-header >
-      <button ion-item menuClose  *ngFor="let p of loggedInPages" (click)="openPage(p)">
-        <ion-icon item-left [name]="p.icon" [color]="p.color"></ion-icon>
-        {{p.title}}  
-      </button> 
+      <button ion-item menuClose (click)="openAccount()">
+        <ion-icon item-start name="cog" color=primary></ion-icon>
+        Settings
+      </button>
+      <button *ngIf="!auth.authenticated()" ion-item menuClose (click)="openLogin(false)">
+        <ion-icon item-start name="log-in" color=favorite></ion-icon>
+     Login
+      </button>
+      <button *ngIf="auth.authenticated()" ion-item menuClose (click)="openLogin(true)">
+        <ion-icon item-start name="log-out" color="google"></ion-icon>
+     Logout
+      </button>
         <button ion-item menuClose (click)="openTutorial()">
           <ion-icon item-start name="hammer" color=primary></ion-icon>
           Show Tutorial
@@ -139,39 +60,7 @@
 </ion-menu>
 
  
-
-<ion-menu id="loggedOutMenu" [content]="content"  >
-  <ion-header>
-    <ion-toolbar color="primary">
-      <ion-title>SurgiPal</ion-title>
-    </ion-toolbar>
-  </ion-header>
-  <ion-content>
-    <ion-list>
-        <ion-item>
-            <ion-avatar item-left> 
-              <img  src="assets/icon/logo512.png">
-            </ion-avatar> 
-          </ion-item>
-      <ion-list-header color="light">
-        Accounts
-      </ion-list-header>
-      <button ion-item menuClose  *ngFor="let p of loggedOutPages" (click)="openPage(p)">
-        <ion-icon item-left  [name]="p.icon" [color]="p.color"></ion-icon>
-        {{p.title}} 
-      </button>
-      <ion-list-header color="light">
-          Tutorial 
-        </ion-list-header>
-        <button ion-item menuClose (click)="openTutorial()">
-          <ion-icon item-left   name="hammer" color=primary></ion-icon>
-          Show Tutorial
-        </button>
-    </ion-list> 
  
-      <ion-footer *ngIf="versionNumber!=''" center>Version: {{versionNumber}}</ion-footer>
-  </ion-content> 
-</ion-menu>
   <!-- main navigation -->
   <ion-nav [root]="rootPage" #content swipeBackEnabled="false" main name="app"></ion-nav>
 

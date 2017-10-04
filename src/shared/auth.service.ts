@@ -7,6 +7,7 @@ import { Storage } from "@ionic/storage";
 import { JwtHelper, tokenNotExpired } from "angular2-jwt";
 import { Injectable, NgZone } from "@angular/core";
 import { Observable } from 'rxjs/Rx';
+import { Cluster } from '../models/Cluster';
 //declare var WindowsAzure: any;
 declare var window;
 declare var Auth0: any;
@@ -106,6 +107,7 @@ export class AuthService {
       });
 
     this.lock.on("authenticated", authResult => {
+      this.storage.set(this.HAS_LOGGED_IN, true);
       this.log.console("authResult", authResult);
       this.storage.set("id_token", authResult.idToken); 
       this.storage.set("refresh_token", authResult.refreshToken);
@@ -263,6 +265,9 @@ export class AuthService {
 
   public logout() {
  
+    this.storage.clear(); 
+    debugger;
+    this.storage.remove(this.HAS_LOGGED_IN);
     this.storage.remove("fosId"); 
     this.storage.remove("surgeries");
     this.storage.remove("surgeriesStoreDate");
@@ -271,14 +276,14 @@ export class AuthService {
     this.storage.remove("profile");
     this.storage.remove("id_token");
     this.storage.remove("refresh_token"); 
-    this.storage.remove("username");
-    this.events.publish("user:logout");
+    this.storage.remove("username"); 
     this.idToken = '';
     this.zoneImpl.run(() => (this.user = null));
     // Unschedule the token refresh
     this.unscheduleRefresh();
 console.log('Logout Called, is authenticated is ' + this.authenticated());
     // this.lock.show();
+    this.events.publish("user:logout");
   }
 
   public scheduleRefresh() {
