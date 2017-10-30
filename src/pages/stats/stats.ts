@@ -78,15 +78,18 @@ export class StatsPage {
     responsive: true
   };
 
-  chartLabels: string[] = ["Surgery 1", "Surgery 2", "Surgery 3", "Surgery 4"];
+ chartLabels: string[] = [];
 
   chartType: string = "bar";
 
   chartLegend: boolean = true;
   chartTitle: string;
-  chartData: ChartData[] = [{ data: [75, 80, 45, 100], label: "Default" },{ data: [55, 44, 22, 5], label: "Default 2" }];
+  chartData: ChartData[] = [{ data: [], label:  ''} ];
+
+
+
   chartLabels2: string[] =["Admin1", "SurgeryAdmin 2", "Admi 3", "Ammd 4"];
-  
+
 chartData2: ChartData[] = [{ data: [75, 80, 45, 100], label: "Month1" },
 { data: [5, 22, 3, 44], label: "Month2" }];
   allMetricsTitle = "All Metrics";
@@ -122,31 +125,31 @@ chartData2: ChartData[] = [{ data: [75, 80, 45, 100], label: "Month1" },
         this.auth.storage.set("statfilter", this.statFilter);
       } else this.statFilter = stats;
 
-      var cd = new ChartData();
-      cd.label = this.metricsSelected;
-      //  var data:number[]=[];
-      var labels: string[] = [];
-      this.chartLabels = [];
-      this.chartData = [];
-      let d : ChartData []=[];
+    //   var cd = new ChartData();
+    //   cd.label = this.metricsSelected;
+    //   //  var data:number[]=[];
+    //   var labels: string[] = [];
+    //   this.chartLabels = [];
+    //   this.chartData = [];
+    //   let d : ChartData []=[];
 
-       this.surgerySvc.model.metrics.uniqueAdmissionStatus.forEach(s => { 
-        cd = new ChartData();
-        cd.data.push(s.count); 
-        cd.label = s.name;
-        d.push(cd);
-      });   
-      this.chartLabels.push("Admission Status");
- 
-       this.surgerySvc.model.metrics.uniqueCards.forEach(s => { 
-        cd = new ChartData();
-        cd.data.push(s.count); 
-        cd.label = s.name;
-        d.push(cd);
-      });   
-      this.chartLabels.push("Cards");
-     
-      this.chartData=d; 
+    //    this.surgerySvc.model.metrics.uniqueAdmissionStatus.forEach(s => {
+    //     cd = new ChartData();
+    //     cd.data.push(s.count);
+    //     cd.label = s.name;
+    //     d.push(cd);
+    //   });
+    //   this.chartLabels.push("Admission Status");
+
+    //    this.surgerySvc.model.metrics.uniqueCards.forEach(s => {
+    //     cd = new ChartData();
+    //     cd.data.push(s.count);
+    //     cd.label = s.name;
+    //     d.push(cd);
+    //   });
+    //   this.chartLabels.push("Cards");
+
+    //   this.chartData=d;
       // /.c
       // this.chartLabels.push("Past");
       // ///
@@ -198,41 +201,44 @@ chartData2: ChartData[] = [{ data: [75, 80, 45, 100], label: "Month1" },
       // this.chartLabels.push("Future");
       // this.chartData.push(cd);
 
-      this.updateTitle();
+    //  this.updateTitle();
       //this.initStats();
     });
 
     this.metricsSelected = this.metrics[0];
   }
   resetChart() {
-    let clone = JSON.parse(JSON.stringify(this.chartData));
-    let cloneLab = JSON.parse(JSON.stringify(this.chartLabels));
+    // let clone = JSON.parse(JSON.stringify(this.chartData));
+    // let cloneLab = JSON.parse(JSON.stringify(this.chartLabels));
 
-    // let l = ["Test 1", "Test 2", "Test 3", "Test 4"];
-    // let ss = [
-    //   { data: [75, 80, 45, 100], label: "Student A" },
-    //   { data: [80, 55, 75, 95], label: "Student B" }
-    // ];
-    let l = [];
-    let ss: ChartData[] = [];
-    this.surgerySvc.model.metrics.uniqueCards.forEach(s => { 
-     var cd = new ChartData();
-      cd.data.push(s.count); 
-      cd.label = s.name;
-      ss.push(cd);
-    });   
-    l.push("Cards");
-    this.surgerySvc.model.metrics.uniqueAdmissionStatus.forEach(s => { 
-      var cd = new ChartData();
-       cd.data.push(s.count); 
-       cd.label = s.name;
-       ss.push(cd);
-     });   
-     l.push("Admissions");
-    clone[0].data = ss;
-    cloneLab = l;
-    this.chartLabels = cloneLab;
-    this.chartData = clone[0].data;
+    let l = ["Test 1", "Test 2", "Test 3", "Test 4"];
+    let ss = [
+      { data: [75, 80, 45, 100], label: "Student A" },
+      { data: [80, 55, 75, 95], label: "Student B" }
+    ];
+    // let l = [];
+    // let ss: ChartData[] = [];
+    // this.surgerySvc.model.metrics.uniqueCards.forEach(s => {
+    //  var cd = new ChartData();
+    //   cd.data.push(s.count);
+    //   cd.label = s.name;
+    //   ss.push(cd);
+    // });
+
+
+    // l.push("Cards");
+    // this.surgerySvc.model.metrics.uniqueAdmissionStatus.forEach(s => {
+    //   var cd = new ChartData();
+    //    cd.data.push(s.count);
+    //    cd.label = s.name;
+    //    ss.push(cd);
+    //  });
+    //  l.push("Admissions");
+    // clone[0].data = ss;
+    // cloneLab = l;
+
+    this.chartLabels = l;
+    this.chartData = ss;
   }
   resetChart2() {
     // let clone = JSON.parse(JSON.stringify(this.chartData));
@@ -271,164 +277,224 @@ chartData2: ChartData[] = [{ data: [75, 80, 45, 100], label: "Month1" },
     )} to ${moment(this.statFilter.ed).format("MMM YYYY")}, completed: ${this
       .statFilter.completed}, Cancelled: ${this.statFilter.cancelled}.`;
   }
+  updateChart2(_arr: IMetric[], _name: string) {
+     var cd = new ChartData();
+   let d: ChartData[]=[];
+//     var l: string[]=[];
+// this.chartData[0] = new ChartData();
+// //this.chartLabels=
+//     this.chartData[0].label = name;
+// debugger;
+//     arr.forEach(s =>{
+//      // cd = new ChartData();
+//      this.chartLabels.push(s.name);
+//       this.chartData[0].data.push(s.count);
+//     //  l.push(s.name);
+//      // cd.label=s.name;
+//      // d.push(cd);
+//      // this.chartData.push(cd);
+//     });
+//     debugger;
+//     // this.chartData=new ChartData[0];
+//     // this.chartLabels=[];
+
+//   // this.chartData[0] = cd;
+
+//     //this.allMetricsChart.push(d);
+//    // this.chartLabels.push(nam//e);
+
+    let clone = JSON.parse(JSON.stringify(this.chartData));
+      let cloneLab = JSON.parse(JSON.stringify(this.chartLabels));
+      this.chartLabels=[];
+   //   this.chartData=new ChartData[0];
+   this.chartData[0].data=[];
+
+
+
+    this.surgerySvc.model.metrics.uniqueCards.forEach(s => {
+    //  cd = new ChartData();
+      this.chartLabels.push( s.name);
+      this.chartData[0].data.push(s.count);
+      this.chartData[0].label='Performed:'; //s.name;
+     // d.push(cd);
+    });
+   // this.chartLabels.push("Preference Cards");
+
+  }
+
 
   refreshStats() {
-    let dataTemplate: Array<ChartData> = [
-      { data: [], label: this.statFilter.sd.toLocaleDateString() },
-      { data: [], label: this.statFilter.ed.toLocaleDateString() }
-    ];
-    let dataLabels: string[] = [];
 
-    let startOfMonth = moment(
-      `${this.statFilter.sd.getFullYear()}-${this.statFilter.sd.getMonth() +
-        1}-${moment(this.statFilter.sd).daysInMonth()}`,
-      "YYYY-MM-DD"
-    );
-
-    let endOFMonth = moment(
-      `${this.statFilter.ed.getFullYear()}-${this.statFilter.ed.getMonth() +
-        1}-${moment(this.statFilter.ed).daysInMonth()}`,
-      "YYYY-MM-DD"
-    );
-
-    //  const when  = moment('2012-05-10', 'YYYY-MM-DD');
-    this.rng = moment.range(this.statFilter.sd, startOfMonth);
-    this.rng2 = moment.range(this.statFilter.ed, endOFMonth);
-    this.rng3 = moment.range(this.statFilter.sd, endOFMonth);
-    console.log("range", this.rng);
-    console.log("range", this.rng2);
-
-    let range = this.surgerySvc.model.data.filter((o: PulseViewModel) => {
-      if (o.term) {
-        let when = moment(o.term);
-        return (
-          (when.within(this.rng) || when.within(this.rng2)) &&
-          o.completed === this.statFilter.completed &&
-          o.cancelled === this.statFilter.cancelled
-        );
+    if (this.metricsSelected === "Admission Status") {
+        this.updateChart2(
+            this.surgerySvc.model.metrics.uniqueAdmissionStatus,
+            this.metricsSelected
+          );
       }
-    });
-    this.count = range.length;
-    console.info("Range count:", range.length);
-
-    let index = 0;
-    let labs = this.getLabelArray(range);
-    console.log(labs);
-
-    switch (this.metricsSelected) {
-      case "Admission Status":
-        {
-          labs.forEach(label => {
-            var countRng1 = 0;
-            var countRng2 = 0;
-            countRng1 = range.filter(
-              (s: PulseViewModel) =>
-                s.admissionStatus === label && moment(s.term).within(this.rng)
-            ).length;
-
-            countRng2 = range.filter(
-              (s: PulseViewModel) =>
-                s.admissionStatus === label && moment(s.term).within(this.rng2)
-            ).length;
-
-            if (countRng1 > 0 || countRng2 > 0) {
-              dataTemplate[0].data.push(countRng1);
-              dataTemplate[1].data.push(countRng2);
-              dataLabels.push(label);
-            }
-          });
-        }
-
-        break;
-      case "Preference Cards":
-      {
-        labs.forEach(label => {
-          var countRng1 = 0;
-          var countRng2 = 0;
-          countRng1 = range.filter(
-            (s: PulseViewModel) =>
-              s.admissionStatus === label && moment(s.term).within(this.rng)
-          ).length;
-
-          countRng2 = range.filter(
-            (s: PulseViewModel) =>
-              s.admissionStatus === label && moment(s.term).within(this.rng2)
-          ).length;
-
-          if (countRng1 > 0 || countRng2 > 0) {
-            dataTemplate[0].data.push(countRng1);
-            dataTemplate[1].data.push(countRng2);
-            dataLabels.push(label);
-          }
-        });
+      if (this.metricsSelected === "Preference Cards") {
+        this.updateChart2(
+            this.surgerySvc.model.metrics.uniqueCards,
+            this.metricsSelected
+          );
       }
-        break;
-      case "CPT Codes":
-      {
+    //  this.chartLabels=this.getLabelArray();
 
-      }
-        break;
-      case "Diagnosis Codes":
-      {
+    // let dataTemplate: Array<ChartData> = [
+    //   { data: [], label: this.statFilter.sd.toLocaleDateString() },
+    //   { data: [], label: this.statFilter.ed.toLocaleDateString() }
+    // ];
+    // let dataLabels: string[] = [];
 
-      }
-        break;
-      case "Specialties":
-      {
-        labs.forEach(label => {
-          var countRng1 = 0;
-          var countRng2 = 0;
-          countRng1 = range.filter(
-            (s: PulseViewModel) =>
-              s.speciality === label && moment(s.term).within(this.rng)
-          ).length;
+    // let startOfMonth = moment(
+    //   `${this.statFilter.sd.getFullYear()}-${this.statFilter.sd.getMonth() +
+    //     1}-${moment(this.statFilter.sd).daysInMonth()}`,
+    //   "YYYY-MM-DD"
+    // );
 
-          countRng2 = range.filter(
-            (s: PulseViewModel) =>
-              s.speciality === label && moment(s.term).within(this.rng2)
-          ).length;
+    // let endOFMonth = moment(
+    //   `${this.statFilter.ed.getFullYear()}-${this.statFilter.ed.getMonth() +
+    //     1}-${moment(this.statFilter.ed).daysInMonth()}`,
+    //   "YYYY-MM-DD"
+    // );
 
-          if (countRng1 > 0 || countRng2 > 0) {
-            dataTemplate[0].data.push(countRng1);
-            dataTemplate[1].data.push(countRng2);
-            dataLabels.push(label);
-          }
-        });
-      }
-        break;
-      case "Surgeries":
-      {
-        labs.forEach(label => {
-          var countRng1 = 0;
-          var countRng2 = 0;
-          countRng1 = range.filter(
-            (s: PulseViewModel) =>
-              s.patient === label && moment(s.term).within(this.rng)
-          ).length;
+    // //  const when  = moment('2012-05-10', 'YYYY-MM-DD');
+    // this.rng = moment.range(this.statFilter.sd, startOfMonth);
+    // this.rng2 = moment.range(this.statFilter.ed, endOFMonth);
+    // this.rng3 = moment.range(this.statFilter.sd, endOFMonth);
+    // console.log("range", this.rng);
+    // console.log("range", this.rng2);
 
-          countRng2 = range.filter(
-            (s: PulseViewModel) =>
-              s.patient === label && moment(s.term).within(this.rng2)
-          ).length;
+    // let range = this.surgerySvc.model.data.filter((o: PulseViewModel) => {
+    //   if (o.term) {
+    //     let when = moment(o.term);
+    //     return (
+    //       (when.within(this.rng) || when.within(this.rng2)) &&
+    //       o.completed === this.statFilter.completed &&
+    //       o.cancelled === this.statFilter.cancelled
+    //     );
+    //   }
+    // });
+    // this.count = range.length;
+    // console.info("Range count:", range.length);
 
-          if (countRng1 > 0 || countRng2 > 0) {
-            dataTemplate[0].data.push(countRng1);
-            dataTemplate[1].data.push(countRng2);
-            dataLabels.push(label);
-          }
-        });
-      }
-        break;
-      default:
-        break;
-    }
+    // let index = 0;
+    // let labs = this.getLabelArray(range);
+    // console.log(labs);
 
-    let la = JSON.parse(JSON.stringify(this.chartLabels));
-    la = dataLabels;
-    this.chartLabels = dataLabels;
-    let clone = JSON.parse(JSON.stringify(this.chartData));
-    clone.data = dataTemplate;
-    this.chartData = dataTemplate;
+    // switch (this.metricsSelected) {
+    //   case "Admission Status":
+    //     {
+    //       labs.forEach(label => {
+    //         var countRng1 = 0;
+    //         var countRng2 = 0;
+    //         countRng1 = range.filter(
+    //           (s: PulseViewModel) =>
+    //             s.admissionStatus === label && moment(s.term).within(this.rng)
+    //         ).length;
+
+    //         countRng2 = range.filter(
+    //           (s: PulseViewModel) =>
+    //             s.admissionStatus === label && moment(s.term).within(this.rng2)
+    //         ).length;
+
+    //         if (countRng1 > 0 || countRng2 > 0) {
+    //           dataTemplate[0].data.push(countRng1);
+    //           dataTemplate[1].data.push(countRng2);
+    //           dataLabels.push(label);
+    //         }
+    //       });
+    //     }
+
+    //     break;
+    //   case "Preference Cards":
+    //   {
+    //     labs.forEach(label => {
+    //       var countRng1 = 0;
+    //       var countRng2 = 0;
+    //       countRng1 = range.filter(
+    //         (s: PulseViewModel) =>
+    //           s.admissionStatus === label && moment(s.term).within(this.rng)
+    //       ).length;
+
+    //       countRng2 = range.filter(
+    //         (s: PulseViewModel) =>
+    //           s.admissionStatus === label && moment(s.term).within(this.rng2)
+    //       ).length;
+
+    //       if (countRng1 > 0 || countRng2 > 0) {
+    //         dataTemplate[0].data.push(countRng1);
+    //         dataTemplate[1].data.push(countRng2);
+    //         dataLabels.push(label);
+    //       }
+    //     });
+    //   }
+    //     break;
+    //   case "CPT Codes":
+    //   {
+
+    //   }
+    //     break;
+    //   case "Diagnosis Codes":
+    //   {
+
+    //   }
+    //     break;
+    //   case "Specialties":
+    //   {
+    //     labs.forEach(label => {
+    //       var countRng1 = 0;
+    //       var countRng2 = 0;
+    //       countRng1 = range.filter(
+    //         (s: PulseViewModel) =>
+    //           s.speciality === label && moment(s.term).within(this.rng)
+    //       ).length;
+
+    //       countRng2 = range.filter(
+    //         (s: PulseViewModel) =>
+    //           s.speciality === label && moment(s.term).within(this.rng2)
+    //       ).length;
+
+    //       if (countRng1 > 0 || countRng2 > 0) {
+    //         dataTemplate[0].data.push(countRng1);
+    //         dataTemplate[1].data.push(countRng2);
+    //         dataLabels.push(label);
+    //       }
+    //     });
+    //   }
+    //     break;
+    //   case "Surgeries":
+    //   {
+    //     labs.forEach(label => {
+    //       var countRng1 = 0;
+    //       var countRng2 = 0;
+    //       countRng1 = range.filter(
+    //         (s: PulseViewModel) =>
+    //           s.patient === label && moment(s.term).within(this.rng)
+    //       ).length;
+
+    //       countRng2 = range.filter(
+    //         (s: PulseViewModel) =>
+    //           s.patient === label && moment(s.term).within(this.rng2)
+    //       ).length;
+
+    //       if (countRng1 > 0 || countRng2 > 0) {
+    //         dataTemplate[0].data.push(countRng1);
+    //         dataTemplate[1].data.push(countRng2);
+    //         dataLabels.push(label);
+    //       }
+    //     });
+    //   }
+    //     break;
+    //   default:
+    //     break;
+    // }
+
+    // let la = JSON.parse(JSON.stringify(this.chartLabels));
+    // la = dataLabels;
+    // this.chartLabels = dataLabels;
+    // let clone = JSON.parse(JSON.stringify(this.chartData));
+    // clone.data = dataTemplate;
+    // this.chartData = dataTemplate;
   }
 
   // this.count = range.length;
@@ -474,29 +540,7 @@ chartData2: ChartData[] = [{ data: [75, 80, 45, 100], label: "Month1" },
     return labs;
   }
 
-  updateChart2(arr: IMetric[], name: string) {
-    var cd = new ChartData();
-    let d: ChartData[]=[];
-    cd.label = name;
-    arr.forEach(s => {
-      cd = new ChartData();
-      cd.data.push(s.count);
-      cd.label=s.name;
-     // d.push(cd);
-      this.allMetricsChart.push(cd);
-    });
-    //this.allMetricsChart.push(d);
-    this.allMetricsChartLabels.push(name);
 
-    // this.surgerySvc.model.metrics.uniqueCards.forEach(s => { 
-    //   cd = new ChartData();
-    //   cd.data.push(s.count); 
-    //   cd.label = s.name;
-    //   d.push(cd);
-    // });   
-    // this.chartLabels.push("Preference Cards");
-
-  }
   initStats() {
     this.allMetricsChart = [];
     this.allMetricsChartLabels = [];

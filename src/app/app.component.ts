@@ -35,15 +35,15 @@ import { AuthService } from "../shared/auth.service";
 import { NotifyService } from "../shared/notify.service";
 import { AboutPage } from "../pages/about/about";
 import { StatsPage } from "../pages/stats/stats";
- 
+
 @Component({
-  templateUrl: "app.template.html",  
+  templateUrl: "app.template.html",
   providers: [
     SurgeryData,
     MessageService,
     SurgeryService,
     MessageData,
-    LoggerService 
+    LoggerService
   ]
 })
 export class SurgiPalApp {
@@ -114,7 +114,7 @@ export class SurgiPalApp {
   ];
 
   loggedInPages: IPageInterface[] = [
- 
+
     {
       title: "Account",
       name: "AccountPage",
@@ -144,7 +144,7 @@ export class SurgiPalApp {
   rootPage: any;
   versionNumber: any = "0.4.7";
   constructor(
-    public platform: Platform, 
+    public platform: Platform,
     public splashScreen: SplashScreen,
     public menu: MenuController,
     private events: Events,
@@ -167,7 +167,7 @@ export class SurgiPalApp {
         console.log('Set Tabs Page');
         this.rootPage = TabsPage;
       }
-      else  
+      else
          this.rootPage = TutorialPage;
       // else if (this.auth.authenticated()) {
       //   console.log('Set Tabs Root');
@@ -178,10 +178,10 @@ export class SurgiPalApp {
       //   this.enableMenu(false);
       //   this.nav.setRoot(LoginPage);
       // }
-    
+
       this.platformReady();
     });
- 
+
     // load the conference data
     //  confData.load();
 
@@ -189,7 +189,7 @@ export class SurgiPalApp {
      this.userData.hasLoggedIn().then((hasLoggedIn) => {
        this.enableMenu(hasLoggedIn === true);
      });
-
+     this.enableMenu(true);
   }
 
   platformReady() {
@@ -205,7 +205,7 @@ export class SurgiPalApp {
       this.splashScreen.hide();
     });
   }
-   
+
   openPage(page: IPageInterface) {
     let params = {};
     // the nav component was found using @ViewChild(Nav)
@@ -236,7 +236,7 @@ export class SurgiPalApp {
       // this.bgLoaded = false;
       // this.enableMenu(false);
       // this.nav.push(LoginPage);
-    
+
       // // Give the menu time to close before changing to logged out
       // setTimeout(() => {
       //   this.auth.logout();
@@ -278,7 +278,7 @@ export class SurgiPalApp {
       this.log.event("user:authenticated!!! " + n, n);
       this.enableMenu(true);
       this.nav.setRoot(TabsPage);
-      if (!this.bgLoaded && this.auth.fosId > 0) 
+      if (!this.bgLoaded && this.auth.fosId > 0)
          this.loadDataBackground();
       else
         this.log.console(
@@ -333,7 +333,7 @@ export class SurgiPalApp {
       else {
         this.appPages[0].badgeValue = this.surgerySvc.model.metrics.today;
         this.appPages[1].badgeValue = this.surgerySvc.model.metrics.future;
-        
+
         this.appPages[3].badgeValue = this.surgerySvc.model.pastSurgeries.filter(
           o => o.surgery.completed
         ).length;
