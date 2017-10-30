@@ -6,8 +6,9 @@ stages:
 
 before_script:
   - npm install typings --save-dev
-  - yarn config set cache-folder .yarn
-  - yarn
+ # - yarn config set cache-folder .yarn
+ # - yarn
+  - npm install
   - npm run post-install
 
 cache:
