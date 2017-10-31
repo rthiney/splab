@@ -21,7 +21,9 @@ package com.ionicframework.ionic2boilerplate295736;
 
 import android.os.Bundle;
 import org.apache.cordova.*;
-
+import com.microsoft.azure.mobile.MobileCenter;
+import com.microsoft.azure.mobile.analytics.Analytics;
+import com.microsoft.azure.mobile.crashes.Crashes;
 public class MainActivity extends CordovaActivity
 {
     @Override
@@ -37,5 +39,8 @@ public class MainActivity extends CordovaActivity
 
         // Set by <content src="index.html" /> in config.xml
         loadUrl(launchUrl);
+
+        MobileCenter.start(getApplication(), "fe54d8e0-9366-466e-aed4-35aa6d51d2e2",
+                   Analytics.class, Crashes.class);
     }
 }
