@@ -41,7 +41,7 @@
 
                 <ion-item>
                     <button ion-item block small color="favorite" (click)="onLogin()" *ngIf="username">
-                        <ion-icon  item-left name="log-in" small></ion-icon>Hi, {{this.username}}. Click to proceed.
+                        <ion-icon  item-left name="log-in" small></ion-icon>Hi, {{this.auth.first}}
                 </button>
                     <button ion-item block small color="favorite" (click)="onLogin()" *ngIf="!username">
                     <ion-icon  item-left name="log-in" small></ion-icon>Login

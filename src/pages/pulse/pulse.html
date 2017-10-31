@@ -16,16 +16,16 @@
 </ion-header>
 <ion-content>
     <ion-refresher (ionRefresh)="doRefresh($event)">
-        <ion-refresher-content pullingIcon="arrow-dropdown" pullingText="Pull to refresh" refreshingSpinner="dots" refreshingText="Checking pulse..."> 
+        <ion-refresher-content pullingIcon="arrow-dropdown" pullingText="Pull to refresh" refreshingSpinner="dots" refreshingText="Checking pulse...">
         </ion-refresher-content>
     </ion-refresher>
     <ion-list-header [hidden]="surgeries?.length > 0" color="light">
         <h1 class="text-center">No Surgeries Today</h1>
     </ion-list-header>
     <ion-list>
-      <div *ngFor="let sgi of surgeries;   let i = index;"> 
-            <page-pulse-detail [s]=sgi [idx]=i  ></page-pulse-detail>
-        </div>  
+        <div *ngFor="let sgi of surgeries;   let i = index;">
+            <page-pulse-detail [s]=sgi [idx]=i></page-pulse-detail>
+        </div>
         <!--   <ion-card *ngFor="let s of surgeries; (close)="close($event)"  let i = index;" #cardItem>
             <div *ngIf="s.occurs==='today'">
                 <img src="assets/img/rooms/s{{i+1}}.PNG" />
@@ -35,7 +35,7 @@
             <ion-list>
                 <ion-item-sliding>
                     <ion-item border lines>
-                   
+
                         <h2 [hidden]="(segment==='today')">{{s.surgery.initials | uppercase}}</h2>
                         <h3 [hidden]="(segment==='today')">{{s.surgery.patient}}</h3>
                         <p> Status: {{s.surgery.admissionStatus}} </p>
@@ -48,15 +48,15 @@
                     <ion-item-options side="left" *ngIf="(!s.surgery.cancelled && !s.surgery.completed)"  >
                         <button ion-button color='favorite' (click)="sendBilling(s,cardItem)"   >
                                         <ion-icon name="cash" item-left  small ></ion-icon>
-                                        Billing 
+                                        Billing
                                         </button>
-                        <button ion-button color="google" (click)="cancelSurgery(s,cardItem)" > 
+                        <button ion-button color="google" (click)="cancelSurgery(s,cardItem)" >
                                                 <ion-icon name="close-circle" item-left small ></ion-icon>
                                                 Cancel
                                                 </button>
                     </ion-item-options>
 
- 
+
                     <ion-item-options side="right" *ngIf="(!s.surgery.cancelled && !s.surgery.completed)">
                         <button ion-button color="primary" (click)="showEditCodes(s,'CPT')">
                                 <ion-icon name="barcode"></ion-icon>
@@ -64,7 +64,7 @@
                             </button>
                         <button ion-button color="facebook" (click)="showEditCodes(s,'DX')">
                              <ion-icon name="barcode"></ion-icon>
-                                 DX 
+                                 DX
                          </button>
                     </ion-item-options>
                 </ion-item-sliding>
@@ -90,8 +90,8 @@
 
 
 
- 
-                    <ion-item-sliding  *ngIf="(!s.surgery.cancelled && !s.surgery.completed)"> 
+
+                    <ion-item-sliding  *ngIf="(!s.surgery.cancelled && !s.surgery.completed)">
                         <button ion-item clear item-left (click)="sendBilling(s,cardItem)" class="ion-item-divider-billing"  > <ion-icon name="cash" item-left small color="favorite"></ion-icon>
                                <h2>Billing</h2>
                                <p>Send billing information to coordinator</p>
@@ -99,28 +99,28 @@
                         </button>
                         <ion-item-options side="right">
                             <button ion-button color="primary" (click)="callComposeEmail(s.surgery.billingCoordinatorEmail,s)" *ngIf="isEmailAvailable">
-                                     <ion-icon name="mail"></ion-icon> 
+                                     <ion-icon name="mail"></ion-icon>
                                    </button>
                             <button ion-button padding color="light" (click)="callPhoneNumber(s.surgery.billingCoordinatorPhone,s)">
-                                     <ion-icon name="call"></ion-icon> 
+                                     <ion-icon name="call"></ion-icon>
                                    </button>
                         </ion-item-options>
                     </ion-item-sliding>
 
 
- 
-                    <ion-item-sliding *ngIf="(!s.surgery.cancelled && !s.surgery.completed)"> 
+
+                    <ion-item-sliding *ngIf="(!s.surgery.cancelled && !s.surgery.completed)">
                         <button ion-item clear item-left (click)="cancelSurgery(s,cardItem)" class="ion-item-divider-cancel"> <ion-icon name="close-circle" item-left small color="danger"></ion-icon>
                                 <h2>Cancel</h2>
-                                <p>Cancel surgery and remove from this list!</p>  
+                                <p>Cancel surgery and remove from this list!</p>
                                 <ion-note item-right >{{s.surgery.coordinatorName}}  </ion-note> <ion-icon name="more" item-right small color="facebook"></ion-icon>
                         </button>
                         <ion-item-options side="right">
                             <button ion-button color="primary" (click)="callComposeEmail(s.surgery.coordinatorEmail,s)" *ngIf="isEmailAvailable">
-                                     <ion-icon name="mail"></ion-icon> 
+                                     <ion-icon name="mail"></ion-icon>
                                    </button>
                             <button ion-button color="light" (click)="callPhoneNumber(s.surgery.coordinatorPhone,s)">
-                                     <ion-icon name="call"></ion-icon> 
+                                     <ion-icon name="call"></ion-icon>
                                    </button>
                         </ion-item-options>
                     </ion-item-sliding>

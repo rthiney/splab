@@ -208,7 +208,9 @@ export class SurgiPalApp {
         maxAjaxCallsPerView: 50,
         verboseLogging: true
       });
+      try{
       this.splashScreen.hide();
+      }catch(e){}
     });
 
   }
