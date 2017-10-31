@@ -29,7 +29,6 @@ build_android:
 #     - ./gradlew assembleDebug
 script:
     - ls
-    - cordova platform rm android
     - cordova platform add android
     - npm run android:release
     - ls ./platforms/android/build/outputs/apk/android*.apk
