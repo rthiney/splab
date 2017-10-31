@@ -9,6 +9,7 @@ before_script:
  # - yarn config set cache-folder .yarn
   - npm install
   - npm run post-install
+  - chmod +x ./gradlew
 
 cache:
   untracked: true
@@ -35,6 +36,7 @@ build_ios:
   script:
     - ./sh/ionic-login.sh
     - ls
+    - chmod +x ./gradlew
     - npm run ios:release:ci
     - ./sh/ionic-package-ios.sh
 
@@ -42,8 +44,10 @@ build_android:
   stage: deploy
   only:
     - release
+  
   script:
     - ls
+    - cordova platform update android
     - npm run android:release
     - ls ./platforms/android/build/outputs/apk/android*.apk
   artifacts:
