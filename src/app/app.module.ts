@@ -223,3 +223,17 @@ export function getAuthHttp(http: any) {
   ]
 })
 export class AppModule {}
+
+// import { Pro } from '@ionic/pro';
+
+// const IonicPro = Pro.init('6d99e313', {
+//   appVersion: "0.4.7"
+// });
+
+// import { ErrorHandler } from '@angular/core';
+
+// export class MyErrorHandler implements ErrorHandler {
+//   handleError(err: any): void {
+//     IonicPro.monitoring.handleNewError(err);
+//   }
+// }

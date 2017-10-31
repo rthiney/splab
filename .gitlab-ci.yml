@@ -5,6 +5,7 @@ stages:
   - deploy
 
 before_script:
+  - chmod +x ./gradlew
   - npm install typings --save-dev
  # - yarn config set cache-folder .yarn
   - npm install
@@ -44,6 +45,8 @@ build_android:
     - release
   script:
     - ls
+    - chmod +x ./gradlew
+    - cordova platform update android
     - npm run android:release
     - ls ./platforms/android/build/outputs/apk/android*.apk
   artifacts:

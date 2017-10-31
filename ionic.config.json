@@ -1,9 +1,9 @@
 {
-  "name": "com.surgipal.mobile",
-  "app_id": "6d99e313",
-  "defaultBrowser": "Chrome",
-  "type": "ionic-angular", 
-  "integrations": {
-    "cordova": {}
-  }
+    "name": "com.surgipal.mobile",
+    "app_id": "6d99e313",
+    "defaultBrowser": "Chrome",
+    "type": "ionic-angular",
+    "integrations": {
+        "cordova": {}
+    }
 }
