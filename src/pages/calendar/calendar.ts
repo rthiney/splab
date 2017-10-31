@@ -1,10 +1,10 @@
 
 import { AppInsightsService } from 'ng2-appinsights';
-import { SurgeryDetailPage } from './../pulse/surgery-detail'; 
+import { SurgeryDetailPage } from './../pulse/surgery-detail';
 import { Component, ViewChild, } from '@angular/core';
 import { NavController, App, ModalController, Events } from 'ionic-angular';
 import { AuthService, LoggerService  } from "../../shared/index";
-import { SurgeryData } from "../pulse/index"; 
+import { SurgeryData } from "../pulse/index";
 import { SurgeryGroupItem } from "../../models/metrics/metrics";
 import { CalendarComponent } from "ionic2-calendar/calendar";
 import { ICalendarEvent } from '../../models/interfaces/ICalendarInterface';
@@ -50,9 +50,9 @@ export class CalendarPage {
     size: 50, // default size is 100
      fontColor: '#FFFFFF',
     border: "2px solid #d3d3d3",
-    isSquare: false,  
-    text: '', // 
-    fixedColor:false 
+    isSquare: false,
+    text: '', //
+    fixedColor:false
   };
   calendarMode = 'month';
   eventSource;
@@ -61,7 +61,7 @@ export class CalendarPage {
   calendar = {
     mode: 'month',
     autoSelect: true,
-  
+
     startingDayMonth: 1,
     scrollToHour: 8,
     preserveScrollPosition: true,
@@ -118,7 +118,7 @@ export class CalendarPage {
   }
   onEventSelected(event) {
     console.log(event);
-    let surg = this.surgeryData.model.findSugeryById(event.surgery.surgeryId);
+    let surg = this.findSugeryById(event.surgery.surgeryId);
     this.showDetail(surg);
   }
   showDetail(s: SurgeryGroupItem) {
@@ -151,12 +151,19 @@ export class CalendarPage {
     event.setHours(0, 0, 0, 0);
     this.isToday = today.getTime() === event.getTime();
   }
-
+  findSugeryById(id: number): SurgeryGroupItem {
+    let surg = this.surgeryData.model.futureSurgeries.find(s => s.surgery.surgeryId === id);
+    if (!surg)
+      surg = this.surgeryData.model.todaySurgeries.find(s => s.surgery.surgeryId === id);
+    if (!surg)
+      surg = this.surgeryData.model.pastSurgeries.find(s => s.surgery.surgeryId === id);
+    return surg;
+  }
   createEventsFromSurgeries() {
     var events2: ICalendarEvent[] = [];
     let allsurgeries = this.surgeryData.model.futureSurgeries.concat(this.surgeryData.model.todaySurgeries, this.surgeryData.model.pastSurgeries);
     this.surgeryData.model.surgeries = allsurgeries;
-    
+
     console.log('Calendar All Surger', allsurgeries);
     allsurgeries.forEach(s => {
       //  if (!s.surgery.cancelled) {
@@ -228,7 +235,7 @@ export class CalendarPage {
     current.setHours(0, 0, 0);
     return date < current;
   }
-  
+
   convertUTCDateToLocalDate(date) {
     var newDate = new Date(date.getTime() + date.getTimezoneOffset() * 60 * 1000);
 

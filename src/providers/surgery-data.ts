@@ -34,10 +34,10 @@ export class SurgeryData {
   ) { }
   load_(): Observable<DataSurgeryStore> {
     debugger;
-    
+
       return this.http.get('/assets/data/surgeries-12.json')
         .map(this.processData,this);
- 
+
   }
 
   load(): Observable<DataSurgeryStore> {
@@ -94,6 +94,14 @@ export class SurgeryData {
         console.error("No surgeries  data stored locally");
       });
   }
+  public findSugeryById(id: number): SurgeryGroupItem {
+    let surg = this.model.futureSurgeries.find(s => s.surgery.surgeryId === id);
+    if (!surg)
+      surg = this.model.todaySurgeries.find(s => s.surgery.surgeryId === id);
+    if (!surg)
+      surg = this.model.pastSurgeries.find(s => s.surgery.surgeryId === id);
+    return surg;
+  }
   saveData() {
     console.log("Save surgeries data");
     try {
@@ -104,7 +112,7 @@ export class SurgeryData {
       console.error(e);
     }
   }
-  processData(data: any) { 
+  processData(data: any) {
     console.group("Process Surgery Data");
     // just some good 'ol JS fun with objects and arrays
     // build up the data by linking speakers to sessions
@@ -130,7 +138,7 @@ this.saveData();
       this.events.publish("surgery:metrics", "PulsePage", m);
       return m;
     });
-  } 
+  }
   getSurgeries(
     _queryText = "",
     _excludeTracks: any[] = [],

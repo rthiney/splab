@@ -1,7 +1,7 @@
- 
+
 import { PulseViewModel } from "./pulse_model";
 import { SurgeryGroupItem, SurgeryMetrics, SurgeryGroup, IMetric } from '../metrics/metrics';
- 
+
 // export class SurgeryItem implements Surgery {
 //   id: number;
 //   surgeryName: string;
@@ -83,7 +83,7 @@ export class DataSurgeryStore {
     });
     this.data.forEach((surgery: PulseViewModel) => {
       try {
-      
+
         //handles edge case
         if (surgery.cpt)
           surgery.cpt = surgery.cpt.replace("level,", "level ");
@@ -159,7 +159,7 @@ export class DataSurgeryStore {
     });
     this.calculateMetrics();
     // this.reduceGroup();
-  
+
   }
   uniqueMetrics(arr: any): IMetric[] {
     let result = arr.reduce(function (acc, curr) {
@@ -244,7 +244,7 @@ export class DataSurgeryStore {
     this.metrics.today = this.todaySurgeries.length;
 
     //get rid of empty future groups.
-    
+
   }
   reduceGroup() {
     console.group("Reduce Surgery Group");
@@ -257,7 +257,8 @@ export class DataSurgeryStore {
     console.log("New Surgery group count", this.groupedSurgeries.length);
     console.groupEnd();
   }
-  findSugeryById(id: number): SurgeryGroupItem {
+
+  public findSugeryById(id: number): SurgeryGroupItem {
     let surg = this.futureSurgeries.find(s => s.surgery.surgeryId === id);
     if (!surg)
       surg = this.todaySurgeries.find(s => s.surgery.surgeryId === id);
