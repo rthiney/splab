@@ -37,5 +37,4 @@ doc/
 
 # Dependencies
 node_modules/
-platforms/
-plugins/
+

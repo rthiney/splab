@@ -3,7 +3,7 @@
     <ion-menu id="loggedInMenu" [content]="content">
         <ion-header>
             <ion-toolbar color="primary">
-                <ion-title>Surgipal<span item-right style="font-size:xx-small" *ngIf="versionNumber!=''" center>v{{versionNumber}}</span></ion-title>
+                <ion-title>Surgipal<span item-right style="font-size:xx-small" *ngIf="versionNumber!=''" center> v{{versionNumber}}</span></ion-title>
 
             </ion-toolbar>
         </ion-header>
@@ -54,7 +54,7 @@
         </button>
             </ion-list>
 
-            <ion-footer *ngIf="versionNumber!=''" center>Version: {{versionNumber}}</ion-footer>
+            <!-- <ion-footer *ngIf="versionNumber!=''" center>Version: {{versionNumber}}</ion-footer> -->
         </ion-content>
     </ion-menu>
 
