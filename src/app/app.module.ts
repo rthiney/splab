@@ -1,3 +1,4 @@
+//import { GoogleAnalyticsEventsService } from './../shared/google-analytics.service';
 import { BrowserModule } from "@angular/platform-browser";
 import { HttpModule, Http } from "@angular/http";
 import { NgModule, ErrorHandler } from "@angular/core";
@@ -53,6 +54,7 @@ import { ArrayFilterPipe } from "./pipes/array-filter.pipe";
 import { StatFilterPage } from "../pages/stat-filter/stat-filter";
 import { StatsPage } from "../pages/stats/stats";
 import {LetterAvatarDirective } from '../directives/letter-avatar.directive';
+
 // et storage = new Storage(['sqlite', 'websql', 'indexeddb'], { name: 'surgipal_db' });
 //let storage = new Storage(['sqlite', 'websql', 'indexeddb'], { name: 'surgipal_db' });
 let storage = new Storage();
@@ -122,7 +124,17 @@ export function getAuthHttp(http: any) {
     MomentModule,
     ChartsModule,
     NgCalendarModule,
-    IonicModule.forRoot(SurgiPalApp)
+
+    // IonicModule.forRoot(SurgiPalApp, {
+    //     backButtonText: 'Go Back',
+    //     iconMode: 'ios',
+    //     modalEnter: 'modal-slide-in',
+    //     modalLeave: 'modal-slide-out',
+    //     tabsPlacement: 'bottom',
+    //     pageTransition: 'ios-transition'
+    //   })
+     IonicModule.forRoot(SurgiPalApp)
+
     // IonicModule.forRoot(SurgiPalApp, {}, {
     //   links: [
     //     { component: TabsPage, name: 'TabsPage', segment: 'tabs-page' },
@@ -187,6 +199,7 @@ export function getAuthHttp(http: any) {
     HomePage
   ],
   providers: [
+   // GoogleAnalyticsEventsService,
     { provide: ErrorHandler, useClass: IonicErrorHandler },
     { provide: AuthHttp, useFactory: getAuthHttp, deps: [Http] },
     AuthService,
@@ -195,7 +208,7 @@ export function getAuthHttp(http: any) {
     UserData,
     InAppBrowser,
     SplashScreen,
- 
+
     //{ provide: ErrorHandler, useClass: IonicErrorHandler },
     //          { provide: Storage, useFactory: provideStorage },
     Storage,

@@ -4,7 +4,6 @@ import { AlertController, NavController } from 'ionic-angular';
 
 import { UserData } from '../../providers/user-data';
 
-
 @Component({
   selector: 'page-account',
   templateUrl: 'account.html'

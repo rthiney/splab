@@ -10,11 +10,11 @@
 
     <link rel="icon" type="image/x-icon" href="assets/icon/favicon.ico">
     <meta name="theme-color" content="#607d8b">
-    
-      <meta name="apple-mobile-web-app-capable" content="yes">
-      <link rel="apple-touch-icon" href="assets/img/appicon.png">
-      <script src="assets/js/auth0-8.0.min.js"></script>
-      <script src="assets/js/lock.min.js"></script>
+
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <link rel="apple-touch-icon" href="assets/img/appicon.png">
+    <script src="assets/js/auth0-8.0.min.js"></script>
+    <script src="assets/js/lock.min.js"></script>
 
     <script>
         /*
@@ -32,19 +32,34 @@
 
 <body>
 
-<!-- Ionic's root component and where the app will load -->
-<ion-app></ion-app>
+    <!-- Ionic's root component and where the app will load -->
+    <ion-app></ion-app>
+    <!-- <script>
+        (function(i, s, o, g, r, a, m) {
+            i['GoogleAnalyticsObject'] = r;
+            i[r] = i[r] || function() {
+                (i[r].q = i[r].q || []).push(arguments)
+            }, i[r].l = 1 * new Date();
+            a = s.createElement(o),
+                m = s.getElementsByTagName(o)[0];
+            a.async = 1;
+            a.src = g;
+            m.parentNode.insertBefore(a, m)
+        })(window, document, 'script', 'https://www.google-analytics.com/analytics.js', 'ga');
 
-<script src="cordova.js"></script>
+        ga('create', 'UA-105342646-1', 'auto'); // <- add the UA-ID from your tracking code
+        // <- remove the last line like me
+    </script> -->
+    <script src="cordova.js"></script>
 
-<!-- The polyfills js is generated during the build process -->
-<script src="build/polyfills.js"></script>
+    <!-- The polyfills js is generated during the build process -->
+    <script src="build/polyfills.js"></script>
 
-<!-- The vendor js is generated during the build process -->
-<script src="build/vendor.js"></script>
+    <!-- The vendor js is generated during the build process -->
+    <script src="build/vendor.js"></script>
 
-<!-- The bundle js is generated during the build process -->
-<script src="build/main.js"></script>
+    <!-- The bundle js is generated during the build process -->
+    <script src="build/main.js"></script>
 
 </body>
 

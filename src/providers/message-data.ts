@@ -1,8 +1,8 @@
 import {MessageGroupItem, MessageGroup} from '../models/metrics/metrics';
-import {DoctorMessageModel, DataMessageStore} from '../models/viewmodels/doctor_message_model'; 
-import { Events } from "ionic-angular"; 
-import { AuthHttp } from  'angular2-jwt'; 
-import { Injectable } from "@angular/core"; 
+import {DoctorMessageModel, DataMessageStore} from '../models/viewmodels/doctor_message_model';
+import { Events } from "ionic-angular";
+import { AuthHttp } from  'angular2-jwt';
+import { Injectable } from "@angular/core";
 import { Http } from "@angular/http";
 import { Observable } from "rxjs/Observable";
 import "rxjs/add/operator/map";
@@ -15,24 +15,24 @@ import { Storage } from "@ionic/storage";
 
 export class MessageData {
   fromStore: boolean;
- 
+
   model: DataMessageStore;
- 
+
   constructor(
     public authHttp: AuthHttp,
     public auth: AuthService,
     public events: Events,
     private storage:Storage
   ) {}
-  load_(): any {
-    debugger;
-    if (this.model) {
-      return Observable.of(this.model);
-    } else {
-      return this.authHttp.get('assets/data/messages-12.json')
-        .map(this.processData, this);
-    }
-  }
+//   load_(): any {
+//     debugger;
+//     if (this.model) {
+//       return Observable.of(this.model);
+//     } else {
+//       return this.authHttp.get('assets/data/messages-12.json')
+//         .map(this.processData, this);
+//     }
+//   }
   load(): any {
     this.fromStore = false;
     if (this.model) {
@@ -42,7 +42,7 @@ export class MessageData {
       // var url=CONFIGURATION.baseUrls.apiUrl +'surgeries/past/' + this.auth.fosId;
       // return this.http.get('assets/data/data.json')
       //   .map(this.processData, this);
-      console.log("LOADING FROM SERVER");
+      console.log("LOADING FROM SERVER", url);
       this.fromStore = false;
       var url =
         CONFIGURATION.baseUrls.apiUrl + "messages/doctors/" + this.auth.fosId;
@@ -55,16 +55,16 @@ export class MessageData {
     this.fromStore = true;
     this.storage
       .get("messages")
-      .then((dd: any) => { 
+      .then((dd: any) => {
         if (dd) {
           this.model = JSON.parse(dd) as DataMessageStore;
           console.log("DataMessageStore Loaded", this.model);
        this.refreshData();
        this.events.publish("message:loadedStore", "DataMessageStore", 1);
-        } 
-    
+        }
+
         else this.events.publish("message:loadedStore", "DataMessageStore", -1);
-      })  
+      })
       .catch(error => {
         this.events.publish("message:loadedStore", "DataMessageStore" ,- 1);
         console.error("No message  data stored locally");
@@ -81,17 +81,17 @@ export class MessageData {
       console.error(e);
     }
   }
-  markRead(id:number): Promise<DoctorMessage> {  
-    const url = `${CONFIGURATION.baseUrls.apiPhp + 'doctor_message'}/${id }`; 
+  markRead(id:number): Promise<DoctorMessage> {
+    const url = `${CONFIGURATION.baseUrls.apiPhp + 'doctor_message'}/${id }`;
              console.log("MessageDate.MarkRead URL", url);
     return this.authHttp
       .put(url, JSON.stringify({ viewed: 1 }))
       .toPromise()
       .catch(this.handleError);
   }
- 
-  refreshData(){ 
-        console.group("Refresh Message Data"); 
+
+  refreshData(){
+        console.group("Refresh Message Data");
    try {
      let currentDate = "";
      let currentMessages = [];
@@ -118,7 +118,7 @@ export class MessageData {
        this.model.messages.push(newMessage);
        currentMessages.push(newMessage);
        //    console.log('Complete or not:');
-     
+
        if (message.viewed !== null && message.viewed) this.model.readMessages.push(newMessage);
        else this.model.unreadMessages.push(newMessage);
      });
@@ -127,8 +127,8 @@ export class MessageData {
      this.saveData();
        console.groupEnd();
        console.groupCollapsed("Refresh Message Data");
-   } 
-   catch (error) {} 
+   }
+   catch (error) {}
        console.groupEnd();
   }
   processData(data: any) {
@@ -137,14 +137,14 @@ export class MessageData {
       // just some good 'ol JS fun with objects and arrays
       // build up the data by linking speakers to sessions
        this.model= new DataMessageStore( );
-      this.model.data = data.json(); 
-   
+      this.model.data = data.json();
+
       this.model.groupedMessages = [];
-      // loop through each message 
-      this.refreshData(); 
+      // loop through each message
+      this.refreshData();
       console.groupEnd();
-      console.groupCollapsed("Processs Message Data"); 
-   
+      console.groupCollapsed("Processs Message Data");
+
       this.saveData();
       this.events.publish("message:loaded",'DataMessageStore', this.model);
 
@@ -205,7 +205,7 @@ export class MessageData {
   getMessages(queryText = "", _segment = "unread", refresh = false) {
     if (refresh) {
       this.model= null;
-    } 
+    }
     return this.load().map((_data: any) => {
       let day = this.model.messages;
       this.model.metrics.unread = this.model.unreadMessages.length;

@@ -8,15 +8,15 @@ import {
   ActionSheet,
   ActionSheetController,
   Config,
-  NavController, 
+  NavController,
   App,
-  ModalController, 
+  ModalController,
   Events,
   List
 } from "ionic-angular";
 // import { InAppBrowser } from "ionic-native";
-import { MessageDetailPage } from "../message-detail/message-detail"; 
-import { AuthService, NotifyService, LoggerService } from "../../shared/index"; 
+import { MessageDetailPage } from "../message-detail/message-detail";
+import { AuthService, NotifyService, LoggerService } from "../../shared/index";
 import { MessageData } from "../../providers/message-data";
 import { AppInsightsService } from "ng2-appinsights";
 
@@ -60,12 +60,13 @@ export class MessageListPage {
   }
 
   ionViewDidLoad() {
-    this.appinsightsService.trackPageView("Messages");
+
+    this.subscribeToEvents();
+    if (this.auth.fosId !== undefined) this.updateSchedule(false);
+    this.log.view("Messages");
     this.title = "Unread Messages";
     this.app.setTitle(this.title);
     this.segment = "unread";
-    this.subscribeToEvents();
-    if (this.auth.fosId !== undefined) this.updateSchedule(false);
   }
 
   subscribeToEvents() {

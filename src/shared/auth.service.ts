@@ -14,7 +14,7 @@ declare var Auth0: any;
 declare var Auth0Lock: any;
 @Injectable()
 export class AuthService {
-  
+
   jwtHelper: JwtHelper = new JwtHelper();
   auth0 = new Auth0({
     clientID: Auth0Vars.AUTH0_CLIENT_ID,
@@ -82,7 +82,7 @@ export class AuthService {
   constructor(
     public zone: NgZone,
     public http: Http,
-    public events: Events, 
+    public events: Events,
     public _storage : Storage,
     private log: LoggerService,
   ) {
@@ -109,7 +109,8 @@ export class AuthService {
     this.lock.on("authenticated", authResult => {
       this.storage.set(this.HAS_LOGGED_IN, true);
       this.log.console("authResult", authResult);
-      this.storage.set("id_token", authResult.idToken); 
+      this.storage.set("id_token", authResult.idToken);
+      this.storage.set("last_loging", new Date());
       this.storage.set("refresh_token", authResult.refreshToken);
       this.idToken = authResult.idToken;
       // Fetch profile information
@@ -241,7 +242,7 @@ export class AuthService {
           try {
             this.storage.set("id_token", delegationRequest.id_token);
             this.idToken = delegationRequest.id_token;
-        
+
             var authenticated: boolean = this.authenticated();
             // returns a promise<boolean> that finally
             // determines if user is truly authenticated
@@ -264,19 +265,19 @@ export class AuthService {
   }
 
   public logout() {
- 
-    this.storage.clear(); 
+
+    this.storage.clear();
     debugger;
     this.storage.remove(this.HAS_LOGGED_IN);
-    this.storage.remove("fosId"); 
+    this.storage.remove("fosId");
     this.storage.remove("surgeries");
     this.storage.remove("surgeriesStoreDate");
     this.storage.remove("messages");
     this.storage.remove("messagesStoreDate");
     this.storage.remove("profile");
     this.storage.remove("id_token");
-    this.storage.remove("refresh_token"); 
-    this.storage.remove("username"); 
+    this.storage.remove("refresh_token");
+    this.storage.remove("username");
     this.idToken = '';
     this.zoneImpl.run(() => (this.user = null));
     // Unschedule the token refresh
@@ -333,7 +334,7 @@ console.log('Logout Called, is authenticated is ' + this.authenticated());
         exp.setUTCSeconds(jwtExp);
         let delay: number = exp.valueOf() - now;
         // let delay = 10000;
-
+        this.storage.set("exp", delay);
         this.log.console("set delay to " + delay);
         // Use the delay in a timer to
         // run the refresh at the proper time
@@ -371,7 +372,7 @@ console.log('Logout Called, is authenticated is ' + this.authenticated());
           }
           this.log.console("got new Jwt, set token");
           this.storage.set("id_token", delegationRequest.id_token);
-         
+
           this.idToken = delegationRequest.id_token;
           // return promise?  to be used by app.component?
 

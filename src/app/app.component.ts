@@ -159,16 +159,20 @@ export class SurgiPalApp {
     private modalCtrl: ModalController,
     private userData:UserData
   ) {
-    this.listenToLoginEvents();
+
     console.log("Authenticated", this.auth.authenticated());
     // Check if the user has already seen the tutorial
     this.storage.get("hasSeenTutorial").then(hasSeenTutorial => {
-      if (hasSeenTutorial) {
+      if (hasSeenTutorial && this.auth.authenticated()) {
         console.log('Set Tabs Page');
         this.rootPage = TabsPage;
       }
-      else
+      else  if (!hasSeenTutorial)
          this.rootPage = TutorialPage;
+         else{
+         this.rootPage =LoginPage;
+         this.enableMenu(false, 'from constructor');
+         }
       // else if (this.auth.authenticated()) {
       //   console.log('Set Tabs Root');
       //   this.nav.setRoot(TabsPage);
@@ -180,22 +184,24 @@ export class SurgiPalApp {
       // }
 
       this.platformReady();
+      this.listenToLoginEvents();
     });
 
     // load the conference data
     //  confData.load();
 
     // decide which menu items should be hidden by current login status stored in local storage
-     this.userData.hasLoggedIn().then((hasLoggedIn) => {
-       this.enableMenu(hasLoggedIn === true);
-     });
-     this.enableMenu(true);
+    //  this.userData.hasLoggedIn().then((hasLoggedIn) => {
+    //    this.enableMenu(hasLoggedIn === true);
+    //  });
+    //  this.enableMenu(true);
   }
 
   platformReady() {
     // Call any initial plugins when ready
     this.platform.ready().then(() => {
       console.log('platformReady Called');
+
       this.appinsightsService.Init({
         instrumentationKey: "f8177abe-fb52-4eac-935a-d8e9e32cb8d3",
         enableDebug: false,
@@ -204,6 +210,7 @@ export class SurgiPalApp {
       });
       this.splashScreen.hide();
     });
+
   }
 
   openPage(page: IPageInterface) {
@@ -256,11 +263,11 @@ export class SurgiPalApp {
   this.nav.setRoot(AccountPage);
 }
   setAuthenticatedUserContext() {
-    try {
-      this.appinsightsService.setAuthenticatedUserContext(
-        this.auth.fosId.toString()
-      );
-    } catch (error) {}
+    // try {
+    //   this.appinsightsService.setAuthenticatedUserContext(
+    //     this.auth.fosId.toString()
+    //   );
+    // } catch (error) {}
   }
   loadDataBackground() {
     console.log('LoadDataBackground Called');
@@ -270,13 +277,16 @@ export class SurgiPalApp {
       this.surgerySvc.loadData();
       this.messageSvc.loadData();
     }, 3000);
+    setTimeout(() => {
+  this.adjustBadges();
+      }, 8000);
   }
   listenToLoginEvents() {
     console.log('listenToLoginEvents called');
     this.events.subscribe("user:authenticated", n => {
       // if (this.platform.is('cordova')) { this.getPlatforms(); }
       this.log.event("user:authenticated!!! " + n, n);
-      this.enableMenu(true);
+      this.enableMenu(true,'user:authenticated event');
       this.nav.setRoot(TabsPage);
       if (!this.bgLoaded && this.auth.fosId > 0)
          this.loadDataBackground();
@@ -302,13 +312,14 @@ export class SurgiPalApp {
 
     this.events.subscribe("user:signup", () => {
       this.bgLoaded = false;
-      this.enableMenu(false);
+      this.enableMenu(false,'user:signup');
     });
 
     this.events.subscribe("user:logout", () => {
       this.appinsightsService.clearAuthenticatedUserContext();
       this.bgLoaded = false;
-      this.enableMenu(false);     this.nav.push(LoginPage);
+      this.enableMenu(false,'user:logout event');
+        this.nav.push(LoginPage);
     });
 
     this.events.subscribe("message:loadedStore", (location, m) => {
@@ -320,6 +331,7 @@ export class SurgiPalApp {
       );
       if (m === -1) this.getMessageData();
       else this.appPages[2].badgeValue = this.messageSvc.model.metrics.unread;
+      this.adjustBadges();
     });
 
     this.events.subscribe("surgeries:loadedStore", (location, m) => {
@@ -351,6 +363,7 @@ export class SurgiPalApp {
       this.appPages[3].badgeValue = this.surgerySvc.model.pastSurgeries.filter(
         o => o.surgery.completed===true
       ).length;
+
       this.adjustBadges();
     });
     this.events.subscribe("message:metrics", (location, metrics) => {
@@ -359,6 +372,8 @@ export class SurgiPalApp {
         metrics
       );
       this.appPages[2].badgeValue = this.messageSvc.model.metrics.unread;
+
+               this.adjustBadges();
     });
 
     this.events.subscribe("message:loaded", (location, m) => {
@@ -412,8 +427,8 @@ export class SurgiPalApp {
       () => {}
     );
   }
-  enableMenu(loggedIn: boolean) {
-    console.log('Enable Menu Called',loggedIn);
+  enableMenu(loggedIn: boolean, from: string) {
+    console.log('Enable Menu Called From' + from,loggedIn);
     this.menu.enable(loggedIn, "loggedInMenu");
     this.menu.enable(!loggedIn, "loggedOutMenu");
     console.log('Enable Menu Called', this.menu);

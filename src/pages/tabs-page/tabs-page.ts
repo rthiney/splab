@@ -2,7 +2,7 @@
 
 import { Component } from "@angular/core";
 import { NavParams, Platform, Events } from "ionic-angular";
-import { CalendarPage } from "../calendar/calendar"; 
+import { CalendarPage } from "../calendar/calendar";
 import { PulsePage, SurgeryData } from "../pulse/index";
 import { MessageListPage, MessageData } from "../message/index";
 import { AboutPage } from '../about/about';
@@ -41,7 +41,7 @@ export class TabsPage {
       if (this.surgerySvc !== null) {
         this.pulseData = this.surgerySvc.model.metrics.today;
         this.futureData = this.surgerySvc.model.metrics.future;
-        this.statsData = this.surgerySvc.model.data.filter(o=>o.completed===true).length;
+        this.statsData = this.surgerySvc.model.pastSurgeries.filter(o=>o.surgery.completed===true).length;
       }
       if (this.messageSvc !== null)
         this.messageData = this.messageSvc.model.metrics.unread;
@@ -59,7 +59,8 @@ export class TabsPage {
       if (metrics) {
       this.pulseData = metrics.today;
       this.futureData = metrics.future;
-      this.statsData = this.surgerySvc.model.data.filter(o=>o.completed===true).length;
+      this.statsData = this.surgerySvc.model.pastSurgeries.filter(o=>o.surgery.completed===true).length;
+
       }
     });
   }

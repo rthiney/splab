@@ -60,7 +60,7 @@ export class StatFilterPage {
     this.statFilter.sd = moment(date,
       "YYYY-MM-DD"
     ).toDate();
-   
+
   //  this.count1 = this.getRange(this.statFilter.sd);
   }
   dateEndChange(_e) {
@@ -78,7 +78,7 @@ export class StatFilterPage {
     );
 
     //  const when  = moment('2012-05-10', 'YYYY-MM-DD');
-    let rng = moment.range(d, som); 
+    let rng = moment.range(d, som);
     console.log('Range',rng);
     let range = this.svc.model.data.filter((o: PulseViewModel) => {
       if (o.term) {

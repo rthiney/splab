@@ -3,7 +3,7 @@
         <!-- <button ion-button menuToggle>
       <ion-icon name="menu"></ion-icon>
     </button> -->
-        <ion-title>Login</ion-title>
+        <ion-title>Security Check</ion-title>
 
     </ion-navbar>
 </ion-header>
@@ -28,16 +28,24 @@
                 </h1>
                 <h5 style="color:white">A physician driven cloud-based preference </h5>
                 <h5 style="color:white">card system and OR platform for surgeries and procedures</h5>
-                
-            </div> 
+
+            </div>
 
             <ion-list>
+
+                <ion-item *ngIf="lastLogin">
+                    <ion-note item-right>
+                        Last login: {{lastLogin | amTimeAgo:true}} ago <br/> Next login required in {{timeuntil | amTimeAgo:true}}
+                    </ion-note>
+                </ion-item>
+
                 <ion-item>
-
-                    <button ion-item block large color="favorite" (click)="onLogin()">
-                        <ion-icon  item-left name="log-in" large></ion-icon>Log in
-                    </button>
-
+                    <button ion-item block small color="favorite" (click)="onLogin()" *ngIf="username">
+                        <ion-icon  item-left name="log-in" small></ion-icon>Hi, {{this.username}}. Click to proceed.
+                </button>
+                    <button ion-item block small color="favorite" (click)="onLogin()" *ngIf="!username">
+                    <ion-icon  item-left name="log-in" small></ion-icon>Login
+            </button>
                 </ion-item>
                 <!-- <ion-item   (click)="checkforUpdateHockey()">
                     <ion-icon name="cube"></ion-icon>

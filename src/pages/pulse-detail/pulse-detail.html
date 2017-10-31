@@ -1,18 +1,18 @@
 <ion-card #cardItem>
-    <div >
+    <div>
         <img src="assets/img/rooms/s{{idx+1}}.PNG" />
         <!-- <div class="card-title">{{s.surgery.initials | uppercase}}</div>*ngIf="s.occurs==='today'" -->
-        
+
         <div class="card-subtitle">{{s.surgery.preferenceCardName}}</div>
     </div>
     <ion-list>
         <ion-item-sliding>
             <ion-item border lines>
-                <ion-avatar item-left> 
+                <ion-avatar item-left>
                     <avatar [avatardata]="avatar" [avatarText]="s.surgery.initials"></avatar>
                 </ion-avatar>
-             
-             <!--   <p style="white-space: pre-wrap">   <strong>Patient:</strong> {{s.surgery.initials | uppercase}}</p>
+
+                <!--   <p style="white-space: pre-wrap">   <strong>Patient:</strong> {{s.surgery.initials | uppercase}}</p>
                  [hidden]="(s.occurs==='today')" <p style="white-space: pre-wrap">
                     <strong>Patient:</strong> {{s.surgery.initials | uppercase}}</p>
 
@@ -21,7 +21,7 @@
                 <p style="white-space: pre-wrap">
                      <strong>Card:</strong> {{s.surgery.preferenceCardName}}</p> -->
 
-     
+
 
                 <p>
                     <strong>Status:</strong> {{s.surgery.admissionStatus}}</p>
