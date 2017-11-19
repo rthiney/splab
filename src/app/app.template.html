@@ -40,6 +40,10 @@
         <ion-icon item-start name="cog" color=primary></ion-icon>
         Settings
       </button>
+                <button ion-item menuClose (click)="openAdd()">
+            <ion-icon item-start name="cog" color=primary></ion-icon>
+            Add Surgery
+          </button>
                 <button *ngIf="!auth.authenticated()" ion-item menuClose (click)="openLogin(false)">
         <ion-icon item-start name="log-in" color=favorite></ion-icon>
      Login

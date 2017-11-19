@@ -54,7 +54,9 @@ import { ArrayFilterPipe } from "./pipes/array-filter.pipe";
 import { StatFilterPage } from "../pages/stat-filter/stat-filter";
 import { StatsPage } from "../pages/stats/stats";
 import {LetterAvatarDirective } from '../directives/letter-avatar.directive';
-
+import { AddSurgeryPageModule } from "../pages/add-surgery/add-surgery.module";
+import { MultiPickerModule } from 'ion2-datetime-picker';
+import { AddSurgeryPage } from "../pages/add-surgery/add-surgery";
 // et storage = new Storage(['sqlite', 'websql', 'indexeddb'], { name: 'surgipal_db' });
 //let storage = new Storage(['sqlite', 'websql', 'indexeddb'], { name: 'surgipal_db' });
 let storage = new Storage();
@@ -96,7 +98,6 @@ export function getAuthHttp(http: any) {
     TabsPage,
     TutorialPage,
     SupportPage,
-
     //NEW
     PulsePage,
     PulseDetailPage,
@@ -123,8 +124,8 @@ export function getAuthHttp(http: any) {
     HttpModule,
     MomentModule,
     ChartsModule,
-    NgCalendarModule,
-
+    NgCalendarModule,MultiPickerModule ,
+AddSurgeryPageModule,
     // IonicModule.forRoot(SurgiPalApp, {
     //     backButtonText: 'Go Back',
     //     iconMode: 'ios',

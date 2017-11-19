@@ -1,0 +1,116 @@
+<!--
+  Generated template for the AddSurgeryPage page.
+
+  See http://ionicframework.com/docs/components/#navigation for more info on
+  Ionic pages and navigation.
+-->
+<ion-header>
+
+    <ion-navbar>
+        <ion-title>add-surgery</ion-title>
+    </ion-navbar>
+
+</ion-header>
+
+
+<ion-content padding>
+    <!-- <form #signupForm="ngForm" novalidate>
+    <form [formGroup]="formGroup">
+        <ion-list no-lines>
+            <ion-item>
+                <ion-label stacked color="primary">Patient</ion-label>
+                <ion-input [(ngModel)]="surgery.initials" name="initials" type="text" #initials="ngModel" required>
+                </ion-input>
+            </ion-item>
+            <p ion-text [hidden]="initials.valid || submitted == false" color="danger" padding-left>
+                Username is required
+            </p>
+
+            <ion-item>
+                <ion-label stacked color="primary">Surgery</ion-label>
+                <ion-input [(ngModel)]="surgery.patient" name="patient" type="text" #patient="ngModel" required>
+                </ion-input>
+            </ion-item>
+            <p ion-text [hidden]="patient.valid || submitted == false" color="danger" padding-left>
+                Password is required
+            </p>
+
+
+            <ion-item>
+                <ion-label stacked color="primary">Surgery</ion-label>
+                <ion-input [(ngModel)]="surgery.patient" name="patient" type="text" [formControl]="formGroup.controls.dateFormatted" required>
+                </ion-input>
+            </ion-item>
+            <p ion-text [hidden]="patient.valid || submitted == false" color="danger" padding-left>
+                Password is required
+            </p>
+
+
+
+            <ion-item>
+                <ion-label>Formatted DatePicker</ion-label>
+                <ion-multi-picker item-content type="date" [formControl]="formGroup.controls.dateFormatted" [displayFormat]="'MM.DD.YYYY'" [pickerFormat]="'DD.MMM.YYYY'">
+                </ion-multi-picker>
+            </ion-item>
+
+            <ion-item>
+                <ion-label>Filtered DatePicker without weekends</ion-label>
+                <ion-multi-picker item-content type="date" [filterDays]="filterDays" [formControl]="formGroup.controls.dateFiltered" [weekends]='[6,7]'>
+                </ion-multi-picker>
+            </ion-item>
+            <ion-item>
+                <ion-label>TimePicker with min and max</ion-label>
+                <ion-multi-picker item-content [min]="formGroup.controls.minTime.value" [max]="formGroup.controls.maxTime.value" [formControl]="formGroup.controls.time">
+                </ion-multi-picker>
+            </ion-item>
+            <ion-item>
+                <ion-label>Default Value</ion-label>
+                <ion-multi-picker item-content [formControl]="surgery.time"></ion-multi-picker>
+            </ion-item>
+
+            <ion-item>
+                <ion-label>Disabled Picker</ion-label>
+                <ion-multi-picker item-content type="date" [formControl]="surgery.term"></ion-multi-picker>
+            </ion-item>
+    </ion-list>
+
+    <div padding>
+        <button ion-button (click)="onSignup(signupForm)" type="submit" block>Create</button>
+    </div>
+    </form>-->
+    <form [formGroup]="form" (ngSubmit)="onSignup(form.value)">
+        <ion-list>
+            <ion-item margin-bottom>
+                <ion-label>Patient</ion-label>
+                <ion-input type="text" formControlName="patient"></ion-input>
+            </ion-item>
+
+            <ion-item margin-bottom>
+                <ion-label>Surgery</ion-label>
+                <ion-input type="text" formControlName="surgery"></ion-input>
+            </ion-item>
+
+            <ion-item>
+                <ion-label>Time</ion-label>
+                <ion-multi-picker item-content formControlName="time" type="time" [minuteRounding]="15" [pickerFormat]="'h:mm'" [displayFormat]="'h:mm'"></ion-multi-picker>
+            </ion-item>
+
+            <!-- <ion-item>
+                <ion-label>TimePicker with min and max</ion-label>
+                <ion-multi-picker formControlName="time" item-content type="time" [min]="minTime.value" [max]="maxTime.value">
+                </ion-multi-picker>
+            </ion-item> -->
+
+            <ion-item>
+                <ion-label>Date</ion-label>
+                <ion-multi-picker formControlName="dateFiltered" item-content type="date" [filterDays]="filterDays" [weekends]='[6,7]' [displayFormat]="'MM.DD.YYYY'" [pickerFormat]="'MM.DD.YYYY'">
+                </ion-multi-picker>
+            </ion-item>
+
+            <ion-item margin-bottom>
+                <button ion-button color="primary" text-center block [disabled]="!form.valid">Send your message</button>
+            </ion-item>
+
+        </ion-list>
+    </form>
+</ion-content>

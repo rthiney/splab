@@ -24,7 +24,22 @@ export class SurgeryService {
     constructor(private authHttp: AuthHttp,  private log: LoggerService  ) {
 
     }
+    addSurgery(s:Surgery){
+        console.group('Surgery Service');
+        const headers = new Headers();
+        headers.append('Content-Type', 'application/json');
+        headers.append('Access-Control-Allow-Origin','*' );
+       const options = new RequestOptions({headers: headers});
+        this.log.console("Action:updateCodes");
+        let url = `${CONFIGURATION.baseUrls.apiPhp + "surgery"}/`;
 
+        console.log('Update with', s);
+        return this.authHttp
+            .put(url, JSON.stringify(s)  , options)
+            .toPromise()
+            .then(() => console.groupEnd())
+            .catch(this.handleError);
+    }
     updateCodes(sgi: SurgeryGroupItem): Promise<AnswerBox> {
         console.group('Surgery Service');
         const headers = new Headers();

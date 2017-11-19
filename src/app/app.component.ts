@@ -35,6 +35,7 @@ import { AuthService } from "../shared/auth.service";
 import { NotifyService } from "../shared/notify.service";
 import { AboutPage } from "../pages/about/about";
 import { StatsPage } from "../pages/stats/stats";
+import { AddSurgeryPage } from "../pages/add-surgery/add-surgery";
 
 @Component({
   templateUrl: "app.template.html",
@@ -110,6 +111,14 @@ export class SurgiPalApp {
       icon: "information-circle",
       badgeValue: -1,
       color: "light"
+    },
+    {
+        title: "Add Surgery",
+    name: "AddSurgeryPage",
+    component: AddSurgeryPage,
+    icon: "add",
+    logsOut: false,
+    color: "primary"
     }
   ];
 
@@ -263,6 +272,10 @@ export class SurgiPalApp {
   }
    openAccount(){
   this.nav.setRoot(AccountPage);
+}
+openAdd()
+{
+    this.nav.setRoot(AddSurgeryPage);
 }
   setAuthenticatedUserContext() {
     // try {
