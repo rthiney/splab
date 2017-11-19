@@ -4,7 +4,7 @@ import { Component } from '@angular/core';
 import { App, Events, ModalController, NavController, NavParams, Platform } from 'ionic-angular';
 import { SurgeryGroup, SurgeryGroupItem, SurgeryMetrics } from '../../models/metrics/metrics';
 import { PulseViewModel } from '../../models/viewmodels/pulse_model';
- 
+
 import { NotifyService } from '../../shared/notify.service';
 import { CodeDetails } from './code-details';
 import { SurgeryData } from '../../providers/surgery-data';
@@ -20,7 +20,7 @@ export class SurgeryDetailPage {
 
   s: SurgeryGroupItem;
   rnd: number = Math.floor(Math.random() * 4) + 1;
-   
+
   isEmailAvailable: Promise<any>;
   activeElement: Element;
   title: string;
@@ -51,9 +51,9 @@ export class SurgeryDetailPage {
     size: 50, // default size is 100
      fontColor: '#FFFFFF',
     border: "2px solid #d3d3d3",
-    isSquare: false,  
-    text: 'Fuck You', // 
-    fixedColor:false 
+    isSquare: false,
+    text: 'Fuck You', //
+    fixedColor:false
   };
   avatarText:string ;
   constructor(public navParams: NavParams, public platform: Platform,
@@ -69,8 +69,14 @@ export class SurgeryDetailPage {
     //, private emailComposer: EmailComposer, private callNumber: CallNumber,
   ) {
     this.s = navParams.data;
+try{
+    if (this.s)
      this.avatarText =this.s.surgery.initials;
-  }
+     else
+     this.avatarText="No Answer";
+}
+catch(e){}
+}
 
   ionViewDidLoad() {
 
@@ -89,11 +95,11 @@ export class SurgeryDetailPage {
   //         body: 'Dear ' + p.coordinatorName + ',',
   //         isHtml: true
   //       };
-  //       this.emailComposer.open(email); 
+  //       this.emailComposer.open(email);
   //     }
   //   }).catch(()=>  this.note.presentError('Error launching emailer'));
 
-  // } 
+  // }
 
   sendBilling(p: SurgeryGroupItem) {
     // this.appinsightsService.trackEvent(
@@ -190,7 +196,7 @@ export class SurgeryDetailPage {
           p.surgery.diagnosisCode = data.join(",");
           p.dxArray = data;
         }
-
+//debugger;
         this._svcSurgery.updateCodes(p).then(() => console.log('Updated Codes'));
         this.selectedPulse = data;
 

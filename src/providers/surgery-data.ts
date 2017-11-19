@@ -33,7 +33,7 @@ export class SurgeryData {
     public events: Events
   ) { }
   load_(): Observable<DataSurgeryStore> {
-    debugger;
+   // debugger;
 
       return this.http.get('/assets/data/surgeries-12.json')
         .map(this.processData,this);

@@ -1,4 +1,4 @@
- 
+
 import { AnswerBox } from '../models/AnswerBox';
 import { Surgery } from '../models/Surgery';
 import { SurgeryGroupItem } from '../models/metrics/metrics';
@@ -8,18 +8,29 @@ import {   CONFIGURATION, LoggerService } from "./index";
 import "rxjs/add/operator/map";
 import "rxjs/add/observable/of";
 import 'rxjs/add/operator/toPromise';
+import { Http, Headers, RequestOptions } from '@angular/http';
 @Injectable()
 export class SurgeryService {
     //   private headers = new Headers({ "Content-Type": "application/json" });
+
+  //    headers      = new Headers({ 'Content-Type': 'application/json', ); // ... Set content type to JSON
+  //options       = new RequestOptions({ 'headers': this.headers }); // Create a request option
+//  res.header('Access-Control-Allow-Origin', 'URLs to trust of allow');
+//  res.header('Access-Control-Allow-Methods', 'GET, POST, OPTIONS, PUT, PATCH, DELETE');
+//  res.header('Access-Control-Allow-Headers', 'Content-Type');
     client: any;
     tableReply: any;
     tableBilling: any;
     constructor(private authHttp: AuthHttp,  private log: LoggerService  ) {
+
     }
 
     updateCodes(sgi: SurgeryGroupItem): Promise<AnswerBox> {
         console.group('Surgery Service');
-
+        const headers = new Headers();
+        headers.append('Content-Type', 'application/json');
+        headers.append('Access-Control-Allow-Origin','*' );
+       const options = new RequestOptions({headers: headers});
         this.log.console("Action:updateCodes");
         let url = `${CONFIGURATION.baseUrls.apiPhp + "answers_box"}/${sgi.surgery.answers_box_id}`;
         var newData = {
@@ -28,18 +39,18 @@ export class SurgeryService {
         };
         console.log('Update with', newData);
         return this.authHttp
-            .put(url, JSON.stringify(newData))
-            .toPromise()  
+            .put(url, JSON.stringify(newData)  , options)
+            .toPromise()
             .then(() => console.groupEnd())
             .catch(this.handleError);
     }
- 
+
     /**
      * Marks surgery cancelled
-     * 
-     * @param {number} surgeryId 
-     * @returns {Promise<Surgery>} 
-     * 
+     *
+     * @param {number} surgeryId
+     * @returns {Promise<Surgery>}
+     *
      * @memberOf SurgeryService
      */
     markCancelled(surgeryId: number): Promise<Surgery> {
@@ -52,17 +63,17 @@ export class SurgeryService {
         console.log('Update with', newData);
         return this.authHttp
             .put(url, JSON.stringify(newData))
-            .toPromise() 
+            .toPromise()
             .then(() => console.groupEnd())
             .catch(this.handleError);
     }
-    
+
     /**
      * Marks surgery complete
-     * 
-     * @param {number} surgeryId 
-     * @returns {Promise<Surgery>} 
-     * 
+     *
+     * @param {number} surgeryId
+     * @returns {Promise<Surgery>}
+     *
      * @memberOf SurgeryService
      */
     markComplete(surgeryId: number): Promise<Surgery> {
@@ -75,7 +86,7 @@ export class SurgeryService {
         console.log('Update with', newData);
         return this.authHttp
             .put(url, JSON.stringify(newData))
-            .toPromise() 
+            .toPromise()
             .then(() => console.groupEnd())
             .catch(this.handleError);
     }
@@ -134,4 +145,4 @@ export class SurgeryService {
 //       .toPromise()
 //       .then(() => hero)
 //       .catch(this.handleError);
-//   } 
+//   }

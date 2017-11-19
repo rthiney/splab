@@ -30,10 +30,10 @@ export class CodeDetails {
     this.codes = params.get("codes");
     this.codes.sort();
     this.codes.forEach(item =>this.origCodes.push(item) );
-  // this.origCodes = JSON.parse(JSON.stringify(this.codes));  
+  // this.origCodes = JSON.parse(JSON.stringify(this.codes));
   }
   onCancel()
-  { 
+  {
     this.add({ name: this.autocomplete.query, count:0});
     console.dir(this.autocomplete.query);
   }
@@ -42,14 +42,15 @@ export class CodeDetails {
     // can "dismiss" itself and pass back data
     this.viewCtrl.dismiss(this.codes);
   }
-  revert() { 
-    this.codes = JSON.parse(JSON.stringify(this.origCodes));  
+  revert() {
+    this.codes = JSON.parse(JSON.stringify(this.origCodes));
+    this.dismiss();
   }
   save() {
     this.dismiss(this.codes);
   }
   delete(chip: Element, c: string) {
-    let i = this.codes.indexOf(c); 
+    let i = this.codes.indexOf(c);
     this.codes.splice(i, 1);
     chip.remove();
   }
@@ -57,12 +58,12 @@ export class CodeDetails {
     if (c.name.length===0){
            this.notify.presentToast('Empty', 'Nothing to add!'); return;}
 
-    let found = this.codes.find(i => i === c.name.replace(/^[\s\uFEFF\xA0]+|[\s\uFEFF\xA0]+$/g, "").trim()); 
+    let found = this.codes.find(i => i === c.name.replace(/^[\s\uFEFF\xA0]+|[\s\uFEFF\xA0]+$/g, "").trim());
     if (found) {
       this.notify.presentToast('Exists already', 'Sorry, the code is already in this list.');
-    } else { 
+    } else {
       this.codes.push(c.name);
-      this.notify.presentToast('Added', 'Added the code ' + c.name + ' to the list'); 
+      this.notify.presentToast('Added', 'Added the code ' + c.name + ' to the list');
       this.autocompleteItems = [];
     }
   }
@@ -70,7 +71,7 @@ export class CodeDetails {
   ionViewDidLoad() {
     try {
       this.surgerySvc.loadData();
-      
+
     } catch (error) {
     }
   }
@@ -82,11 +83,11 @@ export class CodeDetails {
     }
     this.autocompleteItems = [];
     if (this.codeType === 'CPT')
- 
+
      this.surgerySvc.model.metrics.uniqueCpt.filter((item) => {
 
         if ((item.name.toLowerCase().indexOf(this.autocomplete.query.toLowerCase()) > -1) && (this.codes.indexOf(item.name)===-1))
-        { 
+        {
            this.autocompleteItems.push(item);
            }
       });
@@ -97,7 +98,7 @@ export class CodeDetails {
       });
 
       if (this.autocompleteItems.length===0)
-      { 
+      {
         this.checkBeforeAdd().then(r => {
           if (r) {
             this.add({ name: this.autocomplete.query, count: 0 });

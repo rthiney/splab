@@ -1,13 +1,13 @@
- 
+
 import {
   SurgeryMetrics,
   SurgeryGroupItem
   //,SurgeryGroup
 } from "../../models/metrics/metrics";
-import { Component, EventEmitter, Input,   Output} from "@angular/core"; 
+import { Component, EventEmitter, Input,   Output} from "@angular/core";
 import {
   AlertController,
-  App, 
+  App,
  // List,
   ModalController,
   NavController,
@@ -24,7 +24,7 @@ import {
   CodeDetails,
   SurgeryData,
   SurgeryDetailPage
-} from "../pulse/index"; 
+} from "../pulse/index";
 import { AuthHttp } from "angular2-jwt";
 import {
   AuthService,
@@ -40,19 +40,19 @@ import { Surgery } from '../../models/Surgery';
 
 declare var window;
 @Component({
-  selector: "page-pulse-detail", 
+  selector: "page-pulse-detail",
   templateUrl: "pulse-detail.html"
 })
-export class PulseDetailPage { 
+export class PulseDetailPage {
     @Input() s: SurgeryGroupItem;
     @Input() idx:number;
     @Output() close = new EventEmitter();
     error: any;
-    @Input() avatarText:string; 
+    @Input() avatarText:string;
     selectedItem: SurgeryGroupItem;
 //   isEmailAvailable: Promise<any>;
          activeElement: Element;
-//   title: string; 
+//   title: string;
 //   nosrgmessage: string = "No surgeries today";
 //   surgeryList: List;
 //   _events: Events;
@@ -76,10 +76,10 @@ avatar: any = {
    fontColor: '#FFFFFF',
   border: "2px solid #d3d3d3",
   isSquare: false, // if it is true then letter avatar will be in square defaule value is false
-  text: '', // 
+  text: '', //
   fixedColor:false //if you enable true then letter will have same color for ever default value is false
 };
- 
+
   segment: string = "today";
   duration:number;
   metrics: SurgeryMetrics = new SurgeryMetrics();
@@ -90,7 +90,7 @@ avatar: any = {
     public alertCtrl: AlertController,
     public modalCtrl: ModalController,
     public navCtrl: NavController,
-    public actionSheetCtrl: ActionSheetController, 
+    public actionSheetCtrl: ActionSheetController,
     public config: Config,
     //public inAppBrowser: InAppBrowser
     private auth: AuthService,
@@ -101,21 +101,21 @@ avatar: any = {
     private note: NotifyService,
     private log: LoggerService,
     public loadingCtrl: LoadingController,
-    public events: Events, 
+    public events: Events,
     private appinsightsService: AppInsightsService
-  ) { 
+  ) {
 
   }
   ionViewWillEnter() {}
   ionViewDidLoad() {
    this.duration = parseInt(this.s.surgery.surgeryTime);
- 
+
   // this.avatarText = this.s.surgery.initials;
     if (this.s.surgery.surgeryTime.indexOf("m") < 0)
       this.duration = this.duration * 60;
   }
   ngOnInit(): void {
-     
+
   }
 //   ngOnInit(): void {
 //     this.route.params.forEach((params: Params) => {
@@ -130,7 +130,7 @@ avatar: any = {
 //       }
 //     });
 //   }
- 
+
   sendBilling(p: SurgeryGroupItem, el: Element) {
     this.activeElement = el;
     this.selectedPulse = p;
@@ -155,7 +155,7 @@ avatar: any = {
     this.selectedPulse = s;
     this.navCtrl.push(SurgeryDetailPage, s);
   }
- 
+
   loadDetail(p: SurgeryGroupItem) {
     console.log("loadDetail();");
     this.appinsightsService.trackEvent("Load Surgery Details", {
@@ -176,7 +176,7 @@ avatar: any = {
           // p.remove();
           this.navCtrl.setRoot(this.navCtrl.getActive().component);
           this.note.presentToast("Cancel", "Surgery has been cancelled.");
-          //  this.updateSchedule(true); 
+          //  this.updateSchedule(true);
           this.appinsightsService.trackEvent(
             "Cancel Surgery",
             { Surgery: pulse.surgery.patient, Surgeon: this.auth.name },
@@ -197,7 +197,7 @@ avatar: any = {
       alert.addButton({ text: "Yes", role: "cancel", handler: resolve });
       alert.present();
     });
-  }  
+  }
   showEditCodes(p: SurgeryGroupItem, codeType: string) {
     console.log("Selected Pulse Id ", p.surgery.surgeryId);
     // var codes:string[];
@@ -222,9 +222,8 @@ avatar: any = {
           p.surgery.diagnosisCode = data.join(",");
           p.dxArray = data;
         }
-
-        this._svcSurgery.updateCodes(p).then(() => this.navCtrl.setRoot(this.navCtrl.getActive().component));
-
+console.log(this.navCtrl.getActive().component);
+        this._svcSurgery.updateCodes(p); //.then(() => this.navCtrl.setRoot(this.navCtrl.getActive().component));
       }
     });
   }
@@ -308,7 +307,7 @@ avatar: any = {
 //       console.error(error);
 //     }
 //   }
-  // private handleError(error: any): Promise<any> { 
+  // private handleError(error: any): Promise<any> {
   //   console.log(error.message || error);
   //   let alert = this.note.alertCtrl.create({
   //     title: "Error",
@@ -319,7 +318,7 @@ avatar: any = {
   //   console.log("PULSE PAGE", error.message || error); // for demo purposes only
   //   return Promise.reject(error.message || error);
   // }
- 
+
 //   openSocial(network: string, fab: FabContainer) {
 //     let loading = this.note.loadingCtrl.create({
 //       content: `Posting to ${network}`,
@@ -367,6 +366,6 @@ avatar: any = {
   //     this.selectedPulse = data;
   //     this.updateSchedule();
   //   }
-  // }); 
+  // });
 
 }
