@@ -223,6 +223,7 @@ avatar: any = {
           p.dxArray = data;
         }
 console.log(this.navCtrl.getActive().component);
+this.close.emit(p);
         this._svcSurgery.updateCodes(p); //.then(() => this.navCtrl.setRoot(this.navCtrl.getActive().component));
       }
     });

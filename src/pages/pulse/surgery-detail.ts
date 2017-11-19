@@ -167,7 +167,9 @@ catch(e){}
       alert.present();
     });
   }
-
+close(ev :SurgeryGroupItem){
+console.log(ev);
+}
   showEditCodes(p: SurgeryGroupItem, codeType: string) {
 
     if (this.checkCancelled(p))
