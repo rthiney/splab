@@ -1,0 +1,45 @@
+<ion-header>
+    <ion-navbar color="primary">
+        <ion-title>Parallax Header</ion-title>
+    </ion-navbar>
+</ion-header>
+
+<ion-content parallax-header no-bounce class="bg-modal">
+    <div class="header-image"></div>
+    <div class="main-content" text-wrap text-center>
+        <div class="circular">
+            <img src=auth.image />
+        </div>
+      <h2>{{auth.getUsername()}}</h2>
+        <p>Surgeon &bull; {{auth.geo.city_name}}   &bull;  {{auth.geo.country_code}}  &bull;  {{auth.geo.country_name}} &bull;   {{auth.geo.continent_code}}</p>
+        <p class="profile-description">{{auth.fosId}}</p>
+        <hr>
+        <ion-list no-lines>
+            <ion-item>
+                <ion-icon name="mail" color="primary" item-start></ion-icon>
+                <p>Email</p>
+                {{auth.email}}
+                <a button ion-button href="mailto:{{auth.email}}" color="primary" item-end medium>Open App</a>
+            </ion-item>
+            <ion-item>
+                <ion-icon item-start name="pin" color="twitter"></ion-icon>
+                <p>{{auth.geo.city_name}}</p>
+            </ion-item>
+        </ion-list> -->
+        <h2>Get in touch</h2>
+        <hr>
+        <a href="#" button ion-button block color="linkedin" icon-start>
+            <ion-icon name='logo-linkedin'></ion-icon>
+            LinkedIn
+        </a>
+        <a href="#" button ion-button block color="fb" icon-start>
+            <ion-icon name='logo-facebook'></ion-icon>
+            Facebook
+        </a>
+        <a href="#" button ion-button block color="danger" icon-start>
+            <ion-icon name='logo-youtube'></ion-icon>
+            Youtube
+        </a>
+    </div>
+
+</ion-content>

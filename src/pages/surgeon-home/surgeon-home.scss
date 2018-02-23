@@ -1,9 +1,6 @@
-// Styles for all of the user pages:
-// Login, Signup, Support
-$big-bg: '../assets/img/background2.jpg';
-page-login {
+page-surgeon-home {
     .header-image {
-        background-image: url(../../assets/img/rooms/s3.PNG);
+        background-image: url(../../assets/img/rooms/S1.PNG);
         height: 30vh;
         background-size: cover;
         background-position: center center;
@@ -23,14 +20,14 @@ page-login {
         position: relative !important;
     }
     .circular {
-        width: 150px;
-        height: 150px;
+        width: 100px;
+        height: 100px;
         position: inherit;
-        border-radius: 70%;
-        -webkit-border-radius: 250px;
-        -moz-border-radius: 250px;
-        // border: solid white;
-        background: url(../../assets/img/logocircle.png) no-repeat;
+        border-radius: 50%;
+        -webkit-border-radius: 150px;
+        -moz-border-radius: 150px;
+        border: solid white;
+        background: url(../../assets/img/flat.png) no-repeat;
         background-size: 100%;
         margin-top: -70px;
         margin-left: auto;

@@ -4,7 +4,8 @@ import { FormGroup, FormBuilder, Validators } from "@angular/forms";
 import {
   NavParams,
   ViewController,
-  Events
+  Events,
+  ModalController
 } from "ionic-angular";
 import { PulseViewModel } from "./../../models/viewmodels/pulse_model";
 
@@ -27,7 +28,8 @@ export class BillingDetails {
     public auth: AuthService,
     private formBuilder: FormBuilder,
     public params: NavParams,
-    public viewCtrl: ViewController,
+      public viewCtrl: ViewController,
+      public modalCtrl: ModalController,
     public event: Events,
     private _service: MessageService
   ) {
@@ -61,10 +63,10 @@ export class BillingDetails {
     });
   }
 
-  dismiss(msg: string) {
+  dismiss() {
     // using the injected ViewController this page
     // can "dismiss" itself and pass back data
-    this.viewCtrl.dismiss(msg);
+      this.viewCtrl.dismiss('cancel');
   }
 
   sendEmail() {

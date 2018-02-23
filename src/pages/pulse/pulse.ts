@@ -1,5 +1,5 @@
 import { DataSurgeryStore } from './../../models/viewmodels/surgery_model';
- 
+
 import {
   SurgeryMetrics,
   SurgeryGroupItem,
@@ -19,7 +19,7 @@ import {
 import {
   BillingDetails,
   CodeDetails,
-  SurgeryData 
+  SurgeryData
 } from "./index";
 import { PulseViewModel } from "./../../models/viewmodels/pulse_model";
 import { AuthHttp } from "angular2-jwt";
@@ -68,15 +68,16 @@ export class PulsePage {
   date: Date;
   dateIndex: number = 0;
   segment: string = "today";
-  metrics: SurgeryMetrics = new SurgeryMetrics();
-  constructor(
+    metrics: SurgeryMetrics = new SurgeryMetrics();
+    profileModal: any;
+    constructor(
     public platform: Platform,
     private authHttp: AuthHttp,
     public app: App,
     public alertCtrl: AlertController,
     public modalCtrl: ModalController,
     public navCtrl: NavController,
-    private auth: AuthService,
+    public auth: AuthService,
     private surgeryData: SurgeryData,
     private _svcSurgery: SurgeryService,
     private _svcMessage: MessageService,
@@ -84,18 +85,20 @@ export class PulsePage {
     private log: LoggerService,
     public loadingCtrl: LoadingController,
     public events: Events,
- 
+
     private appinsightsService: AppInsightsService
-  ) { 
+  ) {
 
   }
-
-  ionViewDidLoad() { 
+  ionViewCanEnter() {
+    return this.auth.authenticated();
+  }
+  ionViewDidLoad() {
     this.log.view("Pulse");
     this.date = new Date();
     this.title = "Today's Pulse (" + this.date.toLocaleDateString() + ")";
     this.loadWatchers();
-    
+
     if (this.auth.fosId >0 ) {
       this.updateSchedule();
     }
@@ -103,7 +106,6 @@ export class PulsePage {
 
   loadWatchers() {
     this.events.subscribe("email:billing", (data: PulseViewModel, msg: any, res: any) => {
-
       if (!data.completed) {
         this._svcSurgery.markComplete(data.surgeryId).then(() => {
           this.note.presentToast(
@@ -112,14 +114,13 @@ export class PulsePage {
           );
           this.appinsightsService.trackEvent("Billing Sent");
           this._svcMessage.createBillingSendData(msg, data.surgeryId, res).then(() => {
-          }); 
+          });
         });
       }
-
     });
 
     this.events.subscribe("email:fail", (_data: PulseViewModel, err: any) => {
-      // this.activeElement.remove(); 
+      // this.activeElement.remove();
       this.log.error("email:fail", err);
     });
 
@@ -132,27 +133,26 @@ export class PulsePage {
     });
     this.events.subscribe("cancel:surgery", (_data: PulseViewModel) => {
       this.navCtrl.setRoot(this.navCtrl.getActive().component);
-
       this.note.presentToast(
         "Success",
         "Surgery cancelled"
       );
     });
   }
-  sendBilling(p: SurgeryGroupItem, el: Element) {
-    this.activeElement = el;
-    this.selectedPulse = p;
-    this.selectedItem = p;
-    let profileModal = this.modalCtrl.create(BillingDetails, p, {
-      enterAnimation: "modal-slide-in",
-      leaveAnimation: "modal-slide-out"
-    });
-    profileModal.present();
-    profileModal.onWillDismiss(() => {
-      profileModal.dismiss();
-    });
-  }
-  
+    sendBilling(p: SurgeryGroupItem, el: Element) {
+        this.activeElement = el;
+        this.selectedPulse = p;
+        this.selectedItem = p;
+        let profileModal = this.modalCtrl.create(BillingDetails, p, {
+            enterAnimation: "modal-slide-in",
+            leaveAnimation: "modal-slide-out"
+        });
+        profileModal.present();
+        profileModal.onWillDismiss((_data: string) => {
+            profileModal.dismiss();
+        });
+    }
+
   updateSegment() {
     var loader = this.loadingCtrl.create({
       content: "Refreshing...",
@@ -213,7 +213,7 @@ export class PulsePage {
 
           //sort
           try {
-            // let srt =   
+            // let srt =
             data.todaySurgeries.sort((a: SurgeryGroupItem, b: SurgeryGroupItem) => {
               return new Date(a.surgery.term).getTime() - new Date(b.surgery.term).getTime();
             });
@@ -252,7 +252,7 @@ export class PulsePage {
     this.updateSchedule(true, refresher);
   }
 
-  // private handleError(error: any): Promise<any> { 
+  // private handleError(error: any): Promise<any> {
   //   console.log(error.message || error);
   //   let alert = this.note.alertCtrl.create({
   //     title: "Error",
@@ -318,7 +318,7 @@ export class PulsePage {
           // p.remove();
           this.navCtrl.setRoot(this.navCtrl.getActive().component);
           this.note.presentToast("Cancel", "Surgery has been cancelled.");
-          //  this.updateSchedule(true); 
+          //  this.updateSchedule(true);
           this.appinsightsService.trackEvent(
             "Cancel Surgery",
             { Surgery: pulse.surgery.patient, Surgeon: this.auth.name },
@@ -407,6 +407,6 @@ export class PulsePage {
   //     this.selectedPulse = data;
   //     this.updateSchedule();
   //   }
-  // }); 
+  // });
 
 }

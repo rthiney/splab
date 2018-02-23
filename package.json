@@ -17,6 +17,7 @@
     "author": "Raphael Thiney <raphael@surgipal.com>",
     "homepage": "https://github.com/rthiney/splab",
     "license": "MIT",
+
     "scripts": {
         "dev": "bnr dev",
         "build": "bnr build",
@@ -152,14 +153,13 @@
         "moment-range": "^3.0.3",
         "ng2-appinsights": "^1.0.0-beta.1",
         "ng2-charts": "^1.6.0",
-        "rxjs": "5.4.0",
+        "rxjs": "^5.0.1",
         "sw-toolbox": "3.4.0",
-        "zone.js": "0.8.12"
+        "zone.js": "^0.7.2"
     },
     "devDependencies": {
         "@angular/language-service": "4.2.6",
         "@ionic/app-scripts": "2.1.4",
-        "@ionic/cli-plugin-cordova": "1.5.0",
         "@ionic/cli-plugin-ionic-angular": "1.4.0",
         "@types/debug": "ts2.3",
         "@types/jasmine": "ts2.3",
@@ -201,6 +201,7 @@
         "typings": "^2.1.1"
     },
     "config": {
+        "ionic_source_map": "source-map",
         "commitizen": {
             "path": "./node_modules/cz-conventional-changelog"
         },

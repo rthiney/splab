@@ -1,25 +1,11 @@
-<ion-header>
+<!-- <ion-header>
     <ion-navbar>
-        <!-- <button ion-button menuToggle>
-      <ion-icon name="menu"></ion-icon>
-    </button> -->
+
         <ion-title>Security Check</ion-title>
 
     </ion-navbar>
 </ion-header>
 <ion-content center>
-    <!-- <ion-card style="margin-top:20%">
-        <ion-card-header>
-        </ion-card-header>
-        <ion-card-content>
-            <ion-list no-line>
-                <button ion-button block outline color="favorite" (click)="onLogin()">Log in</button>
-        <button ion-button block outline color="facebook" (click)="checkforUpdateHockey()">Updates</button>
-
-            </ion-list>
-        </ion-card-content>
-    </ion-card>  -->
-
     <ion-card class="cards-bg" *ngIf="!login">
         <img src="assets/img/rooms/s2.PNG" />
         <ion-card-content>
@@ -35,7 +21,8 @@
 
                 <ion-item *ngIf="lastLogin">
                     <ion-note item-right>
-                        Last login: {{lastLogin | amTimeAgo:true}} ago <br/> Next login required in {{timeuntil | amTimeAgo:true}}
+                        Last login: {{lastLogin | amTimeAgo:true}} ago
+
                     </ion-note>
                 </ion-item>
 
@@ -47,21 +34,49 @@
                     <ion-icon  item-left name="log-in" small></ion-icon>Login
             </button>
                 </ion-item>
-                <!-- <ion-item   (click)="checkforUpdateHockey()">
-                    <ion-icon name="cube"></ion-icon>
-                    <button ion-button block color="facebook" (click)="checkforUpdateHockey()">Log in</button>
 
-                </ion-item> -->
-                <!-- <ion-item>
-
-                    <button ion-button block color="facebook" (click)="version()"><ion-icon name="information" large></ion-icon>Version</button>
-
-                </ion-item> -->
             </ion-list>
 
         </ion-card-content>
 
     </ion-card>
-    <div id="hiw-login-container"></div>
 
+</ion-content> -->
+
+<ion-header>
+    <ion-navbar color="primary">
+        <ion-title>Security Check</ion-title>
+    </ion-navbar>
+</ion-header>
+
+<ion-content parallax-header no-bounce class="bg-modal">
+    <div class="header-image"></div>
+    <div class="main-content" text-wrap text-center>
+        <div class="circular"></div>
+        <p>{{user.occupation}} &bull; {{user.location}}</p>
+        <p class="profile-description">{{user.description}}</p>
+        <hr>
+        <h2>Login</h2>
+        <ion-list>
+            <ion-item>
+                <button block   color="favorite" (click)="onLogin()" *ngIf="username">
+                    <ion-icon  item-left name="log-in" small></ion-icon>Hi, {{this.auth.first}}, click to Login.
+            </button>
+                <button block   color="favorite" (click)="onLogin()" *ngIf="!username">
+                <ion-icon  item-left name="log-in" small></ion-icon>Login
+        </button>
+        <ion-note item-right *ngIf="lastLogin">
+
+            Last login: {{lastLogin | amTimeAgo }} ago ( {{lastLogin}})<br>
+           <div *ngIf="!auth.isTokenExpired()"> Token expires at: {{auth.getTokenExpirationDate()}}  <br></div>
+           <div *ngIf="!auth.isTokenExpired()"> Expires In: {{auth.tokenExpiresIn()}}  <br></div>
+            Is token expired: {{auth.isTokenExpired()}}  <br>
+             Authenticated:   {{auth.authenticated()}} <br>
+        </ion-note>
+            </ion-item>
+
+        </ion-list>
+
+    </div>
+    <div id="hiw-login-container"></div>
 </ion-content>

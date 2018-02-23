@@ -10,8 +10,7 @@ import { extendMoment } from 'moment-range';
 import { NavController, App } from 'ionic-angular';
 
 import { AuthService, LoggerService } from "../../shared/index";
-import Moment from "moment";
-const moment = extendMoment(Moment);
+import * as moment from 'moment';
 @Component({
     selector: 'page-login',
     templateUrl: 'login.html'
@@ -25,9 +24,21 @@ export class LoginPage {
     versionCode: any = '';
     versionNumber: string = '';
     login: boolean;
-    constructor(public plat: Platform, public navCtrl: NavController, private auth: AuthService, private log: LoggerService, private events: Events,
-        private appVersion: AppVersion) {
+    user: any;
+    constructor(public plat: Platform, public navCtrl: NavController, public auth: AuthService, private log: LoggerService, private events: Events, private appVersion: AppVersion) {
 
+    this.user = {
+                name: 'SurgiPal',
+                profileImage: 'assets/img/icon/logo512.png',
+                coverImage: 'assets/img/rooms/s2.PNG',
+                occupation: 'Startup',
+                location: 'Washington, D.C.',
+                description: 'A physician driven cloud-based preference card system and OR platform for surgeries and procedures',
+                address: '27 King\'s College Cir, Toronto, ON M5S, Canada',
+                phone: '555 555 555',
+                email: 'support@surgipal.com',
+                whatsapp: '555 555 555',
+              };
     }
 
     public ionViewDidLoad() {
@@ -42,7 +53,7 @@ export class LoginPage {
                 this.lastLogin = moment(ll).toDate();
                 this.timeuntil = moment(ll).add(15, 'minutes').toDate();
                 let now = moment();
-                this.timeleft = moment(new Date().valueOf()).diff(this.timeuntil, 'minutes');
+                this.timeleft = moment().diff( this.lastLogin, 'minutes');
                 //   this.timeuntil=15-this.timeleft;
             }
         });

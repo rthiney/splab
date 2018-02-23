@@ -13,7 +13,7 @@ import { NgForm, FormBuilder, FormGroup, Validators } from '@angular/forms';
  * Ionic pages and navigation.
  */
 import moment from 'moment';
-@IonicPage()
+
 @Component({
   selector: 'page-add-surgery',
   templateUrl: 'add-surgery.html',

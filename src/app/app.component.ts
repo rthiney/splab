@@ -36,6 +36,7 @@ import { NotifyService } from "../shared/notify.service";
 import { AboutPage } from "../pages/about/about";
 import { StatsPage } from "../pages/stats/stats";
 import { AddSurgeryPage } from "../pages/add-surgery/add-surgery";
+import { SurgeonHomePage } from "../pages/surgeon-home/surgeon-home";
 
 @Component({
   templateUrl: "app.template.html",
@@ -59,97 +60,22 @@ export class SurgiPalApp {
   // List of pages that can be navigated to from the left menu
   // the left menu only works after login
   // the login page disables the left menu
-  appPages: IPageInterface[] = [
-    {
-      title: "Today",
-      name: "TabsPage",
-      component: TabsPage,
-      tabComponent: PulsePage,
-      icon: "pulse",
-      index: 0,
-      badgeValue: 0,
-      color: "favorite"
-    },
-    {
-      title: "Calendar",
-      name: "TabsPage",
-      component: TabsPage,
-      tabComponent: CalendarPage,
-      index: 1,
-      icon: "calendar",
-      badgeValue: 0,
-      color: "favorite",
-      comment: "Future Surgeries"
-    },
-    {
-      title: "Messages",
-      name: "TabsPage",
-      component: TabsPage,
-      tabComponent: MessageListPage,
-      index: 2,
-      icon: "mail",
-      badgeValue: 0,
-      color: "favorite"
-    },
-    {
-      title: "Stats",
-      name: "TabsPage",
-      component: TabsPage,
-      tabComponent: StatsPage,
-      icon: "stats",
-      index: 3,
-      badgeValue: 0,
-      color: "light",
-      comment: "Completed and not cancelled"
-    },
-    {
-      title: "About",
-      name: "AboutPage",
-      component: TabsPage,
-      tabComponent: AboutPage,
-      index: 4,
-      icon: "information-circle",
-      badgeValue: -1,
-      color: "light"
-    },
-    {
-        title: "Add Surgery",
-    name: "AddSurgeryPage",
-    component: AddSurgeryPage,
-    icon: "add",
-    logsOut: false,
-    color: "primary"
-    }
-  ];
-
-  loggedInPages: IPageInterface[] = [
-
-    {
-      title: "Account",
-      name: "AccountPage",
-      component: AccountPage,
-      icon: "cog",
-      logsOut: false,
-      color: "primary"
-    },  {
-      title: "Logout!",
-      name: "LoginPage",
-      component: LoginPage,
-      icon: "log-out",
-      logsOut: true,
-      color: "google"
-    }
-  ];
-  loggedOutPages: IPageInterface[] = [
-    {
-      title: "Login",
-      name: "LoginPage",
-      component: LoginPage,
-      icon: "log-in",
-      logsOut: false,
-      color: "favorite"
-    }
-  ];
+    appPages: IPageInterface[] =
+        [{ title: "Today", name: "PulsePage", component: PulsePage, tabComponent: PulsePage, icon: "pulse", index: 0, badgeValue: 0, color: "favorite" },
+        { title: "Calendar", name: "CalendarPage", component: CalendarPage, tabComponent: CalendarPage, index: 1, icon: "calendar", badgeValue: 0, color: "favorite", comment: "Future Surgeries" },
+        { title: "Messages", name: "MessageListPage", component: MessageListPage, tabComponent: MessageListPage, index: 2, icon: "mail", badgeValue: 0, color: "favorite" },
+        { title: "Stats", name: "StatsPage", component: StatsPage, tabComponent: StatsPage, icon: "stats", index: 3, badgeValue: 0, color: "light", comment: "Completed and not cancelled" },
+        { title: "About", name: "AboutPage", component: AboutPage, tabComponent: AboutPage, index: 4, icon: "information-circle", badgeValue: -1, color: "light" },
+        { title: "Add Surgery", name: "AddSurgeryPage", component: AddSurgeryPage, tabComponent: AddSurgeryPage, icon: "add", logsOut: false, color: "primary" },
+        { title: "Surgeon Home", name: "SurgeonHomePage", component: SurgeonHomePage, tabComponent: SurgeonHomePage, icon: "person", logsOut: false, color: "primary" }
+        ];
+    loggedInPages: IPageInterface[] = [
+        { title: "Account", name: "AccountPage", component: AccountPage, icon: "cog", logsOut: false, color: "primary" },
+        { title: "Logout!", name: "LoginPage", component: LoginPage, icon: "log-out", logsOut: true, color: "google" }
+    ];
+    loggedOutPages: IPageInterface[] = [
+        { title: "Login", name: "LoginPage", component: LoginPage, icon: "log-in", logsOut: false, color: "favorite" }
+    ];
   rootPage: any;
   versionNumber: any = "0.4.7";
   constructor(
@@ -168,20 +94,20 @@ export class SurgiPalApp {
     private modalCtrl: ModalController,
     private userData:UserData
   ) {
-
+    this.enableMenu(false,'constructor'),
     console.log("Authenticated", this.auth.authenticated());
     // Check if the user has already seen the tutorial
-    this.storage.get("hasSeenTutorial").then(hasSeenTutorial => {
-      if (hasSeenTutorial && this.auth.authenticated()) {
-        console.log('Set Tabs Page');
-        this.rootPage = TabsPage;
-      }
-      else  if (!hasSeenTutorial)
-         this.rootPage = TutorialPage;
-         else{
-         this.rootPage =LoginPage;
-         this.enableMenu(false, 'from constructor');
-         }
+    // this.storage.get("hasSeenTutorial").then(hasSeenTutorial => {
+    //     if (hasSeenTutorial && this.auth.authenticated()) {
+    //         console.log('Set Tabs Page');
+    //         this.rootPage = PulsePage;
+    //     }
+    //     else if (!hasSeenTutorial)
+    //         this.rootPage = TutorialPage;
+    //     else if (!this.auth.authenticated()) {
+    //         this.rootPage = LoginPage;
+    //         this.enableMenu(false, 'from constructor');
+    //     }
       // else if (this.auth.authenticated()) {
       //   console.log('Set Tabs Root');
       //   this.nav.setRoot(TabsPage);
@@ -194,7 +120,7 @@ export class SurgiPalApp {
 
       this.platformReady();
       this.listenToLoginEvents();
-    });
+  //  });
 
     // load the conference data
     //  confData.load();
@@ -208,9 +134,26 @@ export class SurgiPalApp {
 
   platformReady() {
     // Call any initial plugins when ready
-    this.platform.ready().then(() => {
+      this.platform.ready().then(() => {
+
       console.log('platformReady Called');
 
+        // this.storage.get("hasSeenTutorial").then(hasSeenTutorial => {
+        //     if (this.auth.authenticated()) {
+        //         console.log('User authenticated.',this.auth.getUsername());
+        //         this.rootPage = PulsePage;
+        //         this.enableMenu(true, 'platform ready.');
+        //     } else  if (!hasSeenTutorial) {
+        //             this.rootPage = TutorialPage;
+        //             console.log('User has NOT seen tutorial, is not authenticated: TutorialPage');
+        //             this.enableMenu(false, 'platform ready.');
+        //         }
+        //         else {
+        //             console.log('User has seen tutorial, is not authenticated: LoginPage');
+        //             this.rootPage = LoginPage;
+        //             this.enableMenu(false, 'platform ready.');
+        //         }
+        //     });
       this.appinsightsService.Init({
         instrumentationKey: "f8177abe-fb52-4eac-935a-d8e9e32cb8d3",
         enableDebug: false,
@@ -224,25 +167,28 @@ export class SurgiPalApp {
 
   }
 
-  openPage(page: IPageInterface) {
-    let params = {};
-    // the nav component was found using @ViewChild(Nav)
-    // setRoot on the nav to remove previous pages and only have this page
-    // we wouldn't want the back button to show in this scenario
-    if (page.index) {
-      params = { tabIndex: page.index };
-    }
-    // If we are already on tabs just change the selected tab
-    // don't setRoot again, this maintains the history stack of the
-    // tabs even if changing them from the menu
-    if (this.nav.getActiveChildNavs().length && page.index !== undefined) {
-      this.nav.getActiveChildNavs()[0].select(page.index);
-      // Set the root of the nav with params if it's a tab index
-    } else {
-      this.nav.setRoot(page.name, params).catch((err: any) => {
-        console.log(`Didn't set nav root: ${err}`);
-      });
-    }
+    openPage(page: IPageInterface) {
+        this.nav.setRoot(page.component);
+
+    // // // // let params = {};
+    // // // // // the nav component was found using @ViewChild(Nav)
+    // // // // // setRoot on the nav to remove previous pages and only have this page
+    // // // // // we wouldn't want the back button to show in this scenario
+    // // // // if (page.index) {
+    // // // //   params = { tabIndex: page.index };
+    // // // // }
+    // // // // // If we are already on tabs just change the selected tab
+    // // // // // don't setRoot again, this maintains the history stack of the
+    // // // // // tabs even if changing them from the menu
+    // // // // if (this.nav.getActiveChildNavs().length && page.index !== undefined) {
+    // // // //   this.nav.getActiveChildNavs()[0].select(page.index);
+    // // // //   // Set the root of the nav with params if it's a tab index
+    // // // // } else {
+    // // // //   this.nav.setRoot(page.name, params).catch((err: any) => {
+    // // // //     console.log(`Didn't set nav root: ${err}`);
+    // // // //   });
+    // // // // }
+
     // if (page.logsOut === true) {
     //   // Give the menu time to close before changing to logged out
     //   this.userData.logout();
@@ -276,7 +222,11 @@ export class SurgiPalApp {
 openAdd()
 {
     this.nav.setRoot(AddSurgeryPage);
-}
+    }
+    openSurgeonHomePage()
+    {
+        this.nav.setRoot(SurgeonHomePage);
+    }
   setAuthenticatedUserContext() {
     // try {
     //   this.appinsightsService.setAuthenticatedUserContext(
@@ -302,7 +252,7 @@ openAdd()
       // if (this.platform.is('cordova')) { this.getPlatforms(); }
       this.log.event("user:authenticated!!! " + n, n);
       this.enableMenu(true,'user:authenticated event');
-      this.nav.setRoot(TabsPage);
+      this.nav.setRoot(PulsePage);
       if (!this.bgLoaded && this.auth.fosId > 0)
          this.loadDataBackground();
       else
@@ -334,7 +284,7 @@ openAdd()
       this.appinsightsService.clearAuthenticatedUserContext();
       this.bgLoaded = false;
       this.enableMenu(false,'user:logout event');
-        this.nav.push(LoginPage);
+        this.nav.setRoot(LoginPage);
     });
 
     this.events.subscribe("message:loadedStore", (location, m) => {

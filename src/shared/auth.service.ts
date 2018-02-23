@@ -8,6 +8,8 @@ import { JwtHelper, tokenNotExpired } from "angular2-jwt";
 import { Injectable, NgZone } from "@angular/core";
 import { Observable } from 'rxjs/Rx';
 import { Cluster } from '../models/Cluster';
+import { IGeoip } from '../models/interfaces/IGeoip';
+import * as moment from 'moment';
 //declare var WindowsAzure: any;
 declare var window;
 declare var Auth0: any;
@@ -16,10 +18,10 @@ declare var Auth0Lock: any;
 export class AuthService {
 
   jwtHelper: JwtHelper = new JwtHelper();
-  auth0 = new Auth0({
-    clientID: Auth0Vars.AUTH0_CLIENT_ID,
-    domain: Auth0Vars.AUTH0_DOMAIN
-  });
+//   auth0 = new Auth0({
+//     clientID: Auth0Vars.AUTH0_CLIENT_ID,
+//     domain: Auth0Vars.AUTH0_DOMAIN
+//   });
   lock = new Auth0Lock(Auth0Vars.AUTH0_CLIENT_ID, Auth0Vars.AUTH0_DOMAIN, {
     //https://github.com/auth0/lock#theming-options  // Username-Password-Authentication
     languageDictionary: {
@@ -76,7 +78,8 @@ export class AuthService {
   HAS_LOGGED_IN = "hasLoggedIn";
   HAS_SEEN_TUTORIAL = "hasSeenTutorial";
   client: any;
-  table: any;
+    table: any;
+    geo: IGeoip;
 
   //   client: WindowsAzure.MobileServiceClient;
   constructor(
@@ -92,14 +95,23 @@ export class AuthService {
     this.storage
       .get("profile")
       .then(profile => {
-        if (profile) {
-          this.dumpProfileVariables(JSON.parse(profile));
+          if (profile) {
+              console.log('Profile from storage');
+              this.dumpProfileVariables(JSON.parse(profile));
+              this.storage.get("id_token").then(token => {
+                  this.idToken = token;
 
-          this.storage.get("id_token").then(token => {
-            this.idToken = token;
-          });
-          this.events.publish("user:loginstorage", this.name);
-        }
+                  if (this.authenticated()) {
+                      console.log('Profile from storage is authenticated');
+                      this.scheduleRefresh();
+                      this.events.publish("user:loginstorage", this.name);
+                  }
+                  else {
+                      console.log('Profile from storage is NOT authenticated');
+                      this.events.publish("user:logout", this.name);
+                  }
+              });
+          }
       })
       .catch(error => {
         this.log.error('AuthService', error);
@@ -121,7 +133,7 @@ export class AuthService {
           return;
         }
         this.log.console("getProfile", profile);
-
+        console.log('Profile from login');
         this.dumpProfileVariables(profile);
 
         //save to tables
@@ -156,7 +168,8 @@ export class AuthService {
     this.roles = profile.app_metadata.authorization.roles;
     this.permissions = profile.app_metadata.authorization.permissions;
     this.latitude = profile.user_metadata.geoip.latitude || "";
-    this.longitude = profile.user_metadata.geoip.longitude || "";
+      this.longitude = profile.user_metadata.geoip.longitude || "";
+      this.geo = profile.user_metadata.geoip;
     this.log.console("Dumped user data to Auth");
     this.saveToMobileClientTable();
   }
@@ -233,7 +246,7 @@ export class AuthService {
         console.groupEnd();
       } else {
         this.log.console("       this.auth0.refreshToken(");
-        this.auth0.refreshToken(refresh_token, (err, delegationRequest) => {
+        this.lock.getClient().refreshToken(refresh_token, (err, delegationRequest) => {
           if (err) {
             // alert(err);
             this.log.console("  err    refreshToken delegationRequest");
@@ -294,11 +307,14 @@ console.log('Logout Called, is authenticated is ' + this.authenticated());
     let source = Observable.of(this.idToken).flatMap(token => {
       // The delay to generate in this case is the difference
       // between the expiry time and the issued at time
+        debugger;
       let jwtIat = this.jwtHelper.decodeToken(token).iat;
       let jwtExp = this.jwtHelper.decodeToken(token).exp;
       let iat = new Date(0);
-      let exp = new Date(0);
-
+        let exp = new Date(0);
+        console.log('jwtIat',moment(jwtIat*1000).toDate());
+        console.log('jwtExp',moment(jwtExp*1000).toDate());
+        console.log('jwtlat', moment(jwtIat).toDate());
       let delay = exp.setUTCSeconds(jwtExp) - iat.setUTCSeconds(jwtIat);
       this.log.console("set delay to " + delay);
       return Observable.interval(delay);
@@ -335,7 +351,8 @@ console.log('Logout Called, is authenticated is ' + this.authenticated());
         let delay: number = exp.valueOf() - now;
         // let delay = 10000;
         this.storage.set("exp", delay);
-        this.log.console("set delay to " + delay);
+          this.log.console("set delay to " + delay);
+
         // Use the delay in a timer to
         // run the refresh at the proper time
         return Observable.timer(delay);
@@ -358,6 +375,16 @@ console.log('Logout Called, is authenticated is ' + this.authenticated());
       this.refreshSubscription.unsubscribe();
     }
   }
+    public getTokenExpirationDate() {
+        return this.jwtHelper.getTokenExpirationDate(this.idToken);
+    }
+    public tokenExpiresIn() {
+        let expires = this.jwtHelper.getTokenExpirationDate(this.idToken);
+        return moment(expires).fromNow();
+    }
+    public isTokenExpired() {
+        return this.jwtHelper.isTokenExpired(this.idToken);
+    }
 
   public getNewJwt() {
     // Get a new JWT from Auth0 using the refresh token saved
@@ -366,7 +393,7 @@ console.log('Logout Called, is authenticated is ' + this.authenticated());
     this.storage
       .get("refresh_token")
       .then(token => {
-        this.auth0.refreshToken(token, (err, delegationRequest) => {
+        this.lock.getClient().refreshToken(token, (err, delegationRequest) => {
           if (err) {
             this.log.console(err);
           }
