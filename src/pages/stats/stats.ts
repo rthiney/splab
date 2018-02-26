@@ -151,7 +151,6 @@ export class StatsPage {
         let clone = JSON.parse(JSON.stringify(this.chartData));
         let cloneLab = JSON.parse(JSON.stringify(this.chartLabels));
 
-        console.group("Refresh Stats");
         // this.chartData[0].data=[];
         let index = -1;
         let index2 = -1;
@@ -181,7 +180,6 @@ export class StatsPage {
             clone[index2] = cd;
         });
         this.chartData = clone;
-        console.groupEnd();
     }
 
     allStats( ) {

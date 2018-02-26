@@ -42,33 +42,22 @@ export class SurgeryData {
 
   }
 
-  load(): Observable<DataSurgeryStore> {
+    load(): Observable<DataSurgeryStore> {
 
-      if (this.model) {
-        this.loaded = true;
-        console.log("NOT LOADING FROM SERVER", this.model);
-        return Observable.of(this.model);
-      } else {
-        this.loaded = false;
+        if (this.model) {
+            this.loaded = true;
+             this.log.console("NOT LOADING FROM SERVER", this.model);
+            return Observable.of(this.model);
+        } else {
+            this.loaded = false;
+            var url = this.env.apiUrl + "surgeries/all/" + this.auth.fosId;
 
-     var url =              this.env.apiUrl + "surgeries/all/" + this.auth.fosId;
-
-        // let date = moment().format('YYYY-MM-DD').toString();
-        //   let url = this.env.apiPhp + `surgeriesview?transform=1&filter=doctorFosId,eq,${this.auth.fosId}&order=term,asc&satisfy=all`;
-        //     //   `surgeriesview?transform=1&filter[]=doctorFosId,eq,${this.auth.user.fos_id}&filter[]=term,sw,${date}&order=term,asc&satisfy=all`
-
-        console.log("LOADING FROM SERVER", url);
-        //  this.log.startTracking("Loading surgeries from server");
-        return this.authHttp.get(url).map(this.processData, this);
-      }
-
-  }
+             this.log.console("LOADING FROM SERVER", url);
+            //  this.log.startTracking("Loading surgeries from server");
+            return this.authHttp.get(url).map(this.processData, this);
+        }
+    }
   loadData() {
-    //  this.db.getSurgeries().then(result => {
-    //      this.model = <DataSurgeryStore>result;
-    //    }, error => {
-    //      console.log("ERROR: ", error);
-    //    });
     this.auth.storage
       .get("surgeries")
       .then((dd: any) => {
@@ -85,13 +74,13 @@ export class SurgeryData {
             "DataSurgeryStore LoadData",
             this.model.metrics
           );
-          console.log("Loaded surgeries data from memory");
+           this.log.console("Loaded surgeries data from memory");
         } else
           this.events.publish("surgeries:loadedStore", "DataSurgeryStore", -1);
       })
       .catch(() => {
         this.events.publish("surgeries:loadedStore", "DataSurgeryStore", -1);
-        console.error("No surgeries  data stored locally");
+         this.log.error("No surgeries  data stored locally");
       });
   }
   public findSugeryById(id: number): SurgeryGroupItem {
@@ -103,17 +92,17 @@ export class SurgeryData {
     return surg;
   }
   saveData() {
-    console.log("Save surgeries data");
+     this.log.console("Save surgeries data");
     try {
       // this.db.saveSurgeries(new Date(), JSON.stringify(this.model));
       this.auth.storage.set("surgeriesStoreDate", new Date().toUTCString());
       this.auth.storage.set("surgeries", JSON.stringify(this.model));
     } catch (e) {
-      console.error(e);
+       this.log.error(e);
     }
   }
   processData(data: any) {
-    console.group("Process Surgery Data");
+
     // just some good 'ol JS fun with objects and arrays
     // build up the data by linking speakers to sessions
     this.model = new DataSurgeryStore();
@@ -126,7 +115,7 @@ export class SurgeryData {
       this.model.metrics
     );
 this.saveData();
-    console.info("Process Surgery Data Complete", this.model);
+     this.log.console("Process Surgery Data Complete", this.model);
     console.groupEnd();
     //this.refreshData();
     return this.model;
@@ -157,11 +146,11 @@ this.saveData();
     let errMsg = error.message
       ? error.message
       : error.status ? `${error.status} - ${error.statusText}` : "Server error";
-    console.error(errMsg); // log to console instead
+     this.log.error(errMsg); // log to console instead
     return errMsg;
   }
   handleError(error) {
-    console.error(error);
+     this.log.error(error);
     return Observable.throw(error.json().error || "Server error");
   }
 }

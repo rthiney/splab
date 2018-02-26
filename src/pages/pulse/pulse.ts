@@ -184,9 +184,6 @@ export class PulsePage {
       else this.nosrgmessage = "No future surgeries scheduled.";
     }
     this.app.setTitle(this.title);
-    console.log("this.surgeries", this.surgeries);
-    console.log("this.surgeries", this.nosrgmessage);
-    console.groupEnd();
     loader.dismiss();
   }
 
@@ -195,7 +192,7 @@ export class PulsePage {
   }
 
   updateSchedule(reset: boolean = false, refresher: any = null) {
-    console.log("Get Surgeries");
+
     // console.log("passed in reset=" + reset);
 
     // // Close any open sliding items when the schedule updates

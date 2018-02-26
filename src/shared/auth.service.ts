@@ -96,18 +96,18 @@ export class AuthService {
       .get("profile")
       .then(profile => {
           if (profile) {
-              console.log('Profile from storage');
+               this.log.console('Profile from storage');
               this.dumpProfileVariables(JSON.parse(profile));
               this.storage.get("id_token").then(token => {
                   this.idToken = token;
 
                   if (this.authenticated()) {
-                      console.log('Profile from storage is authenticated');
+                       this.log.console('Profile from storage is authenticated');
                       this.scheduleRefresh();
                       this.events.publish("user:loginstorage", this.name);
                   }
                   else {
-                      console.log('Profile from storage is NOT authenticated');
+                       this.log.console('Profile from storage is NOT authenticated');
                       this.events.publish("user:logout", this.name);
                   }
               });
@@ -133,7 +133,7 @@ export class AuthService {
           return;
         }
         this.log.console("getProfile", profile);
-        console.log('Profile from login');
+         this.log.console('Profile from login');
         this.dumpProfileVariables(profile);
 
         //save to tables
@@ -260,6 +260,7 @@ export class AuthService {
             // returns a promise<boolean> that finally
             // determines if user is truly authenticated
             resolve(authenticated);
+            console.groupEnd();
           } catch (e) { }
         });
         console.groupEnd();
@@ -295,7 +296,7 @@ export class AuthService {
     this.zoneImpl.run(() => (this.user = null));
     // Unschedule the token refresh
     this.unscheduleRefresh();
-console.log('Logout Called, is authenticated is ' + this.authenticated());
+ this.log.console('Logout Called, is authenticated is ' + this.authenticated());
     // this.lock.show();
     this.events.publish("user:logout");
   }
@@ -312,9 +313,11 @@ console.log('Logout Called, is authenticated is ' + this.authenticated());
       let jwtExp = this.jwtHelper.decodeToken(token).exp;
       let iat = new Date(0);
         let exp = new Date(0);
-        console.log('jwtIat',moment(jwtIat*1000).toDate());
-        console.log('jwtExp',moment(jwtExp*1000).toDate());
-        console.log('jwtlat', moment(jwtIat).toDate());
+        console.group('JWT');
+         this.log.console('jwtIat',moment(jwtIat*1000).toDate());
+         this.log.console('jwtExp',moment(jwtExp*1000).toDate());
+         this.log.console('jwtlat', moment(jwtIat).toDate());
+
       let delay = exp.setUTCSeconds(jwtExp) - iat.setUTCSeconds(jwtIat);
       this.log.console("set delay to " + delay);
       return Observable.interval(delay);

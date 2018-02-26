@@ -71,11 +71,11 @@ export class MessageListPage {
 
   subscribeToEvents() {
     this.events.subscribe("messagedata:markedRead", n => {
-      console.log("EVENT CAPTURED: messagedata:markedRead", n);
+       this.log.console("EVENT CAPTURED: messagedata:markedRead", n);
       this.updateSchedule(true);
     });
        this.events.subscribe("message:service.sendEmail", n => {
-      console.log("EVENT CAPTURED:message:service.sendEmail", n);
+    this.log.console("EVENT CAPTURED:message:service.sendEmail", n);
     //  this.updateSchedule(true);
     });
 
@@ -131,9 +131,9 @@ export class MessageListPage {
   }
 
   delete(msg?) {
-    console.log("Delete Message", msg);
+     this.log.console("Delete Message", msg);
     this._msgService.deleteMessage(msg).then((_a:any) => {
-      console.log("Delete DONE", msg);
+       this.log.console("Delete DONE", msg);
       this.messages = [];
       this.updateSchedule(true);
     });
@@ -142,7 +142,7 @@ export class MessageListPage {
   deleteGroup(grp: any) {
     grp.messages.forEach((g: DoctorMessageModel) => {
       this._msgService.deleteMessage(g).then((_a:any)  => {
-        console.log("Delete DONE", g.message);
+         this.log.console("Delete DONE", g.message);
       });
     });
   }
@@ -160,9 +160,9 @@ export class MessageListPage {
   }
   showDetails(msg: MessageGroupItem) {
     try {
-      console.group("Message Detail");
+
       if (!msg.message.viewed) {
-        console.log("showDetails: Marking read");
+         this.log.console("showDetails: Marking read");
         this._service.markRead(msg.message.id as number).then(() => {
           // debugger;
           msg.message.viewed = true;
@@ -177,12 +177,12 @@ export class MessageListPage {
       modal.onWillDismiss((data: DoctorMessageModel) => {
         if (data) {
           this.updateSchedule(false);
-          console.groupEnd();
+
         }
       });
     } catch (error) {
       console.error(error);
-      console.groupEnd();
+
     }
   }
 

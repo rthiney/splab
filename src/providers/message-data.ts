@@ -7,7 +7,7 @@ import { Http } from "@angular/http";
 import { Observable } from "rxjs/Observable";
 import "rxjs/add/operator/map";
 import "rxjs/add/observable/of";
-import { AuthService, CONFIGURATION } from "../shared/index";
+import { AuthService, CONFIGURATION, LoggerService } from "../shared/index";
 import { DoctorMessage } from "../models/models";
 import { Storage } from "@ionic/storage";
   // tslint:disable-next-line:curly
@@ -22,7 +22,8 @@ export class MessageData {
     public authHttp: AuthHttp,
     public auth: AuthService,
     public events: Events,
-    private storage:Storage
+      private storage: Storage,
+    private log:LoggerService
   ) {}
 //   load_(): any {
 //     debugger;
@@ -36,17 +37,17 @@ export class MessageData {
   load(): any {
     this.fromStore = false;
     if (this.model) {
-      console.log("NOT LOADING FROM SERVER DATA = ", this.model.data);
+       this.log.console("NOT LOADING FROM SERVER DATA = ", this.model.data);
       return Observable.of(this.model);
     } else {
       // var url=CONFIGURATION.baseUrls.apiUrl +'surgeries/past/' + this.auth.fosId;
       // return this.http.get('assets/data/data.json')
       //   .map(this.processData, this);
-      console.log("LOADING FROM SERVER", url);
+       this.log.console("LOADING FROM SERVER", url);
       this.fromStore = false;
       var url =
         CONFIGURATION.baseUrls.apiUrl + "messages/doctors/" + this.auth.fosId;
-      console.log("URL:", url);
+       this.log.console("URL:", url);
       // this.auth.storage.get('messages').then((sve: any) => this.processData(sve))
       return this.authHttp.get(url).map(this.processData, this);
     }
@@ -58,7 +59,7 @@ export class MessageData {
       .then((dd: any) => {
         if (dd) {
           this.model = JSON.parse(dd) as DataMessageStore;
-          console.log("DataMessageStore Loaded", this.model);
+           this.log.console("DataMessageStore Loaded", this.model);
        this.refreshData();
        this.events.publish("message:loadedStore", "DataMessageStore", 1);
         }
@@ -67,23 +68,23 @@ export class MessageData {
       })
       .catch(error => {
         this.events.publish("message:loadedStore", "DataMessageStore" ,- 1);
-        console.error("No message  data stored locally");
+         this.log.error("No message  data stored locally");
         this.failure(error);
       });
   }
   saveData() {
-      console.log("Save message data");
+       this.log.console("Save message data");
     try {
       this.storage.set("messagesStoreDate", new Date().toUTCString());
       this.storage.set("messages", JSON.stringify(this.model));
     } catch (e) {
 
-      console.error(e);
+       this.log.error(e);
     }
   }
   markRead(id:number): Promise<DoctorMessage> {
     const url = `${CONFIGURATION.baseUrls.apiPhp + 'doctor_message'}/${id }`;
-             console.log("MessageDate.MarkRead URL", url);
+              this.log.console("MessageDate.MarkRead URL", url);
     return this.authHttp
       .put(url, JSON.stringify({ viewed: 1 }))
       .toPromise()
@@ -91,49 +92,49 @@ export class MessageData {
   }
 
   refreshData(){
-        console.group("Refresh Message Data");
-   try {
-     let currentDate = "";
-     let currentMessages = [];
-     this.model.messages = [];
-     this.model.unreadMessages = [];
-     this.model.readMessages = [];
-     this.model.groupedMessages = [];
-     this.model.data.forEach((message: DoctorMessageModel) => {
-       message.DoctorImage = (message.DoctorImage === null) ? 'assets/img/flat.png' : 'https://surgipal.com/uploads/avatars/' + message.DoctorImage;
-//       this.auth.getPicture(); //  (message.DoctorImage == null) ? 'assets/img/flat.png' : 'https://surgipal.com/uploads/avatars/' + message.DoctorImage;
 
-       let d = new Date(message.createdAt);
+      try {
+          let currentDate = "";
+          let currentMessages = [];
+          this.model.messages = [];
+          this.model.unreadMessages = [];
+          this.model.readMessages = [];
+          this.model.groupedMessages = [];
+          this.model.data.forEach((message: DoctorMessageModel) => {
+              message.DoctorImage = (message.DoctorImage === null) ? 'assets/img/flat.png' : 'https://surgipal.com/uploads/avatars/' + message.DoctorImage;
+              //       this.auth.getPicture(); //  (message.DoctorImage == null) ? 'assets/img/flat.png' : 'https://surgipal.com/uploads/avatars/' + message.DoctorImage;
 
-       if (d.toLocaleDateString() !== currentDate) {
-         currentDate = d.toLocaleDateString();
+              let d = new Date(message.createdAt);
 
-         let newGroup = new MessageGroup(d);
+              if (d.toLocaleDateString() !== currentDate) {
+                  currentDate = d.toLocaleDateString();
 
-         currentMessages = newGroup.messages;
-         this.model.groupedMessages.push(newGroup);
-       }
+                  let newGroup = new MessageGroup(d);
 
-       let newMessage = new MessageGroupItem(message);
-       this.model.messages.push(newMessage);
-       currentMessages.push(newMessage);
-       //    console.log('Complete or not:');
+                  currentMessages = newGroup.messages;
+                  this.model.groupedMessages.push(newGroup);
+              }
 
-       if (message.viewed !== null && message.viewed) this.model.readMessages.push(newMessage);
-       else this.model.unreadMessages.push(newMessage);
-     });
-     this.calculateMetrics();
-     this.reduceGroup();
-     this.saveData();
-       console.groupEnd();
-       console.groupCollapsed("Refresh Message Data");
-   }
-   catch (error) {}
-       console.groupEnd();
+              let newMessage = new MessageGroupItem(message);
+              this.model.messages.push(newMessage);
+              currentMessages.push(newMessage);
+              //     this.log.console('Complete or not:');
+
+              if (message.viewed !== null && message.viewed) this.model.readMessages.push(newMessage);
+              else this.model.unreadMessages.push(newMessage);
+          });
+          this.calculateMetrics();
+          this.reduceGroup();
+          this.saveData();
+
+      }
+      catch (error) {
+          this.log.error(error);
+      }
   }
   processData(data: any) {
     try {
-      console.group("Processs Message Data");
+
       // just some good 'ol JS fun with objects and arrays
       // build up the data by linking speakers to sessions
        this.model= new DataMessageStore( );
@@ -142,9 +143,6 @@ export class MessageData {
       this.model.groupedMessages = [];
       // loop through each message
       this.refreshData();
-      console.groupEnd();
-      console.groupCollapsed("Processs Message Data");
-
       this.saveData();
       this.events.publish("message:loaded",'DataMessageStore', this.model);
 
@@ -191,16 +189,14 @@ export class MessageData {
   }
 
   reduceGroup() {
-    console.group("Reduce Message Group");
-    console.log("Old message group count", this.model.groupedMessages.length);
+     this.log.console("Old message group count", this.model.groupedMessages.length);
     let newGroups: MessageGroup[] = [];
     this.model.groupedMessages.forEach((group: MessageGroup) => {
       if (group.messages.length > 0) newGroups.push(group);
     });
     this.model.groupedMessages = newGroups;
-    console.log("New group count", this.model.groupedMessages.length);
-    console.groupEnd();
-    console.groupCollapsed("Reduce Message Group");
+     this.log.console("New group count", this.model.groupedMessages.length);
+
   }
   getMessages(queryText = "", _segment = "unread", refresh = false) {
     if (refresh) {
@@ -210,29 +206,7 @@ export class MessageData {
       let day = this.model.messages;
       this.model.metrics.unread = this.model.unreadMessages.length;
       this.model.metrics.read = this.model.readMessages.length;
-      //console.log('day', day);
       queryText = queryText.toLowerCase().replace(/,|\.|-/g, " ");
-      //let queryWords = queryText.split(" ").filter(w => !!w.trim().length);
-      //console.log('queryWords', queryWords);
-      //debugger;
-      // day.forEach((dt: any) => {
-      //     dt.hide = true;
-      //     dt.messages.forEach((msgs: any) => {
-      //         msgs.message.hide = true;
-      //         ///    if (msgs.message.viewed)   day.readCount++; else    day.unreadCount++;
-      //         // check if this session should show or not
-      //         if (!msgs.message.hide)
-      //             /// day.shownMessages++;
-
-      //             if (!msgs.message.hide && dt.hide) {
-      //                 // if this session is not hidden then this group should show
-      //                 console.log('Group ' + dt.d + ' changes to show because of message.', msgs.message);
-      //                 dt.hide = false;
-      //             }
-      //     });
-
-      // });
-
       return day;
     });
   }
@@ -240,7 +214,7 @@ export class MessageData {
     let errMsg = error.message
       ? error.message
       : error.status ? `${error.status} - ${error.statusText}` : "Server error";
-    console.error(errMsg); // log to console instead
+     this.log.error(errMsg); // log to console instead
     return errMsg;
   }
   filterMessages(srg: any, queryWords: string[], segment: string) {
@@ -271,7 +245,7 @@ export class MessageData {
             matchesQueryText = true;
           }
         } catch (e) {
-          console.error(e);
+           this.log.error(e);
         }
       });
     } else {
@@ -279,7 +253,7 @@ export class MessageData {
       matchesQueryText = true;
     }
     if (queryWords.length && matchesQueryText)
-      console.log("MATCHED", matchesQueryText);
+       this.log.console("MATCHED", matchesQueryText);
 
     // if the segement is 'favorites', but session is not a user favorite
     // then this session does not pass the segment test
@@ -318,7 +292,7 @@ export class MessageData {
     let errMsg = error.message
       ? error.message
       : error.status ? `${error.status} - ${error.statusText}` : "Server error";
-    console.error("handleError in Message", errMsg); // log to console instead
+     this.log.error("handleError in Message", errMsg); // log to console instead
     return errMsg;
   }
 }
