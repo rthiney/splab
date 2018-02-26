@@ -280,7 +280,7 @@ export class AuthService {
   public logout() {
 
     this.storage.clear();
-    debugger;
+    //debugger;
     this.storage.remove(this.HAS_LOGGED_IN);
     this.storage.remove("fosId");
     this.storage.remove("surgeries");
@@ -307,7 +307,7 @@ console.log('Logout Called, is authenticated is ' + this.authenticated());
     let source = Observable.of(this.idToken).flatMap(token => {
       // The delay to generate in this case is the difference
       // between the expiry time and the issued at time
-        debugger;
+    //    debugger;
       let jwtIat = this.jwtHelper.decodeToken(token).iat;
       let jwtExp = this.jwtHelper.decodeToken(token).exp;
       let iat = new Date(0);

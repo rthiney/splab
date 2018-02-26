@@ -10,7 +10,7 @@ import { PulseViewModel } from "../models/viewmodels/pulse_model";
 
 import { AuthHttp } from "angular2-jwt";
 
-import { Injectable } from "@angular/core";
+import { Injectable, Inject } from "@angular/core";
 
 import { Observable } from "rxjs/Observable";
 
@@ -19,8 +19,9 @@ import "rxjs/add/operator/map";
 import "rxjs/add/observable/of";
 import { Http } from "@angular/http";
 import { DataSurgeryStore } from "../models/viewmodels/surgery_model";
+import { EnvVariables } from "../app/environment-variables/environment-variables.token";
 /// import { Database } from "./database/database";
-
+import * as moment from 'moment';
 @Injectable()
 export class SurgeryData {
   loaded: boolean = false;
@@ -30,7 +31,8 @@ export class SurgeryData {
     public http: Http,
     public auth: AuthService,
     public log: LoggerService,
-    public events: Events
+      public events: Events,
+      @Inject(EnvVariables) public env
   ) { }
   load_(): Observable<DataSurgeryStore> {
    // debugger;
@@ -48,15 +50,13 @@ export class SurgeryData {
         return Observable.of(this.model);
       } else {
         this.loaded = false;
-        //  var month = d.getUTCMonth() + 1; //months from 1-12
-        //  var day = d.getUTCDate();F fF F
-        //  var year = d.getUTCFullYear();
-        var url =
-          CONFIGURATION.baseUrls.apiUrl + "surgeries/all/" + this.auth.fosId;
-        // var url = CONFIGURATION.baseUrls.apiUrl + 'surgeries/all/' + this.auth.fosId + '/' + month + '/' + day + '/0'
-        //  var url = CONFIGURATION.baseUrls.apiUrl + 'surgeries/all/12';
-        //   var url = CONFIGURATION.baseUrls.apiUrl + 'surgeries/today/12';
-        // var url = CONFIGURATION.baseUrls.apiUrl + 'surgeries/all/12/6/1/2017';
+
+     var url =              this.env.apiUrl + "surgeries/all/" + this.auth.fosId;
+
+        // let date = moment().format('YYYY-MM-DD').toString();
+        //   let url = this.env.apiPhp + `surgeriesview?transform=1&filter=doctorFosId,eq,${this.auth.fosId}&order=term,asc&satisfy=all`;
+        //     //   `surgeriesview?transform=1&filter[]=doctorFosId,eq,${this.auth.user.fos_id}&filter[]=term,sw,${date}&order=term,asc&satisfy=all`
+
         console.log("LOADING FROM SERVER", url);
         //  this.log.startTracking("Loading surgeries from server");
         return this.authHttp.get(url).map(this.processData, this);

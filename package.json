@@ -27,6 +27,7 @@
         "e2e": "node config/protractor.server.js",
         "e2e:interactive": "node config/protractor.server.js --elementExplorer",
         "ionic:serve": "ionic-app-scripts serve",
+        "ionic:serve:qa": "NODE_ENV=qa ionic-app-scripts serve",
         "ionic:build": "ionic-app-scripts build",
         "ios:dev": "bnr ios:dev",
         "ios:release": "bnr ios:release",

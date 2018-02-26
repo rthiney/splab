@@ -3,12 +3,13 @@ import { AnswerBox } from '../models/AnswerBox';
 import { Surgery } from '../models/Surgery';
 import { SurgeryGroupItem } from '../models/metrics/metrics';
 import { AuthHttp } from 'angular2-jwt';
-import { Injectable } from '@angular/core';
-import {   CONFIGURATION, LoggerService } from "./index";
+import { Injectable, Inject } from '@angular/core';
+import {  LoggerService } from "./index";
 import "rxjs/add/operator/map";
 import "rxjs/add/observable/of";
 import 'rxjs/add/operator/toPromise';
 import { Http, Headers, RequestOptions } from '@angular/http';
+import { EnvVariables } from './../app/environment-variables/environment-variables.token';
 @Injectable()
 export class SurgeryService {
     //   private headers = new Headers({ "Content-Type": "application/json" });
@@ -21,7 +22,7 @@ export class SurgeryService {
     client: any;
     tableReply: any;
     tableBilling: any;
-    constructor(private authHttp: AuthHttp,  private log: LoggerService  ) {
+    constructor(private authHttp: AuthHttp,  private log: LoggerService,        @Inject(EnvVariables) public env  ) {
 
     }
     addSurgery(s:Surgery){
@@ -31,7 +32,7 @@ export class SurgeryService {
         headers.append('Access-Control-Allow-Origin','*' );
        const options = new RequestOptions({headers: headers});
         this.log.console("Action:updateCodes");
-        let url = `${CONFIGURATION.baseUrls.apiPhp + "surgery"}/`;
+        let url = `${this.env.apiPhp + "surgery"}/`;
 
         console.log('Update with', s);
         return this.authHttp
@@ -47,7 +48,7 @@ export class SurgeryService {
         headers.append('Access-Control-Allow-Origin','*' );
        const options = new RequestOptions({headers: headers});
         this.log.console("Action:updateCodes");
-        let url = `${CONFIGURATION.baseUrls.apiPhp + "answers_box"}/${sgi.surgery.answers_box_id}`;
+        let url = `${this.env.apiPhp + "answers_box"}/${sgi.surgery.answers_box_id}`;
         var newData = {
             cpt: sgi.cptArray.join(','),
             diagnosisCode: sgi.dxArray.join(',')
@@ -71,7 +72,7 @@ export class SurgeryService {
     markCancelled(surgeryId: number): Promise<Surgery> {
         console.group('Surgery Service');
         this.log.console("Action:markCancelled:");
-        const url = `${CONFIGURATION.baseUrls.apiPhp + "surgery"}/${surgeryId}`;
+        const url = `${this.env.apiPhp + "surgery"}/${surgeryId}`;
         var newData = {
             cancelled: 1
         };
@@ -94,7 +95,7 @@ export class SurgeryService {
     markComplete(surgeryId: number): Promise<Surgery> {
         console.group('Surgery Service');
         this.log.console("Action:markComplete:");
-        const url = `${CONFIGURATION.baseUrls.apiPhp + "surgery"}/${surgeryId}`;
+        const url = `${this.env.apiPhp + "surgery"}/${surgeryId}`;
         var newData = {
             completed: 1
         };
