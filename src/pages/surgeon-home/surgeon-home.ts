@@ -1,12 +1,19 @@
-import { Component } from '@angular/core';
-import { IonicPage, NavController, NavParams, Events, ModalController, App } from 'ionic-angular';
-import { AuthService, LoggerService } from '../../shared';
-import { AppInsightsService } from 'ng2-appinsights';
-import { SurgeryData } from '../pulse';
+import { Component } from "@angular/core";
+import {
+    IonicPage,
+    NavController,
+    NavParams,
+    Events,
+    ModalController,
+    App
+} from "ionic-angular";
+import { AuthService, LoggerService } from "../../shared";
+import { AppInsightsService } from "ng2-appinsights";
+import { SurgeryData } from "../pulse";
 
 @Component({
-    selector: 'page-surgeon-home',
-    templateUrl: 'surgeon-home.html'
+    selector: "page-surgeon-home",
+    templateUrl: "surgeon-home.html"
 })
 export class SurgeonHomePage {
     constructor(
@@ -21,6 +28,6 @@ export class SurgeonHomePage {
     ) {}
 
     ionViewDidLoad() {
-        console.log('ionViewDidLoad SurgeonHomePage', this.auth);
+        console.log("ionViewDidLoad SurgeonHomePage");
     }
 }
